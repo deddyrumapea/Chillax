@@ -10,7 +10,6 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 
 @Composable
 @Destination
-@RootNavGraph(start = true)
 fun MoodsScreen() {
     val scaffoldState = rememberScaffoldState()
 
