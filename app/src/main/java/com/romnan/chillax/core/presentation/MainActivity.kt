@@ -3,22 +3,32 @@ package com.romnan.chillax.core.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.ui.Modifier
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
 import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.NavGraphs
 import com.romnan.chillax.core.presentation.theme.ChillaxTheme
-import logcat.logcat
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ChillaxTheme {
-                DestinationsNavHost(navGraph = NavGraphs.root)
+                val engine = rememberNavHostEngine()
+                val navController = engine.rememberNavController()
+                val scaffoldState = rememberScaffoldState()
+
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    bottomBar = { BottomBar(navController) }
+                ) {
+                    DestinationsNavHost(
+                        engine = engine,
+                        navController = navController,
+                        navGraph = NavGraphs.root
+                    )
+                }
             }
         }
     }
