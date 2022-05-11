@@ -1,4 +1,4 @@
-package com.romnan.chillax.core.presentation
+package com.romnan.chillax.core.presentation.model
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons

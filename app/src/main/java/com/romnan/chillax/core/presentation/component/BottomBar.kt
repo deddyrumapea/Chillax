@@ -1,4 +1,4 @@
-package com.romnan.chillax.core.presentation
+package com.romnan.chillax.core.presentation.component
 
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.romnan.chillax.NavGraphs
 import com.romnan.chillax.appCurrentDestinationAsState
+import com.romnan.chillax.core.presentation.model.BottomBarDestination
 import com.romnan.chillax.destinations.Destination
 import com.romnan.chillax.startAppDestination
 
