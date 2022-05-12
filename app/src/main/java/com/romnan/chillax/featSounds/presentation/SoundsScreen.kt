@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.romnan.chillax.core.presentation.MainViewModel
-import com.romnan.chillax.core.presentation.model.PlayableSound
+import com.romnan.chillax.core.presentation.model.SoundPresentation
 import com.romnan.chillax.core.presentation.util.asString
 
 @Composable
@@ -19,7 +19,7 @@ import com.romnan.chillax.core.presentation.util.asString
 @RootNavGraph(start = true) // TODO: change start destination back to MoodsScreen
 fun SoundsScreen(
     viewModel: MainViewModel,
-    onSoundClicked: (PlayableSound) -> Unit
+    onSoundClicked: (SoundPresentation) -> Unit
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -27,7 +27,7 @@ fun SoundsScreen(
         Column {
             Text(text = "SoundsScreen")
 
-            viewModel.playableSoundsList.collectAsState().value.forEach {
+            viewModel.soundsList.collectAsState().value.forEach {
                 Button(
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor =
