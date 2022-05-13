@@ -1,25 +1,22 @@
 package com.romnan.chillax.featSounds.presentation
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.romnan.chillax.core.presentation.MainViewModel
-import com.romnan.chillax.core.presentation.model.SoundPresentation
-import com.romnan.chillax.core.presentation.util.asString
 
 @Composable
 @Destination
 @RootNavGraph(start = true) // TODO: change start destination back to MoodsScreen
 fun SoundsScreen(
-    viewModel: MainViewModel,
-    onSoundClicked: (SoundPresentation) -> Unit
+    viewModel: MainViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
 
@@ -34,14 +31,20 @@ fun SoundsScreen(
                         if (!it.isPlaying) MaterialTheme.colors.primary
                         else MaterialTheme.colors.surface
                     ),
-                    onClick = { onSoundClicked(it) }
+                    onClick = { viewModel.onSoundClicked(it) }
                 ) {
-                    Icon(imageVector = it.icon, contentDescription = it.name.asString())
+                    Icon(
+                        painter = painterResource(id = it.icon),
+                        contentDescription = stringResource(id = it.name),
+                        modifier = Modifier.size(36.dp)
+                    )
                     Spacer(modifier = Modifier.width(16.dp))
-                    Text(text = it.name.asString())
+                    Text(text = stringResource(id = it.name))
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(text = it.isPlaying.toString())
                 }
+
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }

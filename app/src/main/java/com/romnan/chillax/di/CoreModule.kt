@@ -1,6 +1,6 @@
 package com.romnan.chillax.di
 
-import com.romnan.chillax.core.data.repository.CoreRepositoryImpl
+import com.romnan.chillax.core.data.repository.DefaultCoreRepository
 import com.romnan.chillax.core.domain.repository.CoreRepository
 import dagger.Module
 import dagger.Provides
@@ -14,5 +14,5 @@ object CoreModule {
 
     @Provides
     @Singleton
-    fun provideRepository(): CoreRepository = CoreRepositoryImpl()
+    fun provideRepository(): CoreRepository = DefaultCoreRepository()
 }

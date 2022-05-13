@@ -1,19 +1,16 @@
 package com.romnan.chillax.core.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.NavGraphs
-import com.romnan.chillax.core.PlayerService
 import com.romnan.chillax.core.presentation.component.BottomBar
 import com.romnan.chillax.core.presentation.theme.ChillaxTheme
 import com.romnan.chillax.destinations.MoodsScreenDestination
@@ -46,13 +43,12 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                         navGraph = NavGraphs.root
                     ) {
-                        composable(MoodsScreenDestination) { MoodsScreen() }
+                        composable(MoodsScreenDestination) {
+                            MoodsScreen(viewModel = viewModel)
+                        }
 
                         composable(SoundsScreenDestination) {
-                            SoundsScreen(
-                                viewModel = viewModel,
-                                onSoundClicked = viewModel::onSoundClicked
-                            )
+                            SoundsScreen(viewModel = viewModel)
                         }
 
                         composable(SettingsScreenDestination) { SettingsScreen() }
@@ -63,11 +59,11 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.soundsList.collectLatest { soundsList ->
-                val playableSounds = ArrayList(soundsList.map { it.toPlayableSound() })
-                Intent(this@MainActivity, PlayerService::class.java).also {
-                    it.putExtra(PlayerService.EXTRA_PLAYABLE_SOUND_ARRAYLIST, playableSounds)
-                    ContextCompat.startForegroundService(this@MainActivity, it)
-                }
+//                val playableSounds = ArrayList(soundsList.map { it.toPlayableSound() })
+//                Intent(this@MainActivity, PlayerService::class.java).also {
+//                    it.putExtra(PlayerService.EXTRA_PLAYABLE_SOUND_ARRAYLIST, playableSounds)
+//                    ContextCompat.startForegroundService(this@MainActivity, it)
+//                }
             }
         }
     }
