@@ -18,31 +18,31 @@ class PlayerService : Service() {
             ?.getParcelableArrayListExtra<PlayableSound>(EXTRA_PLAYABLE_SOUND_ARRAYLIST)
             ?.let { playableSounds ->
                 playableSounds
-                    .filter { it.isPlaying }
-                    .forEach { addSoundPlayer(it.resId) }
+                    .filter { !it.isPlaying }
+                    .forEach { removeResPlayer(it.resId) }
 
                 playableSounds
-                    .filter { !it.isPlaying }
-                    .forEach { removeSoundPlayer(it.resId) }
+                    .filter { it.isPlaying }
+                    .forEach { addResPlayer(it.resId) }
             }
         return START_REDELIVER_INTENT
     }
 
     override fun onDestroy() {
-        // TODO: make sure to clear all sound players in onDestroy
-//        soundPlayers.forEach {
-//            // Stop all ExoPlayers
-//            with(it.value) {
-//                playWhenReady = false
-//                stop()
-//                release()
-//            }
-//        }
+        resPlayers.forEach {
+            // Stop ExoPlayer
+            with(it.value) {
+                playWhenReady = false
+                stop()
+                release()
+            }
+            logcat { "onDestroy: stopped ${it.key}" }
+        }
         logcat { "service destroyed" }
         super.onDestroy()
     }
 
-    private fun addSoundPlayer(@RawRes resId: Int) {
+    private fun addResPlayer(@RawRes resId: Int) {
         if (resPlayers[resId] == null) { // The sound has not been played yet
             val player = ExoPlayer.Builder(this)
                 .apply { setHandleAudioBecomingNoisy(true) }
@@ -55,19 +55,17 @@ class PlayerService : Service() {
                     play()
                 }
             resPlayers[resId] = player
-            logcat { "PLAYING $resId" }
+            logcat { "playing $resId" }
         }
     }
 
-    private fun removeSoundPlayer(@RawRes resId: Int) {
+    private fun removeResPlayer(@RawRes resId: Int) {
         resPlayers[resId]?.let {
-            if (it.isPlaying) { // The sound is currently playing
-                it.playWhenReady = false
-                it.stop()
-                it.release()
-                resPlayers.remove(resId)
-                logcat { "STOP $resId" }
-            }
+            it.playWhenReady = false
+            it.stop()
+            it.release()
+            resPlayers.remove(resId)
+            logcat { "stopped $resId" }
         }
     }
 
