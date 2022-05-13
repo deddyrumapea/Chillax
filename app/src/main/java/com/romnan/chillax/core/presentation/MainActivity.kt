@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
@@ -65,7 +66,7 @@ class MainActivity : ComponentActivity() {
                 val playableSounds = ArrayList(soundsList.map { it.toPlayableSound() })
                 Intent(this@MainActivity, PlayerService::class.java).also {
                     it.putExtra(PlayerService.EXTRA_PLAYABLE_SOUND_ARRAYLIST, playableSounds)
-                    startService(it)
+                    ContextCompat.startForegroundService(this@MainActivity, it)
                 }
             }
         }
