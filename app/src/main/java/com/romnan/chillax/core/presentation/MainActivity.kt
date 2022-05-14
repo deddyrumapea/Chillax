@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // TODO: start intent when the player state is playing
         Intent(this@MainActivity, PlayerService::class.java).also { intent ->
             ContextCompat.startForegroundService(this@MainActivity, intent)
         }
