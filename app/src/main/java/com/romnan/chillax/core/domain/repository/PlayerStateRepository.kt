@@ -7,7 +7,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface PlayerStateRepository {
     fun getState(): Flow<PlayerState>
+    suspend fun playOrPausePlayer()
     suspend fun addOrRemoveSound(sound: Sound)
-    suspend fun resetSounds()
+    suspend fun removeAllSounds()
     suspend fun addMood(mood: Mood)
 }

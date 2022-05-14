@@ -13,7 +13,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import logcat.logcat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +20,9 @@ class MainViewModel @Inject constructor(
     coreRepository: CoreRepository,
     private val playerStateRepository: PlayerStateRepository
 ) : ViewModel() {
+
+    val isPlaying: StateFlow<Boolean> = playerStateRepository.getState().map { it.isPlaying }
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     val moodsList: StateFlow<List<Mood>> = coreRepository.getMoods()
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
@@ -30,20 +32,9 @@ class MainViewModel @Inject constructor(
         playerStateRepository.getState()
     ) { sounds: List<Sound>, playerState: PlayerState ->
         sounds.map {
-            it.toState().copy(isPlaying = playerState.playingSounds.contains(it))
+            it.toState().copy(isSelected = playerState.soundsList.contains(it))
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-
-    init {
-        // TODO: remove this
-        viewModelScope.launch {
-            playerStateRepository.getState().onEach {
-                logcat {
-                    it.playingSounds.map { it.id }.joinToString()
-                }
-            }.launchIn(this)
-        }
-    }
 
     private var onMoodClickedJob: Job? = null
     fun onMoodClicked(mood: Mood) {
@@ -58,6 +49,22 @@ class MainViewModel @Inject constructor(
         onSoundClickedJob?.cancel()
         onSoundClickedJob = viewModelScope.launch {
             playerStateRepository.addOrRemoveSound(sound.toSound())
+        }
+    }
+
+    private var onPlayPauseClickedJob: Job? = null
+    fun onPlayPauseClicked() {
+        onPlayPauseClickedJob?.cancel()
+        onPlayPauseClickedJob = viewModelScope.launch {
+            playerStateRepository.playOrPausePlayer()
+        }
+    }
+
+    private var onStopClickedJob: Job? = null
+    fun onStopClicked() {
+        onStopClickedJob?.cancel()
+        onStopClickedJob = viewModelScope.launch {
+            playerStateRepository.removeAllSounds()
         }
     }
 }

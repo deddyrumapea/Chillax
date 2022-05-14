@@ -28,7 +28,7 @@ fun SoundsScreen(
                 Button(
                     colors = ButtonDefaults.buttonColors(
                         backgroundColor =
-                        if (!it.isPlaying) MaterialTheme.colors.primary
+                        if (!it.isSelected) MaterialTheme.colors.primary
                         else MaterialTheme.colors.surface
                     ),
                     onClick = { viewModel.onSoundClicked(it) }
@@ -41,7 +41,7 @@ fun SoundsScreen(
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(text = stringResource(id = it.name))
                     Spacer(modifier = Modifier.width(16.dp))
-                    Text(text = it.isPlaying.toString())
+                    Text(text = it.isSelected.toString())
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))

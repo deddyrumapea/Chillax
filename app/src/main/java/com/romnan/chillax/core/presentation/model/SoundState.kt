@@ -10,7 +10,7 @@ data class SoundState(
     @DrawableRes val icon: Int,
     @StringRes val name: Int,
     @RawRes val resource: Int,
-    val isPlaying: Boolean
+    val isSelected: Boolean
 ) {
     fun toSound() = Sound(
         id = this.id,
@@ -25,5 +25,5 @@ fun Sound.toState() = SoundState(
     icon = this.icon,
     name = this.name,
     resource = this.resource,
-    isPlaying = false
+    isSelected = false
 )

@@ -1,16 +1,22 @@
 package com.romnan.chillax.core.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.runtime.collectAsState
+import androidx.core.content.ContextCompat
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.NavGraphs
+import com.romnan.chillax.core.PlayerService
 import com.romnan.chillax.core.presentation.component.BottomBar
 import com.romnan.chillax.core.presentation.theme.ChillaxTheme
 import com.romnan.chillax.destinations.MoodsScreenDestination
@@ -20,7 +26,6 @@ import com.romnan.chillax.featMoods.presentation.MoodsScreen
 import com.romnan.chillax.featSettings.presentation.SettingsScreen
 import com.romnan.chillax.featSounds.presentation.SoundsScreen
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -28,6 +33,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Intent(this@MainActivity, PlayerService::class.java).also { intent ->
+            ContextCompat.startForegroundService(this@MainActivity, intent)
+        }
+
         setContent {
             ChillaxTheme {
                 val engine = rememberNavHostEngine()
@@ -36,6 +46,17 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     scaffoldState = scaffoldState,
+                    topBar = {
+                        Row {
+                            Button(onClick = { viewModel.onPlayPauseClicked() }) {
+                                Text(text = if (viewModel.isPlaying.collectAsState().value) "Pause" else "Play")
+                            }
+
+                            Button(onClick = { viewModel.onStopClicked() }) {
+                                Text(text = "Stop")
+                            }
+                        }
+                    },
                     bottomBar = { BottomBar(navController) }
                 ) {
                     DestinationsNavHost(
