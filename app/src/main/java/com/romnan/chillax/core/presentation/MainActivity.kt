@@ -56,15 +56,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.soundsList.collectLatest { soundsList ->
-//                val playableSounds = ArrayList(soundsList.map { it.toPlayableSound() })
-//                Intent(this@MainActivity, PlayerService::class.java).also {
-//                    it.putExtra(PlayerService.EXTRA_PLAYABLE_SOUND_ARRAYLIST, playableSounds)
-//                    ContextCompat.startForegroundService(this@MainActivity, it)
-//                }
-            }
-        }
     }
 }

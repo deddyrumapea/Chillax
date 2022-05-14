@@ -1,54 +1,63 @@
 package com.romnan.chillax.core.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.romnan.chillax.core.domain.model.Mood
+import com.romnan.chillax.core.domain.model.PlayerState
+import com.romnan.chillax.core.domain.model.Sound
 import com.romnan.chillax.core.domain.repository.CoreRepository
-import com.romnan.chillax.core.presentation.model.MoodState
+import com.romnan.chillax.core.domain.repository.PlayerStateRepository
 import com.romnan.chillax.core.presentation.model.SoundState
 import com.romnan.chillax.core.presentation.model.toState
-import com.romnan.chillax.core.util.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import logcat.logcat
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    coreRepository: CoreRepository
+    coreRepository: CoreRepository,
+    private val playerStateRepository: PlayerStateRepository
 ) : ViewModel() {
 
-    private val _moodsList = MutableStateFlow(
-        coreRepository.getMoods().map { it.toState() }
-    )
-    val moodsList = _moodsList.asStateFlow()
+    val moodsList: StateFlow<List<Mood>> = coreRepository.getMoods()
+        .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    private val _soundsList = MutableStateFlow(
-        coreRepository.getSounds().map { it.toState() }
-    )
-    val soundsList = _soundsList.asStateFlow()
+    val soundsList: StateFlow<List<SoundState>> = combine(
+        coreRepository.getSounds(),
+        playerStateRepository.getState()
+    ) { sounds: List<Sound>, playerState: PlayerState ->
+        sounds.map {
+            it.toState().copy(isPlaying = playerState.playingSounds.contains(it))
+        }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    fun onMoodClicked(mood: MoodState) {
-        // TODO: implement this
-        logcat { "Mood clicked ${mood.name}" }
+    init {
+        // TODO: remove this
+        viewModelScope.launch {
+            playerStateRepository.getState().onEach {
+                logcat {
+                    it.playingSounds.map { it.id }.joinToString()
+                }
+            }.launchIn(this)
+        }
     }
 
-    fun onSoundClicked(sound: SoundState) {
-        val listCopy = soundsList.value.map { it.copy() }.toMutableList()
-
-        val itemIndex = soundsList.value.indexOf(sound)
-        if (itemIndex == -1) return
-
-        val playingSounds = soundsList.value.filter { it.isPlaying }
-
-        if (!listCopy[itemIndex].isPlaying && playingSounds.size >= Constants.MAX_PLAYING_SOUNDS) {
-            // Max playing sound reached, cannot play sound
-            return
+    private var onMoodClickedJob: Job? = null
+    fun onMoodClicked(mood: Mood) {
+        onMoodClickedJob?.cancel()
+        onMoodClickedJob = viewModelScope.launch {
+            playerStateRepository.addMood(mood)
         }
+    }
 
-        listCopy[itemIndex] = listCopy[itemIndex].copy(
-            isPlaying = !listCopy[itemIndex].isPlaying
-        )
-
-        _soundsList.value = listCopy
+    private var onSoundClickedJob: Job? = null
+    fun onSoundClicked(sound: SoundState) {
+        onSoundClickedJob?.cancel()
+        onSoundClickedJob = viewModelScope.launch {
+            playerStateRepository.addOrRemoveSound(sound.toSound())
+        }
     }
 }
