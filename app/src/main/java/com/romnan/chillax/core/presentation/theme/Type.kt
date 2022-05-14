@@ -1,4 +1,4 @@
-package com.romnan.chillax.ui.theme
+package com.romnan.chillax.core.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

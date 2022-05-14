@@ -1,4 +1,4 @@
-package com.romnan.chillax.ui.theme
+package com.romnan.chillax.core.presentation.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
