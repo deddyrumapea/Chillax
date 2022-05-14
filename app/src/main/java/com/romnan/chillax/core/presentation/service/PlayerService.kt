@@ -1,19 +1,15 @@
-package com.romnan.chillax.core
+package com.romnan.chillax.core.presentation.service
 
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import androidx.annotation.RawRes
-import androidx.core.app.NotificationChannelCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import com.romnan.chillax.R
+import com.romnan.chillax.core.domain.notification.NotificationHelper
 import com.romnan.chillax.core.domain.repository.PlayerStateRepository
-import com.romnan.chillax.core.presentation.MainActivity
+import com.romnan.chillax.core.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.collectLatest
@@ -29,33 +25,15 @@ class PlayerService : Service() {
     @Inject
     lateinit var playerStateRepository: PlayerStateRepository
 
+    @Inject
+    lateinit var notificationHelper: NotificationHelper
+
     private val resPlayers = mutableMapOf<Int, ExoPlayer>()
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // TODO: check api level before implementing this notification
-        val notificationIntent = Intent(this, MainActivity::class.java)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
-
-        val channel = NotificationChannelCompat.Builder(
-            NOTIFICATION_CHANNEL_ID,
-            NotificationManagerCompat.IMPORTANCE_DEFAULT
-        )
-            .setName(NOTIFICATION_CHANNEL_ID)
-            .setDescription(NOTIFICATION_CHANNEL_ID)
-            .setSound(null, null)
-            .build()
-
-        val notificationManager = NotificationManagerCompat.from(applicationContext)
-        notificationManager.createNotificationChannel(channel)
-
         startForeground(
-            NOTIFICATION_ID,
-            NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setContentTitle(getText(R.string.app_name))
-                .setContentText(getString(R.string.notification_content))
-                .setSmallIcon(R.drawable.ic_baseline_airline_seat_recline_normal_24)
-                .setContentIntent(pendingIntent)
-                .build()
+            Constants.PLAYER_SERVICE_NOTIFICATION_ID,
+            notificationHelper.getBasePlayerServiceNotification().build()
         )
 
         serviceScope.launch {
@@ -70,6 +48,8 @@ class PlayerService : Service() {
                 playerState.soundsList.forEach { addResPlayer(resId = it.resource) }
 
                 if (playerState.isPlaying) playAllPlayers() else pauseAllPlayers()
+
+                notificationHelper.updatePlayerServiceNotification(playerState)
             }
         }
 

@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".core.PlayerService" />
+        <service android:name=".core.presentation.service.PlayerService" />
     </application>
 
 </manifest>

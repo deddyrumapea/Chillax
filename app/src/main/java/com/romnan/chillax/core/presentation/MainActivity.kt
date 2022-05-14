@@ -16,7 +16,7 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.NavGraphs
-import com.romnan.chillax.core.PlayerService
+import com.romnan.chillax.core.presentation.service.PlayerService
 import com.romnan.chillax.core.presentation.component.BottomBar
 import com.romnan.chillax.core.presentation.theme.ChillaxTheme
 import com.romnan.chillax.destinations.MoodsScreenDestination

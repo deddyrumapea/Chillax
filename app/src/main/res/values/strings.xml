@@ -13,11 +13,12 @@
     <string name="washing_machine">Washing Machine</string>
     <string name="water_drops">Water Drops</string>
     <string name="waterfall">Waterfall</string>
-    <string name="mood_123">Mood123</string>
     <string name="sounds_012">Sounds012</string>
     <string name="sound_345">Sound345</string>
     <string name="sound_678">Sound678</string>
-    <string name="sound_910">Sound910</string>
     <string name="sound_9">Sound9</string>
-    <string name="notification_content">Chill and relax yourself</string>
+    <string name="chill_and_relax"><![CDATA[Chill & Relax]]></string>
+    <string name="no_sound_is_playing">No sound is playing</string>
+    <string name="player_service_notif_channel_name">Player Service</string>
+    <string name="player_service_notif_channel_desc">This channel is used to display notification when the player is running</string>
 </resources>

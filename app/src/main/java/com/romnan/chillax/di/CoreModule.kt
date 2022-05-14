@@ -3,8 +3,10 @@ package com.romnan.chillax.di
 import android.content.Context
 import com.romnan.chillax.core.data.repository.DefaultCoreRepository
 import com.romnan.chillax.core.data.repository.DefaultPlayerStateRepository
+import com.romnan.chillax.core.domain.notification.NotificationHelper
 import com.romnan.chillax.core.domain.repository.CoreRepository
 import com.romnan.chillax.core.domain.repository.PlayerStateRepository
+import com.romnan.chillax.core.presentation.notification.DefaultNotificationHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +27,14 @@ object CoreModule {
     fun providePlayerStateRepository(
         @ApplicationContext appContext: Context
     ): PlayerStateRepository = DefaultPlayerStateRepository(
+        appContext = appContext
+    )
+
+    @Provides
+    @Singleton
+    fun provideNotificationHelper(
+        @ApplicationContext appContext: Context
+    ): NotificationHelper = DefaultNotificationHelper(
         appContext = appContext
     )
 }
