@@ -63,6 +63,7 @@ class DefaultPlayerStateRepository(
             playerState.copy(
                 soundsList = when {
                     playingSounds.size + moodSoundsList.size <= Constants.MAX_PLAYING_SOUNDS -> {
+                        isPlaying.value = true
                         playingSounds.addAll(moodSoundsList)
                     }
                     else -> playingSounds
@@ -73,6 +74,7 @@ class DefaultPlayerStateRepository(
 
     override suspend fun removeAllSounds() {
         dataStore.updateData { it.copy(soundsList = persistentListOf()) }
+        isPlaying.value = false
     }
 
     companion object {
