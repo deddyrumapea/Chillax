@@ -11,7 +11,9 @@ import com.romnan.chillax.core.domain.notification.NotificationHelper
 import com.romnan.chillax.core.domain.repository.PlayerStateRepository
 import com.romnan.chillax.core.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import logcat.logcat
@@ -30,13 +32,16 @@ class PlayerService : Service() {
 
     private val resPlayers = mutableMapOf<Int, ExoPlayer>()
 
+    private var playerServiceJob: Job? = null
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(
             Constants.PLAYER_SERVICE_NOTIFICATION_ID,
             notificationHelper.getBasePlayerServiceNotification().build()
         )
 
-        serviceScope.launch {
+        playerServiceJob?.cancel()
+        playerServiceJob = serviceScope.launch {
             playerStateRepository.getState().collectLatest { playerState ->
 
                 // Remove players of sounds that are no longer played
@@ -53,21 +58,25 @@ class PlayerService : Service() {
             }
         }
 
-        return START_REDELIVER_INTENT
+        return START_STICKY
     }
 
     override fun onDestroy() {
+        super.onDestroy()
+        stopAllPlayers()
+        serviceScope.cancel()
+        notificationHelper.removePlayerServiceNotification()
+    }
+
+    private fun stopAllPlayers() {
         resPlayers.forEach {
-            // Stop ExoPlayer
             with(it.value) {
                 pause()
                 stop()
                 release()
             }
-            logcat { "onDestroy: stopped ${it.key}" }
+            logcat { "stopped ${it.key}" }
         }
-        logcat { "service destroyed" }
-        super.onDestroy()
     }
 
     private fun pauseAllPlayers() {
