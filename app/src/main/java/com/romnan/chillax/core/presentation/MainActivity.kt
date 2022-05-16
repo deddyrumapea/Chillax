@@ -12,12 +12,13 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.collectAsState
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.NavGraphs
-import com.romnan.chillax.core.presentation.service.PlayerService
 import com.romnan.chillax.core.presentation.component.BottomBar
+import com.romnan.chillax.core.presentation.service.PlayerService
 import com.romnan.chillax.core.presentation.theme.ChillaxTheme
 import com.romnan.chillax.destinations.MoodsScreenDestination
 import com.romnan.chillax.destinations.SettingsScreenDestination
@@ -26,6 +27,7 @@ import com.romnan.chillax.featMoods.presentation.MoodsScreen
 import com.romnan.chillax.featSettings.presentation.SettingsScreen
 import com.romnan.chillax.featSounds.presentation.SoundsScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -34,9 +36,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // TODO: start intent when the player state is playing
-        Intent(this@MainActivity, PlayerService::class.java).also { intent ->
-            ContextCompat.startForegroundService(this@MainActivity, intent)
+        lifecycleScope.launchWhenCreated {
+            viewModel.isPlaying.collectLatest { isPlaying ->
+                Intent(this@MainActivity, PlayerService::class.java).also { intent ->
+                    if (isPlaying) ContextCompat
+                        .startForegroundService(this@MainActivity, intent)
+                    else stopService(intent)
+                }
+            }
         }
 
         setContent {
@@ -73,7 +80,9 @@ class MainActivity : ComponentActivity() {
                             SoundsScreen(viewModel = viewModel)
                         }
 
-                        composable(SettingsScreenDestination) { SettingsScreen() }
+                        composable(SettingsScreenDestination) {
+                            SettingsScreen()
+                        }
                     }
                 }
             }
