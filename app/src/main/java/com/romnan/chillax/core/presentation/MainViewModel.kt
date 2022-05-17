@@ -3,6 +3,7 @@ package com.romnan.chillax.core.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romnan.chillax.core.domain.model.Mood
+import com.romnan.chillax.core.domain.model.PlayerPhase
 import com.romnan.chillax.core.domain.model.PlayerState
 import com.romnan.chillax.core.domain.model.Sound
 import com.romnan.chillax.core.domain.repository.CoreRepository
@@ -21,8 +22,8 @@ class MainViewModel @Inject constructor(
     private val playerStateRepository: PlayerStateRepository
 ) : ViewModel() {
 
-    val isPlaying: StateFlow<Boolean> = playerStateRepository.getState().map { it.isPlaying }
-        .stateIn(viewModelScope, SharingStarted.Lazily, false)
+    val playerPhase: StateFlow<PlayerPhase> = playerStateRepository.getState().map { it.phase }
+        .stateIn(viewModelScope, SharingStarted.Lazily, PlayerPhase.Stopped)
 
     val moodsList: StateFlow<List<Mood>> = coreRepository.getMoods()
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())

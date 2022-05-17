@@ -6,6 +6,7 @@ import androidx.datastore.dataStore
 import com.romnan.chillax.core.data.model.PlayerStateSerializable
 import com.romnan.chillax.core.data.util.PlayerStateSerializer
 import com.romnan.chillax.core.domain.model.Mood
+import com.romnan.chillax.core.domain.model.PlayerPhase
 import com.romnan.chillax.core.domain.model.PlayerState
 import com.romnan.chillax.core.domain.model.Sound
 import com.romnan.chillax.core.domain.repository.PlayerStateRepository
@@ -30,7 +31,11 @@ class DefaultPlayerStateRepository(
             isPlaying
         ) { stateSerializable: PlayerStateSerializable, isPlaying: Boolean ->
             PlayerState(
-                isPlaying = isPlaying,
+                phase = when {
+                    stateSerializable.soundsList.isEmpty() -> PlayerPhase.Stopped
+                    !isPlaying -> PlayerPhase.Paused
+                    else -> PlayerPhase.Playing
+                },
                 soundsList = stateSerializable.soundsList.toPersistentList()
             )
         }

@@ -8,6 +8,7 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.romnan.chillax.R
+import com.romnan.chillax.core.domain.model.PlayerPhase
 import com.romnan.chillax.core.domain.model.PlayerState
 import com.romnan.chillax.core.domain.notification.NotificationHelper
 import com.romnan.chillax.core.presentation.MainActivity
@@ -46,19 +47,25 @@ class DefaultNotificationHelper(
 
     override fun updatePlayerServiceNotification(playerState: PlayerState) {
         // TODO: extract string format
-        val contentText: String = playerState.soundsList.let {
+        val contentTitle: String = playerState.soundsList.let {
             when {
                 it.size == 0 -> appContext.getString(R.string.no_sound_is_playing)
-                it.size == 1 -> "${appContext.getString(it[0].name)} is playing"
-                it.size == 2 -> "${appContext.getString(it[0].name)} and ${appContext.getString(it[1].name)} are playing"
-                it.size > 2 -> "${appContext.getString(it[0].name)} and ${it.size - 1} other sounds are playing"
+                it.size == 1 -> appContext.getString(it[0].name)
+                it.size == 2 -> "${appContext.getString(it[0].name)} and ${appContext.getString(it[1].name)}"
+                it.size > 2 -> "${appContext.getString(it[0].name)}, ${appContext.getString(it[1].name)}, and other sounds"
                 else -> ""
             }
         }
 
+        val contentText = when (playerState.phase) {
+            PlayerPhase.Playing -> "Playing ${playerState.soundsList.size} sound(s)"
+            PlayerPhase.Paused -> "Paused ${playerState.soundsList.size} sound(s)"
+            PlayerPhase.Stopped -> "Stopped playing sounds"
+        }
+
         // TODO: add notif action
         val updatedNotification = getBasePlayerServiceNotification()
-            .setContentTitle(appContext.getString(R.string.chill_and_relax))
+            .setContentTitle(contentTitle)
             .setContentText(contentText)
             .build()
 

@@ -7,6 +7,7 @@ import androidx.annotation.RawRes
 import androidx.media3.common.MediaItem
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import com.romnan.chillax.core.domain.model.PlayerPhase
 import com.romnan.chillax.core.domain.notification.NotificationHelper
 import com.romnan.chillax.core.domain.repository.PlayerStateRepository
 import com.romnan.chillax.core.util.Constants
@@ -52,7 +53,11 @@ class PlayerService : Service() {
                 // Add a player for each playing sound
                 playerState.soundsList.forEach { addResPlayer(resId = it.resource) }
 
-                if (playerState.isPlaying) playAllPlayers() else pauseAllPlayers()
+                when (playerState.phase) {
+                    PlayerPhase.Playing -> playAllPlayers()
+                    PlayerPhase.Paused -> pauseAllPlayers()
+                    PlayerPhase.Stopped -> stopSelf()
+                }
 
                 notificationHelper.updatePlayerServiceNotification(playerState)
             }
