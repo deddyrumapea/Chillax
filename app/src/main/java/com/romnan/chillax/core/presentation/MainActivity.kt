@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launchWhenCreated {
             viewModel.playerPhase.collectLatest { phase ->
+                // TODO: put this inside a use case
                 Intent(this@MainActivity, PlayerService::class.java).also { intent ->
 
                     when (phase) {
@@ -82,6 +83,11 @@ class MainActivity : ComponentActivity() {
                         sheetPeekHeight = 64.dp,
                         modifier = Modifier.padding(scaffoldPadding),
                         sheetContent = {
+
+                            // TODO: separate sheet content into its own composable
+
+                            // TODO: hide bottom sheet when phase == Stopped
+
                             val playerPhase = viewModel.playerPhase.collectAsState().value
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 if (playerPhase != PlayerPhase.Stopped) {
@@ -106,6 +112,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }) { bottomSheetScaffoldPadding ->
 
+                        // TODO: fix scrolling behavior. Problem: unlimited scrolling
                         val scrollState = rememberScrollState()
                         DestinationsNavHost(
                             engine = engine,
