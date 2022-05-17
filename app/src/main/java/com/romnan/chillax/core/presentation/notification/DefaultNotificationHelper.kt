@@ -28,6 +28,7 @@ class DefaultNotificationHelper(
             PendingIntent.FLAG_UPDATE_CURRENT
         }
 
+    // TODO: fix intent opening duplicate MainActivity
     private val openMainActivityIntent = Intent(appContext, MainActivity::class.java)
 
     private val openMainActivityPendingIntent = PendingIntent.getActivity(
