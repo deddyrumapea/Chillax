@@ -17,8 +17,13 @@
     <string name="sound_345">Sound345</string>
     <string name="sound_678">Sound678</string>
     <string name="sound_9">Sound9</string>
-    <string name="chill_and_relax"><![CDATA[Chill & Relax]]></string>
     <string name="no_sound_is_playing">No sound is playing</string>
     <string name="player_service_notif_channel_name">Player Service</string>
     <string name="player_service_notif_channel_desc">This channel is used to display notification when the player is running</string>
+    <string name="playing">Playing</string>
+    <string name="paused">Paused</string>
+    <string name="stopped">Stopped</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
 </resources>
