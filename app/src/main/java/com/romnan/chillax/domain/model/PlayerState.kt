@@ -4,6 +4,6 @@ import kotlinx.collections.immutable.PersistentList
 
 data class PlayerState(
     val phase: PlayerPhase,
-    val soundsList: PersistentList<Sound>,
+    val playingSounds: PersistentList<Sound>,
     // TODO: add moodsList
 )

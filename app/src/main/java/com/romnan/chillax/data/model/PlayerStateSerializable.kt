@@ -1,16 +1,15 @@
 package com.romnan.chillax.data.model
 
-import com.romnan.chillax.domain.model.Sound
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlayerStateSerializable(
-    val playingSounds: List<Sound>,
+    val playingSoundsNames: List<String>,
 ) {
     companion object {
         val defaultValue = PlayerStateSerializable(
-            playingSounds = persistentListOf(),
+            playingSoundsNames = persistentListOf(),
         )
     }
 }
