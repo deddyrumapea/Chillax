@@ -12,6 +12,7 @@ import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.model.PlayerState
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.presentation.MainActivity
+import com.romnan.chillax.presentation.util.asString
 
 class NotificationHelperImpl(
     private val appContext: Context
@@ -46,20 +47,24 @@ class NotificationHelperImpl(
 
     override fun updatePlayerServiceNotification(playerState: PlayerState) {
         // TODO: extract string format
-        val contentTitle: String = playerState.soundsList.let {
+        val contentTitle: String = playerState.playingSounds.let {
             when {
                 it.size == 0 -> appContext.getString(R.string.no_sound_is_playing)
-                it.size == 1 -> appContext.getString(it[0].name)
-                it.size == 2 -> "${appContext.getString(it[0].name)} and ${appContext.getString(it[1].name)}"
-                it.size > 2 -> "${appContext.getString(it[0].name)}, ${appContext.getString(it[1].name)}, and other sounds"
+                it.size == 1 -> it[0].readableName.asString(context = appContext)
+                it.size == 2 -> "${it[0].readableName.asString(context = appContext)} and ${
+                    it[1].readableName.asString(context = appContext)
+                }"
+                it.size > 2 -> "${it[0].readableName.asString(context = appContext)}, ${
+                    it[1].readableName.asString(context = appContext)
+                }, and other sounds"
                 else -> ""
             }
         }
 
         val contentText = when (playerState.phase) {
-            PlayerPhase.Playing -> "Playing ${playerState.soundsList.size} sound(s)"
-            PlayerPhase.Paused -> "Paused ${playerState.soundsList.size} sound(s)"
-            PlayerPhase.Stopped -> "Stopped playing sounds"
+            PlayerPhase.PLAYING -> "Playing ${playerState.playingSounds.size} sound(s)"
+            PlayerPhase.PAUSED -> "Paused ${playerState.playingSounds.size} sound(s)"
+            PlayerPhase.STOPPED -> "Stopped playing sounds"
         }
 
         // TODO: add notif action
