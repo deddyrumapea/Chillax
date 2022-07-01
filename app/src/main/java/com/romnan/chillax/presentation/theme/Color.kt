@@ -9,7 +9,7 @@ val Indigo300 = Color(0xffd2d7eb)
 val Indigo400 = Color(0xffaeb3c6)
 val Indigo500 = Color(0xff8e8e93) // Dark Theme Secondary Text
 val Indigo600 = Color(0xff666b7c)
-val Indigo700 = Color(0xff535768)
+val Indigo700 = Color(0xff2d344b)
 val Indigo800 = Color(0xff21283f) // Dark Theme Surface
 val Indigo900 = Color(0xff141927) // Dark Theme Background
 
@@ -39,3 +39,4 @@ val Orange800 = Color(0xffff9c41)
 
 val Red400 = Color(0xffff2d55)
 
+val catBgColors = listOf(Blue400, Green400, Orange800, Red400)

@@ -10,10 +10,10 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.romnan.chillax.presentation.MainViewModel
+import com.romnan.chillax.presentation.util.asString
 
 @Composable
 @Destination
@@ -26,11 +26,11 @@ fun MoodsScreen(
         Column {
             Text(text = "MoodsScreen")
 
-            viewModel.moodsList.collectAsState().value.forEach {
+            viewModel.moods.collectAsState().value.forEach {
                 Button(
                     onClick = { viewModel.onMoodClicked(it) }
                 ) {
-                    Text(text = stringResource(id = it.name))
+                    Text(text = it.readableName.asString())
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))

@@ -7,6 +7,7 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
     primary = Blue400,
@@ -35,6 +36,12 @@ private val LightColorPalette = lightColors(
 @Composable
 fun ChillaxTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     CompositionLocalProvider(LocalSpacing provides Spacing()) {
+        val systemUiController = rememberSystemUiController()
+        systemUiController.setSystemBarsColor(
+            color = if (darkTheme) DarkColorPalette.background
+            else LightColorPalette.background
+        )
+
         MaterialTheme(
             colors = if (darkTheme) DarkColorPalette else LightColorPalette,
             typography = Typography,

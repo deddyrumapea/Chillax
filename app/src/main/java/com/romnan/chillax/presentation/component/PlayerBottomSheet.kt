@@ -49,13 +49,13 @@ fun PlayerBottomSheet(
                         }
                     }
             ) {
-                if (playerPhase != PlayerPhase.Stopped) {
+                if (playerPhase != PlayerPhase.STOPPED) {
                     IconButton(onClick = onPlayPauseClicked) {
                         Icon(
-                            imageVector = if (playerPhase == PlayerPhase.Playing)
+                            imageVector = if (playerPhase == PlayerPhase.PLAYING)
                                 Icons.Default.PauseCircle else Icons.Default.PlayCircle,
                             contentDescription = stringResource(
-                                if (playerPhase == PlayerPhase.Playing)
+                                if (playerPhase == PlayerPhase.PLAYING)
                                     R.string.pause else R.string.play
                             )
                         )

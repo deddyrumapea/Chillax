@@ -17,17 +17,17 @@ import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
+import com.romnan.chillax.data.service.PlayerService
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.presentation.component.BottomBar
 import com.romnan.chillax.presentation.component.PlayerBottomSheet
-import com.romnan.chillax.data.service.PlayerService
-import com.romnan.chillax.presentation.theme.ChillaxTheme
 import com.romnan.chillax.presentation.destinations.MoodsScreenDestination
 import com.romnan.chillax.presentation.destinations.SettingsScreenDestination
 import com.romnan.chillax.presentation.destinations.SoundsScreenDestination
 import com.romnan.chillax.presentation.moods.MoodsScreen
 import com.romnan.chillax.presentation.settings.SettingsScreen
 import com.romnan.chillax.presentation.sounds.SoundsScreen
+import com.romnan.chillax.presentation.theme.ChillaxTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -45,20 +45,20 @@ class MainActivity : ComponentActivity() {
                 Intent(this@MainActivity, PlayerService::class.java).also { intent ->
 
                     when (phase) {
-                        PlayerPhase.Playing -> ContextCompat
+                        PlayerPhase.PLAYING -> ContextCompat
                             .startForegroundService(this@MainActivity, intent)
 
-                        PlayerPhase.Paused -> ContextCompat
+                        PlayerPhase.PAUSED -> ContextCompat
                             .startForegroundService(this@MainActivity, intent)
 
-                        PlayerPhase.Stopped -> stopService(intent)
+                        PlayerPhase.STOPPED -> stopService(intent)
                     }
                 }
             }
         }
 
         setContent {
-            ChillaxTheme {
+            ChillaxTheme(darkTheme = true) {
                 val engine = rememberNavHostEngine()
                 val navController = engine.rememberNavController()
 
@@ -68,7 +68,7 @@ class MainActivity : ComponentActivity() {
 
                 LaunchedEffect(key1 = 1) {
                     viewModel.playerPhase.collectLatest {
-                        if (it == PlayerPhase.Stopped) {
+                        if (it == PlayerPhase.STOPPED) {
                             bsScaffoldState.bottomSheetState.collapse()
                         }
                     }
@@ -81,7 +81,7 @@ class MainActivity : ComponentActivity() {
                 ) { scaffoldPadding ->
 
                     val peekHeight =
-                        if (viewModel.playerPhase.collectAsState().value != PlayerPhase.Stopped)
+                        if (viewModel.playerPhase.collectAsState().value != PlayerPhase.STOPPED)
                             70.dp else 0.dp
 
                     BottomSheetScaffold(
@@ -100,7 +100,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }) { bsScaffoldPadding ->
 
-                        // TODO: fix scrolling behavior.
                         DestinationsNavHost(
                             engine = engine,
                             navController = navController,
