@@ -1,6 +1,7 @@
 package com.romnan.chillax.presentation.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -35,7 +36,7 @@ fun PlayerBottomSheet(
         modifier = modifier
             .fillMaxWidth()
             .fillMaxHeight(fraction = maxHeightFraction)
-
+            .background(MaterialTheme.colors.surface)
     ) {
         AnimatedVisibility(visible = bottomSheetState.isCollapsed) {
             Row(
