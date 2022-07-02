@@ -81,10 +81,30 @@ private enum class MoodDataSource(
     override val imageResId: Int,
     override val sounds: List<Sound>
 ) : Mood {
-    RainForest(
+    RainInForest(
         readableName = UIText.StringResource(R.string.mood_name_rain_forest),
-        imageResId = R.drawable.is_waterfall,
-        sounds = listOf(SoundDataSource.Rain, SoundDataSource.Cicadas)
+        imageResId = R.raw.img_forest,
+        sounds = listOf(SoundDataSource.Rain, SoundDataSource.Thunder, SoundDataSource.Cicadas),
+    ),
+    LivingRoom(
+        readableName = UIText.StringResource(R.string.mood_name_living_room),
+        imageResId = R.raw.img_living_room,
+        sounds = listOf(SoundDataSource.VintageClock, SoundDataSource.WashingMachine),
+    ),
+    Forest(
+        readableName = UIText.StringResource(R.string.mood_name_forest),
+        imageResId = R.raw.img_jungle,
+        sounds = listOf(SoundDataSource.Cicadas, SoundDataSource.Campfire),
+    ),
+    Mountains(
+        readableName = UIText.StringResource(R.string.mood_name_mountains),
+        imageResId = R.raw.img_mountains,
+        sounds = listOf(SoundDataSource.Underwater, SoundDataSource.Waterfall),
+    ),
+    RainInBackyard(
+        readableName = UIText.StringResource(R.string.mood_name_rain_in_backyard),
+        imageResId = R.raw.img_rain_umberella,
+        sounds = listOf(SoundDataSource.Rain, SoundDataSource.Campfire),
     ),
 }
 
