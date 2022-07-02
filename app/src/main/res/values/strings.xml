@@ -31,5 +31,11 @@
     <string name="cat_desc_city">Relaxing city sounds</string>
     <string name="cat_name_other">Other</string>
     <string name="cat_desc_other">Other chill and relaxing sounds</string>
-    <string name="mood_name_rain_forest">Rain Forest</string>
+    <string name="mood_name_rain_forest">Rain in Forest</string>
+    <string name="mood_name_living_room">Living Room</string>
+    <string name="mood_name_forest">Forest</string>
+    <string name="mood_name_mountains">Mountains</string>
+    <string name="mood_name_rain_in_backyard">Rain in Backyard</string>
+    <string name="all">All</string>
+    <string name="ambient">Ambient</string>
 </resources>

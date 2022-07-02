@@ -30,7 +30,6 @@ import com.romnan.chillax.presentation.util.asString
 
 @Composable
 @Destination
-@RootNavGraph(start = true) // TODO: change start destination back to MoodsScreen
 fun SoundsScreen(
     viewModel: MainViewModel,
 ) {
