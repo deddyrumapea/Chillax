@@ -47,20 +47,6 @@ class NotificationHelperImpl(
 
     override fun updatePlayerServiceNotification(playerState: PlayerState) {
         // TODO: extract string format
-        val contentTitle: String = playerState.playingSounds.let {
-            when {
-                it.size == 0 -> appContext.getString(R.string.no_sound_is_playing)
-                it.size == 1 -> it[0].readableName.asString(context = appContext)
-                it.size == 2 -> "${it[0].readableName.asString(context = appContext)} and ${
-                    it[1].readableName.asString(context = appContext)
-                }"
-                it.size > 2 -> "${it[0].readableName.asString(context = appContext)}, ${
-                    it[1].readableName.asString(context = appContext)
-                }, and other sounds"
-                else -> ""
-            }
-        }
-
         val contentText = when (playerState.phase) {
             PlayerPhase.PLAYING -> "Playing ${playerState.playingSounds.size} sound(s)"
             PlayerPhase.PAUSED -> "Paused ${playerState.playingSounds.size} sound(s)"
@@ -69,7 +55,7 @@ class NotificationHelperImpl(
 
         // TODO: add notif action
         val updatedNotification = getBasePlayerServiceNotification()
-            .setContentTitle(contentTitle)
+            .setContentTitle(playerState.playingSoundsTitle.asString(appContext))
             .setContentText(contentText)
             .build()
 
