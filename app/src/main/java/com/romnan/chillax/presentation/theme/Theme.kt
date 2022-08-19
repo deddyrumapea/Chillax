@@ -6,39 +6,44 @@ import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Blue400,
+    primaryVariant = Blue700,
+    secondary = Green400,
+    background = Indigo900,
+    surface = Indigo800,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color.White,
+    onSurface = Color.White,
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
+    primary = Blue400,
+    primaryVariant = Blue700,
+    secondary = Green400,
+    background = Indigo50,
     surface = Color.White,
     onPrimary = Color.White,
-    onSecondary = Color.Black,
+    onSecondary = Color.White,
     onBackground = Color.Black,
     onSurface = Color.Black,
-    */
 )
 
 @Composable
 fun ChillaxTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
     CompositionLocalProvider(LocalSpacing provides Spacing()) {
+        val systemUiController = rememberSystemUiController()
+        systemUiController.setSystemBarsColor(
+            color = if (darkTheme) DarkColorPalette.background
+            else LightColorPalette.background
+        )
+
         MaterialTheme(
-            colors = colors,
+            colors = if (darkTheme) DarkColorPalette else LightColorPalette,
             typography = Typography,
             shapes = Shapes,
             content = content

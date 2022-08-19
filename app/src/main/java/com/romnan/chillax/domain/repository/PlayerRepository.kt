@@ -1,16 +1,16 @@
 package com.romnan.chillax.domain.repository
 
+import com.romnan.chillax.domain.model.Category
 import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.PlayerState
-import com.romnan.chillax.domain.model.Sound
 import kotlinx.coroutines.flow.Flow
 
 interface PlayerRepository {
-    val sounds: Flow<List<Sound>>
     val moods: Flow<List<Mood>>
+    val categories: Flow<List<Category>>
     val playerState: Flow<PlayerState>
     suspend fun playOrPausePlayer()
-    suspend fun addOrRemoveSound(sound: Sound)
+    suspend fun addOrRemoveSound(soundName: String)
     suspend fun removeAllSounds()
     suspend fun addMood(mood: Mood)
 }

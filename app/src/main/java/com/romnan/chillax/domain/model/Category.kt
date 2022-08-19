@@ -1,7 +1,7 @@
 package com.romnan.chillax.domain.model
 
-interface Mood {
+interface Category {
     val readableName: UIText
-    val imageResId: Int
+    val description: UIText
     val sounds: List<Sound>
 }

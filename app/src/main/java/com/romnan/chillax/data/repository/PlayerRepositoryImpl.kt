@@ -5,18 +5,18 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import com.romnan.chillax.data.model.PlayerStateSerializable
 import com.romnan.chillax.data.serializer.PlayerStateSerializer
-import com.romnan.chillax.data.source.PlayerDataSource
+import com.romnan.chillax.data.source.AppDataSource
+import com.romnan.chillax.domain.model.Category
 import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.model.PlayerState
-import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.repository.PlayerRepository
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 
 class PlayerRepositoryImpl(
     appContext: Context
@@ -26,11 +26,11 @@ class PlayerRepositoryImpl(
 
     private val isPlaying = MutableStateFlow(false)
 
-    override val sounds: Flow<List<Sound>>
-        get() = flow { emit(PlayerDataSource.soundsList) }
-
     override val moods: Flow<List<Mood>>
-        get() = flow { emit(PlayerDataSource.moodsList) }
+        get() = flowOf(AppDataSource.moods)
+
+    override val categories: Flow<List<Category>>
+        get() = flowOf(AppDataSource.categories)
 
     override val playerState: Flow<PlayerState>
         get() = combine(
@@ -39,11 +39,13 @@ class PlayerRepositoryImpl(
         ) { stateSerializable: PlayerStateSerializable, isPlaying: Boolean ->
             PlayerState(
                 phase = when {
-                    stateSerializable.playingSounds.isEmpty() -> PlayerPhase.Stopped
-                    !isPlaying -> PlayerPhase.Paused
-                    else -> PlayerPhase.Playing
+                    stateSerializable.playingSoundsNames.isEmpty() -> PlayerPhase.STOPPED
+                    !isPlaying -> PlayerPhase.PAUSED
+                    else -> PlayerPhase.PLAYING
                 },
-                soundsList = stateSerializable.playingSounds.toPersistentList()
+                playingSounds = stateSerializable.playingSoundsNames
+                    .mapNotNull { AppDataSource.getSoundFromName(it) }
+                    .toPersistentList()
             )
         }
 
@@ -51,15 +53,16 @@ class PlayerRepositoryImpl(
         isPlaying.value = !isPlaying.value
     }
 
-    override suspend fun addOrRemoveSound(sound: Sound) {
+    override suspend fun addOrRemoveSound(soundName: String) {
+        if (AppDataSource.getSoundFromName(soundName = soundName) == null) return
         dataStore.updateData { playerState ->
-            val playingSounds = playerState.playingSounds.toPersistentList()
+            val playingSounds = playerState.playingSoundsNames.toPersistentList()
             playerState.copy(
-                playingSounds = when {
-                    playingSounds.contains(sound) -> playingSounds.remove(sound)
+                playingSoundsNames = when {
+                    playingSounds.contains(soundName) -> playingSounds.remove(soundName)
                     playingSounds.size < MAX_PLAYING_SOUNDS -> {
                         isPlaying.value = true
-                        playingSounds.add(sound)
+                        playingSounds.add(soundName)
                     }
                     else -> playingSounds
                 }
@@ -69,27 +72,31 @@ class PlayerRepositoryImpl(
 
     override suspend fun addMood(mood: Mood) {
         dataStore.updateData { playerState ->
-            val playingSounds = playerState.playingSounds.toPersistentList()
-            val moodSoundsList = mood.soundsList.filter { !playingSounds.contains(it) }
+            val playingSoundsNames = playerState.playingSoundsNames.toPersistentList()
+
+            val moodSoundsNames = mood.sounds
+                .map { it.name }
+                .filter { !playingSoundsNames.contains(it) }
+
             playerState.copy(
-                playingSounds = when {
-                    playingSounds.size + moodSoundsList.size <= MAX_PLAYING_SOUNDS -> {
+                playingSoundsNames = when {
+                    playingSoundsNames.size + moodSoundsNames.size <= MAX_PLAYING_SOUNDS -> {
                         isPlaying.value = true
-                        playingSounds.addAll(moodSoundsList)
+                        playingSoundsNames.addAll(moodSoundsNames)
                     }
-                    else -> playingSounds
+                    else -> playingSoundsNames
                 }
             )
         }
     }
 
     override suspend fun removeAllSounds() {
-        dataStore.updateData { it.copy(playingSounds = persistentListOf()) }
+        dataStore.updateData { it.copy(playingSoundsNames = persistentListOf()) }
         isPlaying.value = false
     }
 
     companion object {
-        private const val MAX_PLAYING_SOUNDS = 8
+        private const val MAX_PLAYING_SOUNDS = 8 // TODO: store this in data store
 
         private const val FILE_NAME = "player_state.json"
 
