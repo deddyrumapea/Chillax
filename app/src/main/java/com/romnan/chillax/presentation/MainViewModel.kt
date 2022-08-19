@@ -8,10 +8,10 @@ import com.romnan.chillax.presentation.model.CategoryState
 import com.romnan.chillax.presentation.model.SoundState
 import com.romnan.chillax.presentation.model.toState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import logcat.logcat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,8 +19,12 @@ class MainViewModel @Inject constructor(
     private val playerRepository: PlayerRepository
 ) : ViewModel() {
 
-    val playerPhase: StateFlow<PlayerPhase> = playerRepository.playerState.map { it.phase }
-        .stateIn(viewModelScope, SharingStarted.Lazily, PlayerPhase.STOPPED)
+    val playerState: StateFlow<PlayerState> = playerRepository.playerState
+        .stateIn(
+            viewModelScope,
+            SharingStarted.Lazily,
+            PlayerState(phase = PlayerPhase.STOPPED, playingSounds = persistentListOf())
+        )
 
     val moods: StateFlow<List<Mood>> = playerRepository.moods
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
@@ -68,9 +72,5 @@ class MainViewModel @Inject constructor(
         onStopClickedJob = viewModelScope.launch {
             playerRepository.removeAllSounds()
         }
-    }
-
-    fun onSliderValueChange(sound: SoundState, value: Float) {
-        logcat { "${sound.name}: $value" }
     }
 }
