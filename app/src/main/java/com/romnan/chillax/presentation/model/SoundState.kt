@@ -1,29 +1,20 @@
 package com.romnan.chillax.presentation.model
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.RawRes
-import androidx.annotation.StringRes
 import com.romnan.chillax.domain.model.Sound
+import com.romnan.chillax.domain.model.UIText
 
 data class SoundState(
-    val id: Int,
-    @DrawableRes val icon: Int,
-    @StringRes val name: Int,
-    @RawRes val resource: Int,
-    val isSelected: Boolean
-) {
-    fun toSound() = Sound(
-        id = this.id,
-        icon = this.icon,
-        name = this.name,
-        resource = this.resource
-    )
-}
+    val name: String,
+    val readableName: UIText,
+    val iconResId: Int,
+    val isSelected: Boolean,
+)
 
-fun Sound.toState() = SoundState(
-    id = this.id,
-    icon = this.icon,
+fun Sound.toState(
+    isSelected: Boolean = false,
+) = SoundState(
     name = this.name,
-    resource = this.resource,
-    isSelected = false
+    readableName = this.readableName,
+    iconResId = this.iconResId,
+    isSelected = isSelected
 )

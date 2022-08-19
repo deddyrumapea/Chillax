@@ -47,16 +47,16 @@ class PlayerService : Service() {
 
                 // Remove players of sounds that are no longer played
                 resPlayers
-                    .filter { entry -> !playerState.soundsList.any { it.resource == entry.key } }
+                    .filter { entry -> !playerState.playingSounds.any { it.audioResId == entry.key } }
                     .forEach { entry -> removeResPlayer(entry.key) }
 
                 // Add a player for each playing sound
-                playerState.soundsList.forEach { addResPlayer(resId = it.resource) }
+                playerState.playingSounds.forEach { addResPlayer(resId = it.audioResId) }
 
                 when (playerState.phase) {
-                    PlayerPhase.Playing -> playAllPlayers()
-                    PlayerPhase.Paused -> pauseAllPlayers()
-                    PlayerPhase.Stopped -> stopSelf()
+                    PlayerPhase.PLAYING -> playAllPlayers()
+                    PlayerPhase.PAUSED -> pauseAllPlayers()
+                    PlayerPhase.STOPPED -> stopSelf()
                 }
 
                 notificationHelper.updatePlayerServiceNotification(playerState)

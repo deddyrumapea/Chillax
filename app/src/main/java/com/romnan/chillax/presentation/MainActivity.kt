@@ -10,26 +10,29 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
+import com.romnan.chillax.data.service.PlayerService
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.presentation.component.BottomBar
 import com.romnan.chillax.presentation.component.PlayerBottomSheet
-import com.romnan.chillax.data.service.PlayerService
-import com.romnan.chillax.presentation.theme.ChillaxTheme
 import com.romnan.chillax.presentation.destinations.MoodsScreenDestination
 import com.romnan.chillax.presentation.destinations.SettingsScreenDestination
 import com.romnan.chillax.presentation.destinations.SoundsScreenDestination
 import com.romnan.chillax.presentation.moods.MoodsScreen
 import com.romnan.chillax.presentation.settings.SettingsScreen
 import com.romnan.chillax.presentation.sounds.SoundsScreen
+import com.romnan.chillax.presentation.theme.ChillaxTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -40,36 +43,39 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launchWhenCreated {
-            viewModel.playerPhase.collectLatest { phase ->
+            viewModel.playerState.collectLatest {
                 // TODO: put this inside a use case
                 Intent(this@MainActivity, PlayerService::class.java).also { intent ->
 
-                    when (phase) {
-                        PlayerPhase.Playing -> ContextCompat
+                    when (it.phase) {
+                        PlayerPhase.PLAYING -> ContextCompat
                             .startForegroundService(this@MainActivity, intent)
 
-                        PlayerPhase.Paused -> ContextCompat
+                        PlayerPhase.PAUSED -> ContextCompat
                             .startForegroundService(this@MainActivity, intent)
 
-                        PlayerPhase.Stopped -> stopService(intent)
+                        PlayerPhase.STOPPED -> stopService(intent)
                     }
                 }
             }
         }
 
         setContent {
-            ChillaxTheme {
+            ChillaxTheme(darkTheme = true) {
                 val engine = rememberNavHostEngine()
                 val navController = engine.rememberNavController()
 
+                val scope = rememberCoroutineScope()
                 val scaffoldState = rememberScaffoldState()
                 val bsState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
                 val bsScaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bsState)
 
+                val playerState = viewModel.playerState.collectAsState().value
+
                 LaunchedEffect(key1 = 1) {
-                    viewModel.playerPhase.collectLatest {
-                        if (it == PlayerPhase.Stopped) {
-                            bsScaffoldState.bottomSheetState.collapse()
+                    viewModel.playerState.collectLatest {
+                        if (it.phase == PlayerPhase.STOPPED) {
+                            bsState.collapse()
                         }
                     }
                 }
@@ -79,28 +85,25 @@ class MainActivity : ComponentActivity() {
                     scaffoldState = scaffoldState,
                     bottomBar = { BottomBar(navController) }
                 ) { scaffoldPadding ->
-
-                    val peekHeight =
-                        if (viewModel.playerPhase.collectAsState().value != PlayerPhase.Stopped)
-                            70.dp else 0.dp
-
+                    val peekHeight = if (playerState.phase != PlayerPhase.STOPPED) 80.dp else 0.dp
                     BottomSheetScaffold(
                         scaffoldState = bsScaffoldState,
                         sheetPeekHeight = peekHeight,
+                        sheetBackgroundColor = Color.Transparent,
                         modifier = Modifier
                             .padding(scaffoldPadding)
                             .fillMaxSize(),
                         sheetContent = {
                             PlayerBottomSheet(
-                                playerPhase = viewModel.playerPhase.collectAsState().value,
-                                bottomSheetState = bsScaffoldState.bottomSheetState,
+                                playerState = playerState,
                                 peekHeight = peekHeight,
-                                onPlayPauseClicked = viewModel::onPlayPauseClicked,
-                                onStopClicked = viewModel::onStopClicked
+                                isCollapsed = bsState.isCollapsed,
+                                onPeekClick = { scope.launch { if (bsState.isCollapsed) bsState.expand() } },
+                                onPlayPauseClick = viewModel::onPlayPauseClicked,
+                                onStopClick = viewModel::onStopClicked,
                             )
                         }) { bsScaffoldPadding ->
 
-                        // TODO: fix scrolling behavior.
                         DestinationsNavHost(
                             engine = engine,
                             navController = navController,
