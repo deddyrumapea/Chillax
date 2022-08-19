@@ -1,81 +1,132 @@
 package com.romnan.chillax.presentation.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PauseCircle
-import androidx.compose.material.icons.filled.PlayCircle
-import androidx.compose.material.icons.filled.StopCircle
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.outlined.Stop
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
-import com.romnan.chillax.R
+import androidx.compose.ui.unit.dp
 import com.romnan.chillax.domain.model.PlayerPhase
-import kotlinx.coroutines.launch
+import com.romnan.chillax.domain.model.PlayerState
+import com.romnan.chillax.presentation.theme.spacing
+import com.romnan.chillax.presentation.util.asString
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PlayerBottomSheet(
-    playerPhase: PlayerPhase,
-    bottomSheetState: BottomSheetState,
+    playerState: PlayerState,
     peekHeight: Dp,
+    isCollapsed: Boolean,
     modifier: Modifier = Modifier,
-    onPlayPauseClicked: () -> Unit,
-    onStopClicked: () -> Unit,
-    maxHeightFraction: Float = 0.8f
+    onPeekClick: () -> Unit,
+    onPlayPauseClick: () -> Unit,
+    onStopClick: () -> Unit,
 ) {
-    val coroutineScope = rememberCoroutineScope()
-
     Column(
+        verticalArrangement = Arrangement.Bottom,
         modifier = modifier
             .fillMaxWidth()
-            .fillMaxHeight(fraction = maxHeightFraction)
-            .background(MaterialTheme.colors.surface)
+            .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+            .background(MaterialTheme.colors.surface),
     ) {
-        AnimatedVisibility(visible = bottomSheetState.isCollapsed) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(peekHeight)
-                    .clickable {
-                        coroutineScope.launch {
-                            if (bottomSheetState.isCollapsed) bottomSheetState.expand()
-                        }
-                    }
-            ) {
-                if (playerPhase != PlayerPhase.STOPPED) {
-                    IconButton(onClick = onPlayPauseClicked) {
-                        Icon(
-                            imageVector = if (playerPhase == PlayerPhase.PLAYING)
-                                Icons.Default.PauseCircle else Icons.Default.PlayCircle,
-                            contentDescription = stringResource(
-                                if (playerPhase == PlayerPhase.PLAYING)
-                                    R.string.pause else R.string.play
-                            )
-                        )
-                    }
+        PlayerBottomSheetPeek(
+            titleText = playerState.playingSoundsTitle.asString(),
+            isPlaying = playerState.phase == PlayerPhase.PLAYING,
+            height = peekHeight,
+            onPlayPauseClick = onPlayPauseClick,
+            modifier = if (isCollapsed) Modifier.clickable { onPeekClick() } else Modifier
+        )
 
-                    IconButton(onClick = onStopClicked) {
+        Column(
+            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium)
+        ) {
+            for (sound in playerState.playingSounds) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        painter = painterResource(id = sound.iconResId),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
+                    )
+                    Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
+                    Slider(
+                        value = 0.5f,
+                        onValueChange = {},
+                        modifier = Modifier.weight(1f),
+                    )
+                    Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
+                    IconButton(onClick = { /*TODO*/ }) {
                         Icon(
-                            imageVector = Icons.Default.StopCircle,
-                            contentDescription = stringResource(R.string.stop)
+                            imageVector = Icons.Default.Clear,
+                            contentDescription = "Stop ${sound.readableName.asString()}",
                         )
                     }
                 }
             }
-        }
 
-        Row(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(text = "BottomSheet content")
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+
+            Row(modifier = Modifier.fillMaxWidth()) {
+                OutlinedButton(
+                    onClick = onStopClick,
+                    shape = RoundedCornerShape(percent = 100),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Transparent,
+                        contentColor = MaterialTheme.colors.primary,
+                    ),
+                    border = ButtonDefaults.outlinedBorder.copy(
+                        width = 2.dp,
+                        brush = Brush.horizontalGradient(
+                            listOf(
+                                MaterialTheme.colors.primary,
+                                MaterialTheme.colors.primaryVariant,
+                            )
+                        )
+                    )
+                ) {
+                    Icon(imageVector = Icons.Outlined.Stop, contentDescription = null)
+                    Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
+                    Text(
+                        text = "Stop",
+                        style = MaterialTheme.typography.button,
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
+
+                Button(
+                    onClick = { /*TODO*/ },
+                    shape = RoundedCornerShape(percent = 100),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(48.dp),
+                ) {
+                    Icon(imageVector = Icons.Default.Save, contentDescription = null)
+                    Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
+                    Text(
+                        text = "Save",
+                        style = MaterialTheme.typography.button,
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
         }
     }
 }
