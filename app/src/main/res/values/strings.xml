@@ -18,7 +18,6 @@
     <string name="player_service_notif_channel_desc">This channel is used to display notification when the player is running</string>
     <string name="pause">Pause</string>
     <string name="play">Play</string>
-    <string name="stop">Stop</string>
     <string name="cat_name_rain">Rain</string>
     <string name="cat_desc_rain">Relaxing rain sounds</string>
     <string name="cat_name_nature">Nature</string>
