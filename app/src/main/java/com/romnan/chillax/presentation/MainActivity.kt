@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -83,12 +84,16 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     scaffoldState = scaffoldState,
-                    bottomBar = { BottomBar(navController) }
+                    bottomBar = { BottomBar(navController = navController) }
                 ) { scaffoldPadding ->
-                    val peekHeight = if (playerState.phase != PlayerPhase.STOPPED) 80.dp else 0.dp
+
+                    val peekHeight = animateDpAsState(
+                        targetValue = if (playerState.phase == PlayerPhase.STOPPED) 0.dp else 80.dp
+                    )
+
                     BottomSheetScaffold(
                         scaffoldState = bsScaffoldState,
-                        sheetPeekHeight = peekHeight,
+                        sheetPeekHeight = peekHeight.value,
                         sheetBackgroundColor = Color.Transparent,
                         modifier = Modifier
                             .padding(scaffoldPadding)
@@ -96,7 +101,7 @@ class MainActivity : ComponentActivity() {
                         sheetContent = {
                             PlayerBottomSheet(
                                 playerState = playerState,
-                                peekHeight = peekHeight,
+                                peekHeight = peekHeight.value,
                                 isCollapsed = bsState.isCollapsed,
                                 onPeekClick = { scope.launch { if (bsState.isCollapsed) bsState.expand() } },
                                 onPlayPauseClick = viewModel::onPlayPauseClicked,
