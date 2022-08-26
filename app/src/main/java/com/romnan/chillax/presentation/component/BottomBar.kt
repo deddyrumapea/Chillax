@@ -15,7 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.ramcosta.composedestinations.navigation.navigateTo
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import com.ramcosta.composedestinations.navigation.navigate
 import com.romnan.chillax.presentation.NavGraphs
 import com.romnan.chillax.presentation.appCurrentDestinationAsState
 import com.romnan.chillax.presentation.destinations.Destination
@@ -43,7 +44,11 @@ fun BottomBar(
             BottomNavigationItem(
                 selected = isSelected,
                 onClick = {
-                    navController.navigateTo(destination.direction) { launchSingleTop = true }
+                    navController.navigate(destination.direction) {
+                        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
                 icon = {
                     Icon(
