@@ -5,7 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'org.jetbrains.kotlin.plugin.serialization'
-    id 'com.google.devtools.ksp' version '1.6.10-1.0.2'
+    id 'com.google.devtools.ksp' version '1.7.0-1.0.6'
 }
 
 kotlin {
@@ -58,7 +58,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion = "1.2.0"
     }
 
     packagingOptions {
@@ -99,7 +99,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     //Dagger - Hilt
-    def dagger_hilt_version = "2.41"
+    def dagger_hilt_version = "2.42"
     def hilt_version = "1.0.0"
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$dagger_hilt_version"
@@ -107,7 +107,7 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:$hilt_version"
 
     // Compose destination
-    def compose_destination_version = "1.5.2-beta"
+    def compose_destination_version = "1.7.16-beta"
     implementation "io.github.raamcosta.compose-destinations:core:$compose_destination_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$compose_destination_version"
 
@@ -132,7 +132,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
 
     // Coil
-    def coil_version = "2.1.0"
+    def coil_version = "2.2.0"
     implementation "io.coil-kt:coil:$coil_version"
     implementation "io.coil-kt:coil-compose:$coil_version"
 }
