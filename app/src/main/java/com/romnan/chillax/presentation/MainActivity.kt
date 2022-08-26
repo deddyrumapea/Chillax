@@ -3,10 +3,14 @@ package com.romnan.chillax.presentation
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,7 +26,8 @@ import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.data.service.PlayerService
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.presentation.component.BottomBar
-import com.romnan.chillax.presentation.component.PlayerBottomSheet
+import com.romnan.chillax.presentation.component.PlayerPeek
+import com.romnan.chillax.presentation.component.PlayerSheet
 import com.romnan.chillax.presentation.destinations.MoodsScreenDestination
 import com.romnan.chillax.presentation.destinations.SettingsScreenDestination
 import com.romnan.chillax.presentation.destinations.SoundsScreenDestination
@@ -33,6 +38,7 @@ import com.romnan.chillax.presentation.theme.ChillaxTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import logcat.logcat
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -66,60 +72,76 @@ class MainActivity : ComponentActivity() {
                 val navController = engine.rememberNavController()
 
                 val scope = rememberCoroutineScope()
+
                 val scaffoldState = rememberScaffoldState()
-                val bsState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
-                val bsScaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bsState)
+                val playerState = viewModel.playerState.collectAsState()
+                val sheetState = rememberModalBottomSheetState(
+                    initialValue = ModalBottomSheetValue.Hidden,
+                    skipHalfExpanded = true,
+                )
 
-                val playerState = viewModel.playerState.collectAsState().value
-
-                LaunchedEffect(key1 = 1) {
+                LaunchedEffect(key1 = true) {
                     viewModel.playerState.collectLatest {
-                        if (it.phase == PlayerPhase.STOPPED) {
-                            bsState.collapse()
-                        }
+                        if (it.phase == PlayerPhase.STOPPED) sheetState.hide()
                     }
                 }
 
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    scaffoldState = scaffoldState,
-                    bottomBar = { BottomBar(navController) }
-                ) { scaffoldPadding ->
-                    val peekHeight = if (playerState.phase != PlayerPhase.STOPPED) 80.dp else 0.dp
-                    BottomSheetScaffold(
-                        scaffoldState = bsScaffoldState,
-                        sheetPeekHeight = peekHeight,
-                        sheetBackgroundColor = Color.Transparent,
-                        modifier = Modifier
-                            .padding(scaffoldPadding)
-                            .fillMaxSize(),
-                        sheetContent = {
-                            PlayerBottomSheet(
-                                playerState = playerState,
-                                peekHeight = peekHeight,
-                                isCollapsed = bsState.isCollapsed,
-                                onPeekClick = { scope.launch { if (bsState.isCollapsed) bsState.expand() } },
-                                onPlayPauseClick = viewModel::onPlayPauseClicked,
-                                onStopClick = viewModel::onStopClicked,
-                            )
-                        }) { bsScaffoldPadding ->
-
-                        DestinationsNavHost(
-                            engine = engine,
-                            navController = navController,
-                            navGraph = NavGraphs.root,
-                            modifier = Modifier.padding(bsScaffoldPadding)
+                ModalBottomSheetLayout(
+                    sheetState = sheetState,
+                    sheetContent = {
+                        PlayerSheet(
+                            playerState = playerState,
+                            onStopClick = viewModel::onStopClicked,
+                        )
+                    },
+                    sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                    scrimColor = Color.Black.copy(alpha = 0.3f),
+                ) {
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        scaffoldState = scaffoldState,
+                        bottomBar = { BottomBar(navController) }
+                    ) { scaffoldPadding ->
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(scaffoldPadding)
                         ) {
-                            composable(MoodsScreenDestination) {
-                                MoodsScreen(viewModel = viewModel)
+                            DestinationsNavHost(
+                                engine = engine,
+                                navController = navController,
+                                navGraph = NavGraphs.root,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                composable(MoodsScreenDestination) {
+                                    BackHandler(enabled = sheetState.isVisible) {
+                                        scope.launch { sheetState.hide() }
+                                    }
+                                    MoodsScreen(viewModel = viewModel)
+                                }
+
+                                composable(SoundsScreenDestination) {
+                                    BackHandler(enabled = sheetState.isVisible) {
+                                        scope.launch { sheetState.hide() }
+                                    }
+                                    SoundsScreen(viewModel = viewModel)
+                                }
+
+                                composable(SettingsScreenDestination) {
+                                    BackHandler(enabled = sheetState.isVisible) {
+                                        scope.launch { sheetState.hide() }
+                                    }
+                                    SettingsScreen()
+                                }
                             }
 
-                            composable(SoundsScreenDestination) {
-                                SoundsScreen(viewModel = viewModel)
-                            }
-
-                            composable(SettingsScreenDestination) {
-                                SettingsScreen()
+                            AnimatedVisibility(visible = playerState.value.phase != PlayerPhase.STOPPED) {
+                                PlayerPeek(
+                                    playerState = playerState,
+                                    onPeekClick = { scope.launch { sheetState.show() } },
+                                    onPlayPauseClick = viewModel::onPlayPauseClicked,
+                                    onTimerClick = { logcat { "onTimerClick()" } },
+                                )
                             }
                         }
                     }
