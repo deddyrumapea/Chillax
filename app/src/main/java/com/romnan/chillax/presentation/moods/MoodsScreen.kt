@@ -1,11 +1,10 @@
 package com.romnan.chillax.presentation.moods
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -32,7 +31,6 @@ import com.romnan.chillax.presentation.MainViewModel
 import com.romnan.chillax.presentation.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Destination
 @RootNavGraph(start = true)
@@ -102,7 +100,7 @@ fun MoodsScreen(
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
             LazyVerticalGrid(
-                cells = GridCells.Fixed(2),
+                columns = GridCells.Fixed(2),
                 modifier = Modifier.padding(horizontal = MaterialTheme.spacing.small),
             ) {
                 items(moods.size) { i ->
@@ -111,7 +109,7 @@ fun MoodsScreen(
                         contentAlignment = Alignment.BottomCenter,
                         modifier = Modifier
                             .padding(MaterialTheme.spacing.small)
-                            .fillParentMaxWidth()
+                            .fillMaxWidth()
                             .aspectRatio(1f)
                             .clip(RoundedCornerShape(16.dp))
                             .clickable { viewModel.onMoodClicked(mood = mood) }
@@ -123,12 +121,12 @@ fun MoodsScreen(
                                 .build(),
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillParentMaxSize(),
+                            modifier = Modifier.matchParentSize(),
                         )
 
                         Column(
                             modifier = Modifier
-                                .fillParentMaxWidth()
+                                .fillMaxWidth()
                                 .background(
                                     brush = Brush.verticalGradient(
                                         colors = listOf(
