@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 fun BottomSheetHandleBar(
     modifier: Modifier = Modifier,
     thickness: Dp = 4.dp,
-    width: Dp = 50.dp,
+    width: Dp = 48.dp,
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
