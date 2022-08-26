@@ -7,12 +7,13 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -25,6 +26,7 @@ import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.data.service.PlayerService
 import com.romnan.chillax.domain.model.PlayerPhase
+import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.presentation.component.BottomBar
 import com.romnan.chillax.presentation.component.PlayerPeek
 import com.romnan.chillax.presentation.component.PlayerSheet
@@ -35,6 +37,7 @@ import com.romnan.chillax.presentation.moods.MoodsScreen
 import com.romnan.chillax.presentation.settings.SettingsScreen
 import com.romnan.chillax.presentation.sounds.SoundsScreen
 import com.romnan.chillax.presentation.theme.ChillaxTheme
+import com.romnan.chillax.presentation.theme.spacing
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -74,28 +77,32 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
 
                 val scaffoldState = rememberScaffoldState()
-                val playerState = viewModel.playerState.collectAsState()
+                val playerState = viewModel.playerState.collectAsState().value
                 val sheetState = rememberModalBottomSheetState(
                     initialValue = ModalBottomSheetValue.Hidden,
                     skipHalfExpanded = true,
                 )
-
-                LaunchedEffect(key1 = true) {
-                    viewModel.playerState.collectLatest {
-                        if (it.phase == PlayerPhase.STOPPED) sheetState.hide()
-                    }
-                }
 
                 ModalBottomSheetLayout(
                     sheetState = sheetState,
                     sheetContent = {
                         PlayerSheet(
                             playerState = playerState,
-                            onStopClick = viewModel::onStopClicked,
+                            onStopClick = {
+                                scope.launch { sheetState.hide() }
+                                viewModel.onStopClicked()
+                            },
+                            onPlayPauseClick = viewModel::onPlayPauseClicked,
+                            onTimerClick = { logcat { "onTimerClick()" } /* TODO */ },
+                            onSaveMoodClick = { logcat { "onSaveMoodClick()" } /* TODO */ },
+                            onSoundVolumeChange = { sound: Sound, volumeLevel: Float ->
+                                // TODO: implement this
+                                logcat { "onSoundVolumeChange: sound ${sound.name} -> $volumeLevel" }
+                            }
                         )
                     },
                     sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                    scrimColor = Color.Black.copy(alpha = 0.3f),
+                    scrimColor = Color.Black.copy(alpha = 0.5f),
                 ) {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
@@ -135,12 +142,15 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
 
-                            AnimatedVisibility(visible = playerState.value.phase != PlayerPhase.STOPPED) {
+                            AnimatedVisibility(visible = playerState.phase != PlayerPhase.STOPPED) {
                                 PlayerPeek(
                                     playerState = playerState,
-                                    onPeekClick = { scope.launch { sheetState.show() } },
                                     onPlayPauseClick = viewModel::onPlayPauseClicked,
                                     onTimerClick = { logcat { "onTimerClick()" } },
+                                    modifier = Modifier
+                                        .clickable { scope.launch { sheetState.show() } }
+                                        .background(color = MaterialTheme.colors.surface)
+                                        .padding(MaterialTheme.spacing.medium),
                                 )
                             }
                         }
