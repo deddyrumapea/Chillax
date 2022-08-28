@@ -1,7 +1,6 @@
 package com.romnan.chillax.presentation.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
@@ -14,7 +13,6 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,19 +25,14 @@ import com.romnan.chillax.presentation.util.asString
 
 @Composable
 fun PlayerPeek(
-    playerState: State<PlayerState>,
-    onPeekClick: () -> Unit,
+    playerState: PlayerState,
     onPlayPauseClick: () -> Unit,
     onTimerClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colors.surface,)
-            .clickable { onPeekClick() }
-            .padding(all = MaterialTheme.spacing.medium),
+        modifier = modifier.fillMaxWidth(),
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Row(
@@ -52,7 +45,7 @@ fun PlayerPeek(
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-                Text(text = playerState.value.playingSoundsTitle.asString())
+                Text(text = playerState.playingSoundsTitle.asString())
             }
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
@@ -90,10 +83,10 @@ fun PlayerPeek(
             ),
         ) {
             Icon(
-                imageVector = if (playerState.value.phase == PlayerPhase.PLAYING) Icons.Default.Pause
+                imageVector = if (playerState.phase == PlayerPhase.PLAYING) Icons.Default.Pause
                 else Icons.Default.PlayArrow,
                 contentDescription = stringResource(
-                    if (playerState.value.phase == PlayerPhase.PLAYING) R.string.pause
+                    if (playerState.phase == PlayerPhase.PLAYING) R.string.pause
                     else R.string.play
                 ),
             )
