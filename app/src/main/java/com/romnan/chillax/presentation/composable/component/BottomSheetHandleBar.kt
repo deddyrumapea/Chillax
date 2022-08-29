@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.component
+package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

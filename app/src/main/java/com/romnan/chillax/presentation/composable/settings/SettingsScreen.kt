@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.settings
+package com.romnan.chillax.presentation.composable.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,9 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.ramcosta.composedestinations.annotation.Destination
 import com.romnan.chillax.R
-import com.romnan.chillax.presentation.settings.component.BasicPreference
-import com.romnan.chillax.presentation.settings.component.SwitchPreference
-import com.romnan.chillax.presentation.theme.spacing
+import com.romnan.chillax.presentation.composable.settings.component.BasicPreference
+import com.romnan.chillax.presentation.composable.settings.component.SwitchPreference
+import com.romnan.chillax.presentation.composable.theme.spacing
 import logcat.logcat
 
 @Composable

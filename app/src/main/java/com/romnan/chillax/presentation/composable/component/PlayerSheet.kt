@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.component
+package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,18 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.romnan.chillax.R
-import com.romnan.chillax.domain.model.Player
-import com.romnan.chillax.data.model.SoundData
-import com.romnan.chillax.presentation.theme.spacing
+import com.romnan.chillax.presentation.composable.theme.spacing
+import com.romnan.chillax.presentation.model.PlayerPresentation
+import com.romnan.chillax.presentation.model.SoundPresentation
 
 @Composable
 fun PlayerSheet(
-    player: Player,
+    player: PlayerPresentation,
     onStopClick: () -> Unit,
     onPlayPauseClick: () -> Unit,
     onTimerClick: () -> Unit,
     onSaveMoodClick: () -> Unit,
-    onSoundVolumeChange:(sound: SoundData, volume: Float) -> Unit,
+    onSoundVolumeChange: (sound: SoundPresentation, volume: Float) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(

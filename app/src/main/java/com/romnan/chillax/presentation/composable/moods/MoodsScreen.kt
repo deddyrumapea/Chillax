@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.moods
+package com.romnan.chillax.presentation.composable.moods
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,7 +28,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.romnan.chillax.R
 import com.romnan.chillax.presentation.MainViewModel
-import com.romnan.chillax.presentation.theme.spacing
+import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
 @Composable
