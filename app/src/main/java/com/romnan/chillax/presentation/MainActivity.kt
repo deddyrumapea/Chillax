@@ -11,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -137,6 +138,8 @@ class MainActivity : ComponentActivity() {
                                     SettingsScreen()
                                 }
                             }
+
+                            Divider(modifier = Modifier.fillMaxWidth())
 
                             AnimatedVisibility(visible = player.phase != PlayerPhase.STOPPED) {
                                 PlayerPeek(
