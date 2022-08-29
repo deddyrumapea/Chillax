@@ -1,18 +1,19 @@
 package com.romnan.chillax.domain.model
 
 import com.romnan.chillax.R
+import com.romnan.chillax.data.model.SoundData
 import kotlinx.collections.immutable.PersistentList
 
-data class PlayerState(
+data class Player(
     val phase: PlayerPhase,
-    val playingSounds: PersistentList<Sound>,
+    val sounds: PersistentList<SoundData>,
     // TODO: add moodsList
 ) {
-    val playingSoundsTitle: UIText
-        get() = when (this.playingSounds.size) {
+    val soundsTitle: UIText
+        get() = when (this.sounds.size) {
             0 -> UIText.StringResource(R.string.no_sound_is_playing)
-            1 -> playingSounds[0].readableName
-            in 2..Int.MAX_VALUE -> UIText.DynamicString("${playingSounds.size} sounds")
+            1 -> sounds[0].readableName
+            in 2..Int.MAX_VALUE -> UIText.DynamicString("${sounds.size} sounds")
             else -> UIText.DynamicString("")
         }
 }

@@ -4,12 +4,12 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class PlayerStateSerializable(
-    val playingSoundsNames: List<String>,
+data class PlayerSerializable(
+    val sounds: List<SoundSerializable>
 ) {
     companion object {
-        val defaultValue = PlayerStateSerializable(
-            playingSoundsNames = persistentListOf(),
+        val defaultValue = PlayerSerializable(
+            sounds = persistentListOf()
         )
     }
 }

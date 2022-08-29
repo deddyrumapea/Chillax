@@ -1,16 +1,17 @@
 package com.romnan.chillax.data.source
 
 import com.romnan.chillax.R
-import com.romnan.chillax.domain.model.Category
-import com.romnan.chillax.domain.model.Mood
-import com.romnan.chillax.domain.model.Sound
+import com.romnan.chillax.data.util.DataConstants
+import com.romnan.chillax.data.model.CategoryData
+import com.romnan.chillax.data.model.MoodData
+import com.romnan.chillax.data.model.SoundData
 import com.romnan.chillax.domain.model.UIText
 
 object AppDataSource {
-    val moods: List<Mood> = MoodDataSource.values().toList()
-    val categories: List<Category> = CategoryDataSource.values().toList()
+    val moods: List<MoodData> = MoodDataSource.values().toList()
+    val categories: List<CategoryData> = CategoryDataDataSource.values().toList()
 
-    fun getSoundFromName(soundName: String): Sound? {
+    fun getSoundFromName(soundName: String): SoundData? {
         return try {
             SoundDataSource.valueOf(soundName)
         } catch (e: Exception) {
@@ -19,11 +20,12 @@ object AppDataSource {
     }
 }
 
+
 enum class SoundDataSource(
     override val readableName: UIText,
     override val iconResId: Int,
     override val audioResId: Int,
-) : Sound {
+) : SoundData {
     Campfire(
         readableName = UIText.StringResource(R.string.campfire),
         iconResId = R.drawable.is_campfire,
@@ -73,14 +75,17 @@ enum class SoundDataSource(
         readableName = UIText.StringResource(R.string.waterfall),
         iconResId = R.drawable.is_waterfall,
         audioResId = R.raw.sound_waterfall,
-    ),
+    ), ;
+
+    override val volume: Float
+        get() = DataConstants.DEFAULT_SOUND_VOLUME
 }
 
 private enum class MoodDataSource(
     override val readableName: UIText,
     override val imageResId: Int,
-    override val sounds: List<Sound>
-) : Mood {
+    override val sounds: List<SoundData>
+) : MoodData {
     RainInForest(
         readableName = UIText.StringResource(R.string.mood_name_rain_forest),
         imageResId = R.raw.img_forest,
@@ -108,11 +113,11 @@ private enum class MoodDataSource(
     ),
 }
 
-private enum class CategoryDataSource(
+private enum class CategoryDataDataSource(
     override val readableName: UIText,
     override val description: UIText,
-    override val sounds: List<Sound>
-) : Category {
+    override val sounds: List<SoundData>
+) : CategoryData {
     Rain(
         readableName = UIText.StringResource(R.string.cat_name_rain),
         description = UIText.StringResource(R.string.cat_desc_rain),
