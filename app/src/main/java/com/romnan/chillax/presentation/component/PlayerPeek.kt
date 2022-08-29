@@ -19,13 +19,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.PlayerPhase
-import com.romnan.chillax.domain.model.PlayerState
+import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.presentation.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
 @Composable
 fun PlayerPeek(
-    playerState: PlayerState,
+    player: Player,
     onPlayPauseClick: () -> Unit,
     onTimerClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -45,7 +45,7 @@ fun PlayerPeek(
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-                Text(text = playerState.playingSoundsTitle.asString())
+                Text(text = player.soundsTitle.asString())
             }
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
@@ -83,10 +83,10 @@ fun PlayerPeek(
             ),
         ) {
             Icon(
-                imageVector = if (playerState.phase == PlayerPhase.PLAYING) Icons.Default.Pause
+                imageVector = if (player.phase == PlayerPhase.PLAYING) Icons.Default.Pause
                 else Icons.Default.PlayArrow,
                 contentDescription = stringResource(
-                    if (playerState.phase == PlayerPhase.PLAYING) R.string.pause
+                    if (player.phase == PlayerPhase.PLAYING) R.string.pause
                     else R.string.play
                 ),
             )

@@ -26,7 +26,6 @@ import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.data.service.PlayerService
 import com.romnan.chillax.domain.model.PlayerPhase
-import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.presentation.component.BottomBar
 import com.romnan.chillax.presentation.component.PlayerPeek
 import com.romnan.chillax.presentation.component.PlayerSheet
@@ -52,7 +51,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         lifecycleScope.launchWhenCreated {
-            viewModel.playerState.collectLatest {
+            viewModel.player.collectLatest {
                 // TODO: put this inside a use case
                 Intent(this@MainActivity, PlayerService::class.java).also { intent ->
 
@@ -77,7 +76,7 @@ class MainActivity : ComponentActivity() {
                 val scope = rememberCoroutineScope()
 
                 val scaffoldState = rememberScaffoldState()
-                val playerState = viewModel.playerState.collectAsState().value
+                val player = viewModel.player.collectAsState().value
                 val sheetState = rememberModalBottomSheetState(
                     initialValue = ModalBottomSheetValue.Hidden,
                     skipHalfExpanded = true,
@@ -87,7 +86,7 @@ class MainActivity : ComponentActivity() {
                     sheetState = sheetState,
                     sheetContent = {
                         PlayerSheet(
-                            playerState = playerState,
+                            player = player,
                             onStopClick = {
                                 scope.launch { sheetState.hide() }
                                 viewModel.onStopClicked()
@@ -95,10 +94,7 @@ class MainActivity : ComponentActivity() {
                             onPlayPauseClick = viewModel::onPlayPauseClicked,
                             onTimerClick = { logcat { "onTimerClick()" } /* TODO */ },
                             onSaveMoodClick = { logcat { "onSaveMoodClick()" } /* TODO */ },
-                            onSoundVolumeChange = { sound: Sound, volumeLevel: Float ->
-                                // TODO: implement this
-                                logcat { "onSoundVolumeChange: sound ${sound.name} -> $volumeLevel" }
-                            }
+                            onSoundVolumeChange = viewModel::onSoundVolumeChange,
                         )
                     },
                     sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -142,9 +138,9 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
 
-                            AnimatedVisibility(visible = playerState.phase != PlayerPhase.STOPPED) {
+                            AnimatedVisibility(visible = player.phase != PlayerPhase.STOPPED) {
                                 PlayerPeek(
-                                    playerState = playerState,
+                                    player = player,
                                     onPlayPauseClick = viewModel::onPlayPauseClicked,
                                     onTimerClick = { logcat { "onTimerClick()" } },
                                     modifier = Modifier
