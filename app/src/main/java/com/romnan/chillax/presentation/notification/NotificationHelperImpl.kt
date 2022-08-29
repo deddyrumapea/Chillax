@@ -1,4 +1,4 @@
-package com.romnan.chillax.data.notification
+package com.romnan.chillax.presentation.notification
 
 import android.app.PendingIntent
 import android.content.Context
@@ -8,10 +8,11 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.romnan.chillax.R
-import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.model.Player
+import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.presentation.MainActivity
+import com.romnan.chillax.presentation.model.toPresentation
 import com.romnan.chillax.presentation.util.asString
 
 class NotificationHelperImpl(
@@ -55,7 +56,7 @@ class NotificationHelperImpl(
 
         // TODO: add notif action
         val updatedNotification = getBasePlayerServiceNotification()
-            .setContentTitle(player.soundsTitle.asString(appContext))
+            .setContentTitle(player.toPresentation().soundsTitle.asString(appContext))
             .setContentText(contentText)
             .build()
 

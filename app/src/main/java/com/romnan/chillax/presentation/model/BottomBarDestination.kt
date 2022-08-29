@@ -8,9 +8,9 @@ import androidx.compose.material.icons.filled.Tune
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.romnan.chillax.R
-import com.romnan.chillax.presentation.destinations.MoodsScreenDestination
-import com.romnan.chillax.presentation.destinations.SettingsScreenDestination
-import com.romnan.chillax.presentation.destinations.SoundsScreenDestination
+import com.romnan.chillax.presentation.composable.destinations.MoodsScreenDestination
+import com.romnan.chillax.presentation.composable.destinations.SettingsScreenDestination
+import com.romnan.chillax.presentation.composable.destinations.SoundsScreenDestination
 
 enum class BottomBarDestination(
     val direction: DirectionDestinationSpec,

@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.romnan.chillax.data.service.PlayerService" />
+        <service android:name="com.romnan.chillax.presentation.service.PlayerService" />
     </application>
 
 </manifest>
