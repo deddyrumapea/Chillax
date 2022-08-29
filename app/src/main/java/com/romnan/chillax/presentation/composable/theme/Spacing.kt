@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.theme
+package com.romnan.chillax.presentation.composable.theme
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable

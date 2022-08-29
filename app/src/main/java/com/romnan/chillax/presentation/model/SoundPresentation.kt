@@ -1,6 +1,6 @@
 package com.romnan.chillax.presentation.model
 
-import com.romnan.chillax.data.model.SoundData
+import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.model.UIText
 
 data class SoundPresentation(
@@ -8,13 +8,18 @@ data class SoundPresentation(
     val readableName: UIText,
     val iconResId: Int,
     val isSelected: Boolean,
-)
+    val audioResId: Int,
+    val volume: Float,
+) {
+}
 
-fun SoundData.toPresentation(
+fun Sound.toPresentation(
     isSelected: Boolean = false,
 ) = SoundPresentation(
     name = this.name,
     readableName = this.readableName,
     iconResId = this.iconResId,
-    isSelected = isSelected
+    isSelected = isSelected,
+    audioResId = this.audioResId,
+    volume = this.volume,
 )
