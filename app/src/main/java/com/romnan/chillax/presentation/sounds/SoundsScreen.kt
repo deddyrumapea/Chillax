@@ -20,10 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.romnan.chillax.R
 import com.romnan.chillax.presentation.MainViewModel
-import com.romnan.chillax.presentation.model.CategoryState
+import com.romnan.chillax.presentation.model.CategoryPresentation
 import com.romnan.chillax.presentation.theme.catBgColors
 import com.romnan.chillax.presentation.theme.spacing
 import com.romnan.chillax.presentation.util.asString
@@ -54,7 +53,7 @@ fun SoundsScreen(
                 ),
             )
 
-            categories.forEachIndexed { catIdx: Int, category: CategoryState ->
+            categories.forEachIndexed { catIdx: Int, category: CategoryPresentation ->
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Text(
                         text = category.readableName.asString(),
