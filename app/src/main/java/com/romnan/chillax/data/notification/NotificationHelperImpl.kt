@@ -9,7 +9,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.PlayerPhase
-import com.romnan.chillax.domain.model.PlayerState
+import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.presentation.MainActivity
 import com.romnan.chillax.presentation.util.asString
@@ -45,17 +45,17 @@ class NotificationHelperImpl(
             .setSilent(true)
             .setOnlyAlertOnce(true)
 
-    override fun updatePlayerServiceNotification(playerState: PlayerState) {
+    override fun updatePlayerServiceNotification(player: Player) {
         // TODO: extract string format
-        val contentText = when (playerState.phase) {
-            PlayerPhase.PLAYING -> "Playing ${playerState.playingSounds.size} sound(s)"
-            PlayerPhase.PAUSED -> "Paused ${playerState.playingSounds.size} sound(s)"
+        val contentText = when (player.phase) {
+            PlayerPhase.PLAYING -> "Playing ${player.sounds.size} sound(s)"
+            PlayerPhase.PAUSED -> "Paused ${player.sounds.size} sound(s)"
             PlayerPhase.STOPPED -> "Stopped playing sounds"
         }
 
         // TODO: add notif action
         val updatedNotification = getBasePlayerServiceNotification()
-            .setContentTitle(playerState.playingSoundsTitle.asString(appContext))
+            .setContentTitle(player.soundsTitle.asString(appContext))
             .setContentText(contentText)
             .build()
 

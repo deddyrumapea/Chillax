@@ -1,20 +1,20 @@
 package com.romnan.chillax.data.serializer
 
 import androidx.datastore.core.Serializer
-import com.romnan.chillax.data.model.PlayerStateSerializable
+import com.romnan.chillax.data.model.PlayerSerializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
-object PlayerStateSerializer : Serializer<PlayerStateSerializable> {
-    override val defaultValue: PlayerStateSerializable
-        get() = PlayerStateSerializable.defaultValue
+object PlayerSerializer : Serializer<PlayerSerializable> {
+    override val defaultValue: PlayerSerializable
+        get() = PlayerSerializable.defaultValue
 
-    override suspend fun readFrom(input: InputStream): PlayerStateSerializable {
+    override suspend fun readFrom(input: InputStream): PlayerSerializable {
         return try {
             Json.decodeFromString(
-                deserializer = PlayerStateSerializable.serializer(),
+                deserializer = PlayerSerializable.serializer(),
                 string = input.readBytes().decodeToString()
             )
         } catch (e: SerializationException) {
@@ -24,10 +24,10 @@ object PlayerStateSerializer : Serializer<PlayerStateSerializable> {
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")
-    override suspend fun writeTo(t: PlayerStateSerializable, output: OutputStream) {
+    override suspend fun writeTo(t: PlayerSerializable, output: OutputStream) {
         output.write(
             Json.encodeToString(
-                serializer = PlayerStateSerializable.serializer(),
+                serializer = PlayerSerializable.serializer(),
                 value = t
             ).encodeToByteArray()
         )
