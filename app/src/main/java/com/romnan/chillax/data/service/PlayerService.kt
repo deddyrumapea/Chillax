@@ -43,23 +43,31 @@ class PlayerService : Service() {
 
         playerServiceJob?.cancel()
         playerServiceJob = serviceScope.launch {
-            playerRepository.playerState.collectLatest { playerState ->
+            playerRepository.player.collectLatest { player ->
 
                 // Remove players of sounds that are no longer played
                 resPlayers
-                    .filter { entry -> !playerState.playingSounds.any { it.audioResId == entry.key } }
+                    .filter { entry -> !player.sounds.any { it.audioResId == entry.key } }
                     .forEach { entry -> removeResPlayer(entry.key) }
 
                 // Add a player for each playing sound
-                playerState.playingSounds.forEach { addResPlayer(resId = it.audioResId) }
+                player.sounds.forEach { sound ->
+                    when {
+                        !resPlayers.contains(sound.audioResId) ->
+                            addResPlayer(resId = sound.audioResId)
 
-                when (playerState.phase) {
+                        resPlayers[sound.audioResId]?.volume != sound.volume ->
+                            changeVolume(resId = sound.audioResId, volume = sound.volume)
+                    }
+                }
+
+                when (player.phase) {
                     PlayerPhase.PLAYING -> playAllPlayers()
                     PlayerPhase.PAUSED -> pauseAllPlayers()
                     PlayerPhase.STOPPED -> stopSelf()
                 }
 
-                notificationHelper.updatePlayerServiceNotification(playerState)
+                notificationHelper.updatePlayerServiceNotification(player)
             }
         }
 
@@ -96,19 +104,17 @@ class PlayerService : Service() {
     }
 
     private fun addResPlayer(@RawRes resId: Int) {
-        if (resPlayers[resId] == null) { // The sound has not been played yet
-            val player = ExoPlayer.Builder(this)
-                .apply { setHandleAudioBecomingNoisy(true) }
-                .build()
-                .apply {
-                    val uri = RawResourceDataSource.buildRawResourceUri(resId)
-                    setMediaItem(MediaItem.fromUri(uri))
-                    repeatMode = ExoPlayer.REPEAT_MODE_ONE
-                    prepare()
-                }
-            resPlayers[resId] = player
-            logcat { "added $resId player" }
-        }
+        val player = ExoPlayer.Builder(this)
+            .apply { setHandleAudioBecomingNoisy(true) }
+            .build()
+            .apply {
+                val uri = RawResourceDataSource.buildRawResourceUri(resId)
+                setMediaItem(MediaItem.fromUri(uri))
+                repeatMode = ExoPlayer.REPEAT_MODE_ONE
+                prepare()
+            }
+        resPlayers[resId] = player
+        logcat { "added $resId player" }
     }
 
     private fun removeResPlayer(@RawRes resId: Int) {
@@ -119,6 +125,11 @@ class PlayerService : Service() {
             resPlayers.remove(resId)
             logcat { "removed $resId player" }
         }
+    }
+
+    private fun changeVolume(resId: Int, volume: Float) {
+        resPlayers[resId]?.volume = volume
+        logcat { "changed $resId volume to $volume" }
     }
 
     override fun onBind(p0: Intent?): IBinder? = null
