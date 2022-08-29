@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.component
+package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.ramcosta.composedestinations.navigation.navigate
-import com.romnan.chillax.presentation.NavGraphs
-import com.romnan.chillax.presentation.appCurrentDestinationAsState
-import com.romnan.chillax.presentation.destinations.Destination
+import com.romnan.chillax.presentation.composable.NavGraphs
+import com.romnan.chillax.presentation.composable.appCurrentDestinationAsState
+import com.romnan.chillax.presentation.composable.destinations.Destination
+import com.romnan.chillax.presentation.composable.startAppDestination
 import com.romnan.chillax.presentation.model.BottomBarDestination
-import com.romnan.chillax.presentation.startAppDestination
 
 @Composable
 fun BottomBar(

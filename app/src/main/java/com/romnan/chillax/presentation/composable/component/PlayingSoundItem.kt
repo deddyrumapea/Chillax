@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.component
+package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -13,12 +13,12 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.romnan.chillax.data.model.SoundData
-import com.romnan.chillax.presentation.theme.spacing
+import com.romnan.chillax.presentation.composable.theme.spacing
+import com.romnan.chillax.presentation.model.SoundPresentation
 
 @Composable
 fun PlayingSoundItem(
-    sound: SoundData,
+    sound: SoundPresentation,
     onVolumeChange: (volume: Float) -> Unit,
     modifier: Modifier = Modifier,
 ) {
