@@ -2,15 +2,22 @@ package com.romnan.chillax.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.romnan.chillax.domain.model.*
+import com.romnan.chillax.data.model.CategoryData
+import com.romnan.chillax.data.model.MoodData
+import com.romnan.chillax.data.model.SoundData
+import com.romnan.chillax.domain.model.Player
+import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.repository.PlayerRepository
-import com.romnan.chillax.presentation.model.CategoryState
-import com.romnan.chillax.presentation.model.SoundState
-import com.romnan.chillax.presentation.model.toState
+import com.romnan.chillax.presentation.model.CategoryPresentation
+import com.romnan.chillax.presentation.model.SoundPresentation
+import com.romnan.chillax.presentation.model.toPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,31 +26,31 @@ class MainViewModel @Inject constructor(
     private val playerRepository: PlayerRepository
 ) : ViewModel() {
 
-    val playerState: StateFlow<PlayerState> = playerRepository.playerState
+    val player: StateFlow<Player> = playerRepository.player
         .stateIn(
             viewModelScope,
             SharingStarted.Lazily,
-            PlayerState(phase = PlayerPhase.STOPPED, playingSounds = persistentListOf())
+            Player(phase = PlayerPhase.STOPPED, sounds = persistentListOf())
         )
 
-    val moods: StateFlow<List<Mood>> = playerRepository.moods
+    val moods: StateFlow<List<MoodData>> = playerRepository.moods
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    val categories: StateFlow<List<CategoryState>> = combine(
+    val categories: StateFlow<List<CategoryPresentation>> = combine(
         playerRepository.categories,
-        playerRepository.playerState
-    ) { categories: List<Category>, playerState: PlayerState ->
+        playerRepository.player
+    ) { categories: List<CategoryData>, player: Player ->
 
-        val soundMapper: (Sound) -> SoundState = { sound ->
-            sound.toState(isSelected = playerState.playingSounds.contains(sound))
+        val soundMapper: (SoundData) -> SoundPresentation = { sound ->
+            sound.toPresentation(isSelected = player.sounds.any { it.name == sound.name })
         }
 
-        categories.map { it.toState(soundMapper = soundMapper) }
+        categories.map { it.toPresentation(soundMapper = soundMapper) }
 
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     private var onMoodClickedJob: Job? = null
-    fun onMoodClicked(mood: Mood) {
+    fun onMoodClicked(mood: MoodData) {
         onMoodClickedJob?.cancel()
         onMoodClickedJob = viewModelScope.launch {
             playerRepository.addMood(mood)
@@ -51,7 +58,7 @@ class MainViewModel @Inject constructor(
     }
 
     private var onSoundClickedJob: Job? = null
-    fun onSoundClicked(sound: SoundState) {
+    fun onSoundClicked(sound: SoundPresentation) {
         onSoundClickedJob?.cancel()
         onSoundClickedJob = viewModelScope.launch {
             playerRepository.addOrRemoveSound(sound.name)
@@ -71,6 +78,14 @@ class MainViewModel @Inject constructor(
         onStopClickedJob?.cancel()
         onStopClickedJob = viewModelScope.launch {
             playerRepository.removeAllSounds()
+        }
+    }
+
+    private var onSoundVolumeChangeJob: Job? = null
+    fun onSoundVolumeChange(sound: SoundData, volume: Float) {
+        onSoundVolumeChangeJob?.cancel()
+        onSoundVolumeChangeJob = viewModelScope.launch {
+            playerRepository.changeSoundVolume(soundName = sound.name, volume = volume)
         }
     }
 }

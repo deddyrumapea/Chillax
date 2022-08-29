@@ -13,18 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.romnan.chillax.R
-import com.romnan.chillax.domain.model.PlayerState
-import com.romnan.chillax.domain.model.Sound
+import com.romnan.chillax.domain.model.Player
+import com.romnan.chillax.data.model.SoundData
 import com.romnan.chillax.presentation.theme.spacing
 
 @Composable
 fun PlayerSheet(
-    playerState: PlayerState,
+    player: Player,
     onStopClick: () -> Unit,
     onPlayPauseClick: () -> Unit,
     onTimerClick: () -> Unit,
     onSaveMoodClick: () -> Unit,
-    onSoundVolumeChange:(sound: Sound, volumeLevel: Float) -> Unit,
+    onSoundVolumeChange:(sound: SoundData, volume: Float) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -39,7 +39,7 @@ fun PlayerSheet(
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
         PlayerPeek(
-            playerState = playerState,
+            player = player,
             onPlayPauseClick = onPlayPauseClick,
             onTimerClick = onTimerClick,
         )
@@ -51,11 +51,11 @@ fun PlayerSheet(
         )
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(playerState.playingSounds.size) { i ->
+            items(player.sounds.size) { i ->
                 PlayingSoundItem(
-                    sound = playerState.playingSounds[i],
+                    sound = player.sounds[i],
                     modifier = Modifier.padding(vertical = MaterialTheme.spacing.small),
-                    onVolumeChange = { onSoundVolumeChange(playerState.playingSounds[i], it) }
+                    onVolumeChange = { onSoundVolumeChange(player.sounds[i], it) }
                 )
             }
         }
