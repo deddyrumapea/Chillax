@@ -1,7 +1,7 @@
 package com.romnan.chillax.di
 
 import android.content.Context
-import com.romnan.chillax.data.notification.NotificationHelperImpl
+import com.romnan.chillax.presentation.notification.NotificationHelperImpl
 import com.romnan.chillax.data.repository.PlayerRepositoryImpl
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.domain.repository.PlayerRepository
