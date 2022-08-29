@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.sounds
+package com.romnan.chillax.presentation.composable.sounds
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -23,8 +23,8 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.romnan.chillax.R
 import com.romnan.chillax.presentation.MainViewModel
 import com.romnan.chillax.presentation.model.CategoryPresentation
-import com.romnan.chillax.presentation.theme.catBgColors
-import com.romnan.chillax.presentation.theme.spacing
+import com.romnan.chillax.presentation.composable.theme.catBgColors
+import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
 @Composable

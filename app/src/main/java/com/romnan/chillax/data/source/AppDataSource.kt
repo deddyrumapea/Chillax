@@ -1,10 +1,10 @@
 package com.romnan.chillax.data.source
 
 import com.romnan.chillax.R
-import com.romnan.chillax.data.util.DataConstants
 import com.romnan.chillax.data.model.CategoryData
 import com.romnan.chillax.data.model.MoodData
 import com.romnan.chillax.data.model.SoundData
+import com.romnan.chillax.data.util.DataConstants
 import com.romnan.chillax.domain.model.UIText
 
 object AppDataSource {
@@ -14,6 +14,14 @@ object AppDataSource {
     fun getSoundFromName(soundName: String): SoundData? {
         return try {
             SoundDataSource.valueOf(soundName)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    fun getMoodFromName(moodName: String): MoodData? {
+        return try {
+            MoodDataSource.valueOf(moodName)
         } catch (e: Exception) {
             null
         }
