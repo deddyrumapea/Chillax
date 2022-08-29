@@ -1,4 +1,4 @@
-package com.romnan.chillax.data.service
+package com.romnan.chillax.presentation.service
 
 import android.app.Service
 import android.content.Intent
@@ -8,7 +8,7 @@ import androidx.annotation.RawRes
 import androidx.media3.common.MediaItem
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import com.romnan.chillax.data.notification.NotificationHelperImpl.Companion.PLAYER_SERVICE_NOTIFICATION_ID
+import com.romnan.chillax.presentation.notification.NotificationHelperImpl.Companion.PLAYER_SERVICE_NOTIFICATION_ID
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.domain.repository.PlayerRepository
@@ -44,7 +44,7 @@ class PlayerService : Service() {
 
         playerServiceJob?.cancel()
         playerServiceJob = serviceScope.launch {
-            playerRepository.player.collectLatest { player ->
+            playerRepository.player .collectLatest { player ->
 
                 // Remove players of sounds that are no longer played
                 resPlayers

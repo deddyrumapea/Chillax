@@ -1,7 +1,7 @@
 package com.romnan.chillax.presentation.model
 
-import com.romnan.chillax.data.model.CategoryData
-import com.romnan.chillax.data.model.SoundData
+import com.romnan.chillax.domain.model.Category
+import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.model.UIText
 
 data class CategoryPresentation(
@@ -10,10 +10,10 @@ data class CategoryPresentation(
     val sounds: List<SoundPresentation>,
 )
 
-fun CategoryData.toPresentation(
-    soundMapper: (SoundData) -> SoundPresentation
+fun Category.toPresentation(
+    soundToPresentation: (Sound) -> SoundPresentation,
 ) = CategoryPresentation(
     readableName = this.readableName,
     description = this.description,
-    sounds = this.sounds.map(transform = soundMapper),
+    sounds = this.sounds.map(soundToPresentation),
 )
