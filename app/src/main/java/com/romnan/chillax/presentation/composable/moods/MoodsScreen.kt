@@ -1,9 +1,6 @@
 package com.romnan.chillax.presentation.composable.moods
 
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -40,7 +37,15 @@ fun MoodsScreen(
                 .padding(horizontal = MaterialTheme.spacing.small),
         ) {
             item(span = { GridItemSpan(currentLineSpan = 2) }) {
-                ScreenTitle(text = stringResource(id = R.string.moods))
+                ScreenTitle(
+                    text = stringResource(id = R.string.moods),
+                    paddingValues = PaddingValues(
+                        start = MaterialTheme.spacing.small,
+                        top = MaterialTheme.spacing.large,
+                        end = MaterialTheme.spacing.small,
+                        bottom = MaterialTheme.spacing.medium,
+                    ),
+                )
             }
 
             items(count = moods.size) { i ->
