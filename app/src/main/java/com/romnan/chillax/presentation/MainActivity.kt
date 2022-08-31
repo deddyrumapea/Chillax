@@ -91,9 +91,9 @@ class MainActivity : ComponentActivity() {
                             player = player,
                             onStopClick = {
                                 scope.launch { sheetState.hide() }
-                                viewModel.onStopClicked()
+                                viewModel.onStopClick()
                             },
-                            onPlayPauseClick = viewModel::onPlayPauseClicked,
+                            onPlayPauseClick = viewModel::onPlayPauseClick,
                             onTimerClick = { logcat { "onTimerClick()" } /* TODO */ },
                             onSaveMoodClick = { logcat { "onSaveMoodClick()" } /* TODO */ },
                             onSoundVolumeChange = viewModel::onSoundVolumeChange,
@@ -145,7 +145,7 @@ class MainActivity : ComponentActivity() {
                             AnimatedVisibility(visible = player.phase != PlayerPhase.STOPPED) {
                                 PlayerPeek(
                                     player = player,
-                                    onPlayPauseClick = viewModel::onPlayPauseClicked,
+                                    onPlayPauseClick = viewModel::onPlayPauseClick,
                                     onTimerClick = { logcat { "onTimerClick()" } },
                                     modifier = Modifier
                                         .clickable { scope.launch { sheetState.show() } }
