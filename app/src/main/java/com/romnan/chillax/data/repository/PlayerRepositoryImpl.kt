@@ -45,8 +45,8 @@ class PlayerRepositoryImpl(
                     else -> PlayerPhase.PLAYING
                 },
                 sounds = playerSerializable.sounds
+                    .sortedBy { it.startedAt }
                     .mapNotNull { it.toDomain() }
-                    .sortedBy { it.name }
             )
         }
 
@@ -68,7 +68,7 @@ class PlayerRepositoryImpl(
 
                     currSounds.size < MAX_PLAYING_SOUNDS -> {
                         isPlaying.value = true
-                        currSounds.add(sound.toSerializable())
+                        currSounds.add(sound.toSerializable(startedAt = System.currentTimeMillis()))
                     }
 
                     else -> currSounds
@@ -91,7 +91,9 @@ class PlayerRepositoryImpl(
                 sounds = when {
                     currSounds.size + moodSounds.size <= MAX_PLAYING_SOUNDS -> {
                         isPlaying.value = true
-                        currSounds.addAll(moodSounds.map { it.toSerializable() })
+                        currSounds.addAll(moodSounds.map {
+                            it.toSerializable(startedAt = System.currentTimeMillis())
+                        })
                     }
                     else -> currSounds
                 }
