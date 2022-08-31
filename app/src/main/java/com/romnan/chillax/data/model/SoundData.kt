@@ -12,9 +12,12 @@ interface SoundData {
         audioResId = this.audioResId,
     )
 
-    fun toSerializable(): SoundSerializable = SoundSerializable(
+    fun toSerializable(
+        startedAt: Long
+    ): SoundSerializable = SoundSerializable(
         name = this.name,
         volume = this.volume,
+        startedAt = startedAt,
     )
 
     val name: String
