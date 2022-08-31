@@ -1,6 +1,5 @@
 package com.romnan.chillax.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -20,12 +19,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
-import com.romnan.chillax.presentation.service.PlayerService
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.presentation.composable.NavGraphs
 import com.romnan.chillax.presentation.composable.component.BottomBar
@@ -40,7 +36,6 @@ import com.romnan.chillax.presentation.composable.sounds.SoundsScreen
 import com.romnan.chillax.presentation.composable.theme.ChillaxTheme
 import com.romnan.chillax.presentation.composable.theme.spacing
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import logcat.logcat
 
@@ -51,24 +46,6 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        lifecycleScope.launchWhenCreated {
-            viewModel.player.collectLatest {
-                // TODO: put this inside a use case
-                Intent(this@MainActivity, PlayerService::class.java).also { intent ->
-
-                    when (it.phase) {
-                        PlayerPhase.PLAYING -> ContextCompat
-                            .startForegroundService(this@MainActivity, intent)
-
-                        PlayerPhase.PAUSED -> ContextCompat
-                            .startForegroundService(this@MainActivity, intent)
-
-                        PlayerPhase.STOPPED -> stopService(intent)
-                    }
-                }
-            }
-        }
 
         setContent {
             ChillaxTheme(darkTheme = true) {
