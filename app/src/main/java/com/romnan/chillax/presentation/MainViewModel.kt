@@ -42,34 +42,34 @@ class MainViewModel @Inject constructor(
         }
     }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    private var onMoodClickedJob: Job? = null
-    fun onMoodClicked(mood: MoodPresentation) {
-        onMoodClickedJob?.cancel()
-        onMoodClickedJob = viewModelScope.launch {
+    private var onMoodClickJob: Job? = null
+    fun onMoodClick(mood: MoodPresentation) {
+        onMoodClickJob?.cancel()
+        onMoodClickJob = viewModelScope.launch {
             playerRepository.addMood(mood.name)
         }
     }
 
-    private var onSoundClickedJob: Job? = null
-    fun onSoundClicked(sound: SoundPresentation) {
-        onSoundClickedJob?.cancel()
-        onSoundClickedJob = viewModelScope.launch {
+    private var onSoundClickJob: Job? = null
+    fun onSoundClick(sound: SoundPresentation) {
+        onSoundClickJob?.cancel()
+        onSoundClickJob = viewModelScope.launch {
             playerRepository.addOrRemoveSound(sound.name)
         }
     }
 
-    private var onPlayPauseClickedJob: Job? = null
-    fun onPlayPauseClicked() {
-        onPlayPauseClickedJob?.cancel()
-        onPlayPauseClickedJob = viewModelScope.launch {
+    private var onPlayPauseClickJob: Job? = null
+    fun onPlayPauseClick() {
+        onPlayPauseClickJob?.cancel()
+        onPlayPauseClickJob = viewModelScope.launch {
             playerRepository.playOrPausePlayer()
         }
     }
 
-    private var onStopClickedJob: Job? = null
-    fun onStopClicked() {
-        onStopClickedJob?.cancel()
-        onStopClickedJob = viewModelScope.launch {
+    private var onStopClickJob: Job? = null
+    fun onStopClick() {
+        onStopClickJob?.cancel()
+        onStopClickJob = viewModelScope.launch {
             playerRepository.removeAllSounds()
         }
     }
