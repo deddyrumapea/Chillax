@@ -30,7 +30,6 @@ fun MoodItem(
     Box(
         contentAlignment = Alignment.BottomCenter,
         modifier = modifier
-            .padding(MaterialTheme.spacing.small)
             .fillMaxWidth()
             .aspectRatio(1f)
             .clip(RoundedCornerShape(16.dp))

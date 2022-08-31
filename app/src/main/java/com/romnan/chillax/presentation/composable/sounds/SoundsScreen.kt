@@ -45,6 +45,8 @@ fun SoundsScreen(
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
             }
+
+            item { Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium)) }
         }
     }
 }
