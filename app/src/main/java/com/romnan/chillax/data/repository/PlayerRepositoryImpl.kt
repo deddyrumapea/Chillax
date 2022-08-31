@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import com.romnan.chillax.data.model.PlayerSerializable
+import com.romnan.chillax.data.model.SoundData
 import com.romnan.chillax.data.serializer.PlayerSerializer
 import com.romnan.chillax.data.source.AppDataSource
 import com.romnan.chillax.domain.model.Category
@@ -91,8 +92,8 @@ class PlayerRepositoryImpl(
                 sounds = when {
                     currSounds.size + moodSounds.size <= MAX_PLAYING_SOUNDS -> {
                         isPlaying.value = true
-                        currSounds.addAll(moodSounds.map {
-                            it.toSerializable(startedAt = System.currentTimeMillis())
+                        currSounds.addAll(moodSounds.mapIndexed { i: Int, sound: SoundData ->
+                            sound.toSerializable(startedAt = System.currentTimeMillis() + i)
                         })
                     }
                     else -> currSounds
