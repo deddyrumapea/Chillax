@@ -8,6 +8,7 @@ import kotlinx.serialization.Serializable
 data class SoundSerializable(
     val name: String,
     val volume: Float,
+    val startedAt: Long,
 ) {
     fun toDomain(): Sound? {
         val sound = AppDataSource.getSoundFromName(this.name) ?: return null
