@@ -35,8 +35,6 @@
     <string name="mood_name_forest">Forest</string>
     <string name="mood_name_mountains">Mountains</string>
     <string name="mood_name_rain_in_backyard">Rain in Backyard</string>
-    <string name="all">All</string>
-    <string name="ambient">Ambient</string>
     <string name="save_mood">Save mood</string>
     <string name="stop_all">Stop all</string>
     <string name="timer_disabled">Timer disabled</string>

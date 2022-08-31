@@ -1,6 +1,8 @@
 package com.romnan.chillax.data.repository
 
 import android.content.Context
+import android.content.Intent
+import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import com.romnan.chillax.data.model.PlayerSerializable
@@ -12,16 +14,17 @@ import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.repository.PlayerRepository
+import com.romnan.chillax.presentation.service.PlayerService
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class PlayerRepositoryImpl(
-    appContext: Context
+    appContext: Context,
+    appScope: CoroutineScope,
 ) : PlayerRepository {
 
     private val dataStore: DataStore<PlayerSerializable> = appContext.dataStore
@@ -53,6 +56,23 @@ class PlayerRepositoryImpl(
 
     override suspend fun playOrPausePlayer() {
         isPlaying.value = !isPlaying.value
+    }
+
+    init {
+        appScope.launch {
+            player.collectLatest {
+                val serviceIntent = Intent(appContext, PlayerService::class.java)
+                when (it.phase) {
+                    PlayerPhase.PLAYING -> ContextCompat
+                        .startForegroundService(appContext, serviceIntent)
+
+                    PlayerPhase.PAUSED -> ContextCompat
+                        .startForegroundService(appContext, serviceIntent)
+
+                    PlayerPhase.STOPPED -> appContext.stopService(serviceIntent)
+                }
+            }
+        }
     }
 
     override suspend fun addOrRemoveSound(soundName: String) {
