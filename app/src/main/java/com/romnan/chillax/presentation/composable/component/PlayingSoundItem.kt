@@ -28,7 +28,7 @@ fun PlayingSoundItem(
             .height(36.dp)
             .clip(shape = RoundedCornerShape(size = 12.dp))
     ) {
-        var volumeState by remember { mutableStateOf(value = sound.volume) }
+        var volumeState by remember(key1 = sound.name) { mutableStateOf(value = sound.volume) }
 
         Row(
             horizontalArrangement = Arrangement.Start,
