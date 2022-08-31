@@ -10,8 +10,7 @@ data class SoundPresentation(
     val isSelected: Boolean,
     val audioResId: Int,
     val volume: Float,
-) {
-}
+)
 
 fun Sound.toPresentation(
     isSelected: Boolean = false,
