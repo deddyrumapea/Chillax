@@ -1,10 +1,12 @@
 package com.romnan.chillax.di
 
 import android.content.Context
-import com.romnan.chillax.presentation.notification.NotificationHelperImpl
+import com.romnan.chillax.data.repository.AppSettingsRepositoryImpl
 import com.romnan.chillax.data.repository.PlayerRepositoryImpl
 import com.romnan.chillax.domain.notification.NotificationHelper
+import com.romnan.chillax.domain.repository.AppSettingsRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
+import com.romnan.chillax.presentation.notification.NotificationHelperImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +33,14 @@ object AppModule {
     ): PlayerRepository = PlayerRepositoryImpl(
         appContext = appContext,
         appScope = appScope,
+    )
+
+    @Provides
+    @Singleton
+    fun provideAppSettingsRepository(
+        @ApplicationContext appContext: Context,
+    ): AppSettingsRepository = AppSettingsRepositoryImpl(
+        appContext = appContext,
     )
 
     @Provides

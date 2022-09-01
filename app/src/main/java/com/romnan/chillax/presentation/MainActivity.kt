@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,10 +20,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.domain.model.PlayerPhase
+import com.romnan.chillax.domain.model.ThemeMode
 import com.romnan.chillax.presentation.composable.NavGraphs
 import com.romnan.chillax.presentation.composable.component.BottomBar
 import com.romnan.chillax.presentation.composable.component.PlayerPeek
@@ -47,8 +50,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        installSplashScreen().apply {
+            setKeepOnScreenCondition { viewModel.themeMode.value == null }
+        }
+
         setContent {
-            ChillaxTheme(darkTheme = true) {
+            val themeMode = viewModel.themeMode.collectAsState().value
+            if (themeMode != null) ChillaxTheme(
+                darkTheme = when (themeMode) {
+                    ThemeMode.System -> isSystemInDarkTheme()
+                    ThemeMode.Light -> false
+                    ThemeMode.Dark -> true
+                }
+            ) {
                 val engine = rememberNavHostEngine()
                 val navController = engine.rememberNavController()
 
