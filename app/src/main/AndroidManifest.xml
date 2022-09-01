@@ -9,12 +9,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Chillax">
+        android:theme="@style/Theme.Chillax.SplashScreen">
         <activity
             android:name="com.romnan.chillax.presentation.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.Chillax">
+            android:theme="@style/Theme.Chillax.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
