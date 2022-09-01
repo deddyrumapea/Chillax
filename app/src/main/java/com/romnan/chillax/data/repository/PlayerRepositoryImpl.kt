@@ -27,7 +27,7 @@ class PlayerRepositoryImpl(
     appScope: CoroutineScope,
 ) : PlayerRepository {
 
-    private val dataStore: DataStore<PlayerSerializable> = appContext.dataStore
+    private val playerDataStore: DataStore<PlayerSerializable> = appContext.playerDataStore
 
     private val isPlaying = MutableStateFlow(false)
 
@@ -39,7 +39,7 @@ class PlayerRepositoryImpl(
 
     override val player: Flow<Player>
         get() = combine(
-            dataStore.data,
+            playerDataStore.data,
             isPlaying
         ) { playerSerializable: PlayerSerializable, isPlaying: Boolean ->
             Player(
@@ -53,10 +53,6 @@ class PlayerRepositoryImpl(
                     .mapNotNull { it.toDomain() }
             )
         }
-
-    override suspend fun playOrPausePlayer() {
-        isPlaying.value = !isPlaying.value
-    }
 
     init {
         appScope.launch {
@@ -75,10 +71,14 @@ class PlayerRepositoryImpl(
         }
     }
 
+    override suspend fun playOrPausePlayer() {
+        isPlaying.value = !isPlaying.value
+    }
+
     override suspend fun addOrRemoveSound(soundName: String) {
         val sound = AppDataSource.getSoundFromName(soundName = soundName) ?: return
 
-        dataStore.updateData { playerState ->
+        playerDataStore.updateData { playerState ->
             val currSounds = playerState.sounds.toPersistentList()
 
             playerState.copy(
@@ -101,7 +101,7 @@ class PlayerRepositoryImpl(
     override suspend fun addMood(moodName: String) {
         val mood = AppDataSource.getMoodFromName(moodName = moodName) ?: return
 
-        dataStore.updateData { playerState ->
+        playerDataStore.updateData { playerState ->
             val currSounds = playerState.sounds.toPersistentList()
 
             val moodSounds = mood.sounds.filter { sound ->
@@ -123,14 +123,14 @@ class PlayerRepositoryImpl(
     }
 
     override suspend fun removeAllSounds() {
-        dataStore.updateData { it.copy(sounds = persistentListOf()) }
+        playerDataStore.updateData { it.copy(sounds = persistentListOf()) }
         isPlaying.value = false
     }
 
     override suspend fun changeSoundVolume(soundName: String, volume: Float) {
         val scaledVolume = (volume * 20).roundToInt() / 20f
 
-        dataStore.updateData { player ->
+        playerDataStore.updateData { player ->
             val oldSound = player.sounds.find { it.name == soundName } ?: return@updateData player
             if (oldSound.volume == scaledVolume) return@updateData player
 
@@ -146,11 +146,11 @@ class PlayerRepositoryImpl(
     companion object {
         private const val MAX_PLAYING_SOUNDS = 8 // TODO: store this in data store
 
-        private const val FILE_NAME = "player_state.json"
+        private const val FILE_NAME = "player.json"
 
-        private val Context.dataStore by dataStore(
+        private val Context.playerDataStore by dataStore(
             fileName = FILE_NAME,
-            serializer = PlayerSerializer
+            serializer = PlayerSerializer,
         )
     }
 }
