@@ -15,7 +15,7 @@ fun SwitchPreference(
     modifier: Modifier = Modifier,
     imageVector: ImageVector,
     title: String,
-    description: String,
+    description: String?,
     checked: Boolean,
     onClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
@@ -48,11 +48,13 @@ fun SwitchPreference(
                     color = MaterialTheme.colors.onSurface
                 )
 
-                Text(
-                    text = description,
-                    style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.onSurface,
-                )
+                description?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.body2,
+                        color = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
             Switch(checked = checked, onCheckedChange = onCheckedChange)
         }
