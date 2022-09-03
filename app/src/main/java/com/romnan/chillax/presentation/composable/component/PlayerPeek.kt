@@ -44,30 +44,30 @@ fun PlayerPeek(
                 Text(text = player.soundsTitle.asString())
             }
 
-            Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Timer,
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp)
-                )
-                Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-                Text(text = stringResource(R.string.timer_disabled))
-            }
+//            Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
+//
+//            Row(
+//                verticalAlignment = Alignment.CenterVertically,
+//                modifier = Modifier.fillMaxWidth(),
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Timer,
+//                    contentDescription = null,
+//                    modifier = Modifier.size(16.dp)
+//                )
+//                Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
+//                Text(text = stringResource(R.string.timer_disabled))
+//            }
         }
 
-        Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-
-        IconButton(onClick = onTimerClick) {
-            Icon(
-                imageVector = Icons.Default.Timer,
-                contentDescription = stringResource(R.string.set_timer),
-            )
-        }
+//        Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
+//
+//        IconButton(onClick = onTimerClick) {
+//            Icon(
+//                imageVector = Icons.Default.Timer,
+//                contentDescription = stringResource(R.string.set_timer),
+//            )
+//        }
 
         Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
