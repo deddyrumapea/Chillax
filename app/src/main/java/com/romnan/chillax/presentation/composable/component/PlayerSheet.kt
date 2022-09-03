@@ -77,17 +77,17 @@ fun PlayerSheet(
                 Text(text = stringResource(R.string.stop_all))
             }
 
-            Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
-
-            Button(
-                onClick = onSaveMoodClick,
-                shape = RoundedCornerShape(percent = 100),
-                modifier = Modifier
-                    .height(48.dp)
-                    .weight(1f)
-            ) {
-                Text(text = stringResource(R.string.save_mood))
-            }
+//            Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
+//
+//            Button(
+//                onClick = onSaveMoodClick,
+//                shape = RoundedCornerShape(percent = 100),
+//                modifier = Modifier
+//                    .height(48.dp)
+//                    .weight(1f)
+//            ) {
+//                Text(text = stringResource(R.string.save_mood))
+//            }
         }
 
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
