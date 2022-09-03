@@ -9,4 +9,6 @@ interface NotificationHelper {
     fun updatePlayerServiceNotification(player: Player)
 
     fun removePlayerServiceNotification()
+
+    fun showBedtimeReminderNotification()
 }
