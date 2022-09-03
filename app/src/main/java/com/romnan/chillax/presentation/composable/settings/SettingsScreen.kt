@@ -46,11 +46,11 @@ fun SettingsScreen(
     Scaffold(scaffoldState = scaffoldState) { scaffoldPadding ->
         val themeMode = viewModel.themeMode.collectAsState()
 
-        val bedTimeCal = viewModel.bedTimeCalendar.collectAsState().value
+        val bedTimeCal = viewModel.bedtimeCalendar.collectAsState().value
         val timePickerDialog = TimePickerDialog(
             LocalContext.current,
             { _, hourOfDay: Int, minute: Int ->
-                viewModel.onBedTimePicked(hourOfDay = hourOfDay, minute = minute)
+                viewModel.onBedtimePicked(hourOfDay = hourOfDay, minute = minute)
             },
             bedTimeCal[Calendar.HOUR_OF_DAY],
             bedTimeCal[Calendar.MINUTE],
@@ -78,21 +78,21 @@ fun SettingsScreen(
             }
 
             item {
-                val isBedTimeActivated = viewModel.isBedTimeActivated.collectAsState().value
+                val isBedtimeActivated = viewModel.isBedtimeActivated.collectAsState().value
                 SwitchPreference(
                     imageVector =
-                    if (isBedTimeActivated) Icons.Default.NotificationsActive
+                    if (isBedtimeActivated) Icons.Default.NotificationsActive
                     else Icons.Default.Notifications,
                     title = stringResource(R.string.pref_title_bedtime_reminder),
-                    description = viewModel.bedTimeFormatted.collectAsState().value.asString(),
-                    checked = isBedTimeActivated,
+                    description = viewModel.bedtimeFormatted.collectAsState().value.asString(),
+                    checked = isBedtimeActivated,
                     onClick = {
-                        if (!isBedTimeActivated) timePickerDialog.show()
-                        else viewModel.onTurnOffBedTime()
+                        if (!isBedtimeActivated) timePickerDialog.show()
+                        else viewModel.onTurnOffBedtime()
                     },
                     onCheckedChange = {
-                        if (!isBedTimeActivated) timePickerDialog.show()
-                        else viewModel.onTurnOffBedTime()
+                        if (!isBedtimeActivated) timePickerDialog.show()
+                        else viewModel.onTurnOffBedtime()
                     }
                 )
             }

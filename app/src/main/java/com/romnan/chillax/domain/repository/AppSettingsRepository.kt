@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface AppSettingsRepository {
     val appSettings: Flow<AppSettings>
     suspend fun setThemeMode(themeMode: ThemeMode)
-    suspend fun setBedTime(timeInMillis: Long?)
+    suspend fun setBedtime(timeInMillis: Long?)
 }
