@@ -8,10 +8,10 @@ import androidx.annotation.RawRes
 import androidx.media3.common.MediaItem
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import com.romnan.chillax.presentation.notification.NotificationHelperImpl.Companion.PLAYER_SERVICE_NOTIFICATION_ID
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.domain.repository.PlayerRepository
+import com.romnan.chillax.presentation.notification.NotificationConstants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -38,13 +38,13 @@ class PlayerService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(
-            PLAYER_SERVICE_NOTIFICATION_ID,
+            NotificationConstants.PLAYER_SERVICE_NOTIFICATION_ID,
             notificationHelper.getBasePlayerServiceNotification().build()
         )
 
         playerServiceJob?.cancel()
         playerServiceJob = serviceScope.launch {
-            playerRepository.player .collectLatest { player ->
+            playerRepository.player.collectLatest { player ->
 
                 // Remove players of sounds that are no longer played
                 resPlayers
