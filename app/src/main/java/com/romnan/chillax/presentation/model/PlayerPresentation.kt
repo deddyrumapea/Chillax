@@ -16,6 +16,13 @@ data class PlayerPresentation(
             in 2..Int.MAX_VALUE -> UIText.DynamicString("${sounds.size} sounds")
             else -> UIText.DynamicString("")
         }
+
+    companion object {
+        val defaultValue = PlayerPresentation(
+            phase = PlayerPhase.STOPPED,
+            sounds = emptyList(),
+        )
+    }
 }
 
 fun Player.toPresentation() = PlayerPresentation(
