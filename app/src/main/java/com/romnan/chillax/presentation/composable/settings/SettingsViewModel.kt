@@ -32,13 +32,13 @@ class SettingsViewModel @Inject constructor(
         .map { it.themeMode }
         .stateIn(viewModelScope, SharingStarted.Lazily, ThemeMode.System)
 
-    val isBedTimeActivated: StateFlow<Boolean> = appSettingsRepository.appSettings
-        .map { it.bedTimeInMillis != null }
+    val isBedtimeActivated: StateFlow<Boolean> = appSettingsRepository.appSettings
+        .map { it.bedtimeInMillis != null }
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
-    val bedTimeCalendar: StateFlow<Calendar> = appSettingsRepository.appSettings
+    val bedtimeCalendar: StateFlow<Calendar> = appSettingsRepository.appSettings
         .map { appSettings ->
-            appSettings.bedTimeInMillis?.let { millis ->
+            appSettings.bedtimeInMillis?.let { millis ->
                 Calendar.getInstance().apply { timeInMillis = millis }
             } ?: TimeConstants.DEFAULT_BED_TIME
         }
@@ -48,7 +48,7 @@ class SettingsViewModel @Inject constructor(
             initialValue = TimeConstants.DEFAULT_BED_TIME
         )
 
-    val bedTimeFormatted: StateFlow<UIText> = bedTimeCalendar.map {
+    val bedtimeFormatted: StateFlow<UIText> = bedtimeCalendar.map {
         val sdf = SimpleDateFormat(TimeConstants.TWELVE_HOUR_FORMAT, Locale.getDefault())
         UIText.DynamicString(sdf.format(it.time))
     }.stateIn(viewModelScope, SharingStarted.Lazily, UIText.Blank)
@@ -62,24 +62,24 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    private var onBedTimePickedJob: Job? = null
-    fun onBedTimePicked(hourOfDay: Int, minute: Int) {
-        onBedTimePickedJob?.cancel()
-        onBedTimePickedJob = viewModelScope.launch {
+    private var onBedtimePickedJob: Job? = null
+    fun onBedtimePicked(hourOfDay: Int, minute: Int) {
+        onBedtimePickedJob?.cancel()
+        onBedtimePickedJob = viewModelScope.launch {
             val timeInMillis = Calendar.getInstance().apply {
                 set(Calendar.HOUR_OF_DAY, hourOfDay)
                 set(Calendar.MINUTE, minute)
             }.timeInMillis
 
-            appSettingsRepository.setBedTime(timeInMillis = timeInMillis)
+            appSettingsRepository.setBedtime(timeInMillis = timeInMillis)
         }
     }
 
-    private var onTurnOffBedTimeJob: Job? = null
-    fun onTurnOffBedTime() {
-        onTurnOffBedTimeJob?.cancel()
-        onTurnOffBedTimeJob = viewModelScope.launch {
-            appSettingsRepository.setBedTime(timeInMillis = null)
+    private var onTurnOffBedtimeJob: Job? = null
+    fun onTurnOffBedtime() {
+        onTurnOffBedtimeJob?.cancel()
+        onTurnOffBedtimeJob = viewModelScope.launch {
+            appSettingsRepository.setBedtime(timeInMillis = null)
         }
     }
 

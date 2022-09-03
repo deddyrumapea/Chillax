@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.romnan.chillax">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".application.ChillaxApp"
         android:allowBackup="true"
@@ -23,6 +25,10 @@
         </activity>
 
         <service android:name="com.romnan.chillax.presentation.service.PlayerService" />
+
+        <receiver
+            android:name=".data.receiver.BedtimeBroadcastReceiver"
+            android:enabled="true" />
     </application>
 
 </manifest>
