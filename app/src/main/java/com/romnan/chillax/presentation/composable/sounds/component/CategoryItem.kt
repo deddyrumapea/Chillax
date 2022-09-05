@@ -14,20 +14,20 @@ import com.romnan.chillax.presentation.util.asString
 
 @Composable
 fun CategoryItem(
-    category: CategoryPresentation,
-    soundActiveBgColor: Color,
+    category: () -> CategoryPresentation,
+    soundActiveBgColor: () -> Color,
     onSoundClick: (sound: SoundPresentation) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = category.readableName.asString(),
+            text = category().readableName.asString(),
             modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium),
             color = MaterialTheme.colors.onSurface,
         )
 
         Text(
-            text = category.description.asString(),
+            text = category().description.asString(),
             style = MaterialTheme.typography.caption,
             modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium),
             color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
@@ -42,13 +42,16 @@ fun CategoryItem(
         ) {
             item { Spacer(modifier = Modifier.width(MaterialTheme.spacing.small)) }
 
-            items(category.sounds.size) { i ->
+            items(
+                count = category().sounds.size,
+                key = { i -> category().sounds[i].name },
+            ) { i ->
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
                 SoundItem(
-                    sound = category.sounds[i],
-                    activeBgColor = soundActiveBgColor,
-                    onClick = { onSoundClick(category.sounds[i]) },
+                    sound = { category().sounds[i] },
+                    activeBgColor = { soundActiveBgColor() },
+                    onClick = { onSoundClick(category().sounds[i]) },
                 )
 
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))

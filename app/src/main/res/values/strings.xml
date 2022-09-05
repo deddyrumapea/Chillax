@@ -66,4 +66,5 @@
     <string name="bed_time_notif_channel_desc">This channel is used to display notifications for bed time reminder</string>
     <string name="bed_time_content_text">Chill. Relax. And drift off to dream</string>
     <string name="bed_time_content_title">It\'s time to sleep</string>
+    <string name="when_do_you_go_to_bed">When do you go to bed?</string>
 </resources>

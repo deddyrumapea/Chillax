@@ -11,7 +11,7 @@ import com.romnan.chillax.presentation.composable.theme.spacing
 
 @Composable
 fun ScreenTitle(
-    text: String,
+    text: @Composable () -> String,
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(
         start = MaterialTheme.spacing.medium,
@@ -20,7 +20,7 @@ fun ScreenTitle(
         bottom = MaterialTheme.spacing.medium,
     ),
 ) = Text(
-    text = text,
+    text = text(),
     style = MaterialTheme.typography.h4,
     fontWeight = FontWeight.Bold,
     color = MaterialTheme.colors.onBackground,

@@ -14,24 +14,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.ramcosta.composedestinations.navigation.navigate
-import com.romnan.chillax.presentation.composable.NavGraphs
-import com.romnan.chillax.presentation.composable.appCurrentDestinationAsState
 import com.romnan.chillax.presentation.composable.destinations.Destination
-import com.romnan.chillax.presentation.composable.startAppDestination
 import com.romnan.chillax.presentation.model.BottomBarDestination
 
 @Composable
 fun BottomBar(
-    navController: NavController
+    currentDestination: @Composable () -> Destination,
+    onItemClick: (BottomBarDestination) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val currentDestination: Destination = navController.appCurrentDestinationAsState().value
-        ?: NavGraphs.root.startAppDestination
-
     Row(
-        Modifier
+        modifier
             .fillMaxWidth()
             .background(MaterialTheme.colors.surface)
             .height(56.dp)
@@ -39,17 +32,11 @@ fun BottomBar(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         BottomBarDestination.values().forEach { destination ->
-            val isSelected = currentDestination == destination.direction
+            val isSelected = currentDestination() == destination.direction
 
             BottomNavigationItem(
                 selected = isSelected,
-                onClick = {
-                    navController.navigate(destination.direction) {
-                        popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
-                },
+                onClick = { onItemClick(destination) },
                 icon = {
                     Icon(
                         imageVector = destination.icon,
