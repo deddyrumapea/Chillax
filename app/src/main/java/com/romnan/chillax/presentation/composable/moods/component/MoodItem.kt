@@ -13,10 +13,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.romnan.chillax.R
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.model.MoodPresentation
 import com.romnan.chillax.presentation.util.asString
@@ -61,9 +63,8 @@ fun MoodItem(
                     horizontal = MaterialTheme.spacing.medium,
                 )
         ) {
-            // TODO: create plural string formatter
             Text(
-                text = "${mood().sounds.size} sounds",
+                text = stringResource(id = R.string.count_sounds_format, mood().sounds.size),
                 style = MaterialTheme.typography.caption,
             )
             Text(text = mood().readableName.asString())
