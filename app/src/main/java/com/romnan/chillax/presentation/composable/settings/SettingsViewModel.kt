@@ -3,14 +3,13 @@ package com.romnan.chillax.presentation.composable.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romnan.chillax.domain.model.ThemeMode
-import com.romnan.chillax.domain.model.UIText
 import com.romnan.chillax.domain.repository.AppSettingsRepository
-import com.romnan.chillax.presentation.constant.TimeConstants
+import com.romnan.chillax.presentation.model.BedtimePresentation
+import com.romnan.chillax.presentation.model.toBedtimePresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -32,26 +31,9 @@ class SettingsViewModel @Inject constructor(
         .map { it.themeMode }
         .stateIn(viewModelScope, SharingStarted.Lazily, ThemeMode.System)
 
-    val isBedtimeActivated: StateFlow<Boolean> = appSettingsRepository.appSettings
-        .map { it.bedtimeInMillis != null }
-        .stateIn(viewModelScope, SharingStarted.Lazily, false)
-
-    val bedtimeCalendar: StateFlow<Calendar> = appSettingsRepository.appSettings
-        .map { appSettings ->
-            appSettings.bedtimeInMillis?.let { millis ->
-                Calendar.getInstance().apply { timeInMillis = millis }
-            } ?: TimeConstants.DEFAULT_BED_TIME
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = TimeConstants.DEFAULT_BED_TIME
-        )
-
-    val bedtimeFormatted: StateFlow<UIText> = bedtimeCalendar.map {
-        val sdf = SimpleDateFormat(TimeConstants.TWELVE_HOUR_FORMAT, Locale.getDefault())
-        UIText.DynamicString(sdf.format(it.time))
-    }.stateIn(viewModelScope, SharingStarted.Lazily, UIText.Blank)
+    val bedtime: StateFlow<BedtimePresentation> = appSettingsRepository.appSettings
+        .map { it.bedtimeInMillis.toBedtimePresentation() }
+        .stateIn(viewModelScope, SharingStarted.Lazily, BedtimePresentation.defaultValue)
 
     private var onThemeModeChangeJob: Job? = null
     fun onThemeModeChange(themeMode: ThemeMode) {
