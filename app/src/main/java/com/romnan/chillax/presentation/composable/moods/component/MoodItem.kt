@@ -64,7 +64,7 @@ fun MoodItem(
                 )
         ) {
             Text(
-                text = stringResource(id = R.string.count_sounds_format, mood().sounds.size),
+                text = stringResource(id = R.string.count_sounds_format, mood().soundsSize),
                 style = MaterialTheme.typography.caption,
             )
             Text(text = mood().readableName.asString())
