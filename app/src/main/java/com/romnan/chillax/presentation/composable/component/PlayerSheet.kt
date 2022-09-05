@@ -19,7 +19,7 @@ import com.romnan.chillax.presentation.model.SoundPresentation
 
 @Composable
 fun PlayerSheet(
-    player: PlayerPresentation,
+    player: () -> PlayerPresentation,
     onStopClick: () -> Unit,
     onPlayPauseClick: () -> Unit,
     onTimerClick: () -> Unit,
@@ -51,11 +51,14 @@ fun PlayerSheet(
         )
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(player.sounds.size) { i ->
+            items(
+                count = player().sounds.size,
+                key = { i -> player().sounds[i].name },
+            ) { i ->
                 PlayingSoundItem(
-                    sound = player.sounds[i],
+                    sound = { player().sounds[i] },
                     modifier = Modifier.padding(vertical = MaterialTheme.spacing.small),
-                    onVolumeChange = { onSoundVolumeChange(player.sounds[i], it) }
+                    onVolumeChange = { onSoundVolumeChange(player().sounds[i], it) }
                 )
             }
         }

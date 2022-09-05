@@ -23,8 +23,8 @@ import com.romnan.chillax.presentation.util.asString
 
 @Composable
 fun SoundItem(
-    sound: SoundPresentation,
-    activeBgColor: Color,
+    sound: () -> SoundPresentation,
+    activeBgColor: () -> Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -37,19 +37,19 @@ fun SoundItem(
             .clickable { onClick() },
     ) {
         val bgAlpha = animateFloatAsState(
-            targetValue = if (sound.isSelected) 1f
+            targetValue = if (sound().isSelected) 1f
             else 0f
         )
 
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .background(activeBgColor.copy(alpha = bgAlpha.value))
+                .background(activeBgColor().copy(alpha = bgAlpha.value))
                 .aspectRatio(1f)
                 .fillMaxWidth()
         ) {
             Icon(
-                painter = painterResource(id = sound.iconResId),
+                painter = painterResource(id = sound().iconResId),
                 tint = MaterialTheme.colors.onSurface,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
@@ -59,7 +59,7 @@ fun SoundItem(
         Divider(modifier = Modifier.fillMaxWidth())
 
         Text(
-            text = sound.readableName.asString(),
+            text = sound().readableName.asString(),
             color = MaterialTheme.colors.onSurface,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption,

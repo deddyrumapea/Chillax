@@ -15,11 +15,11 @@ import com.romnan.chillax.presentation.composable.theme.spacing
 
 @Composable
 fun BasicPreference(
-    modifier: Modifier = Modifier,
-    imageVector: ImageVector,
-    title: String,
+    icon: () -> ImageVector,
+    title: @Composable () -> String,
     onClick: () -> Unit,
-    description: String? = null,
+    modifier: Modifier = Modifier,
+    description: @Composable () -> String? = { null },
 ) {
     Column(
         modifier = modifier
@@ -35,7 +35,7 @@ fun BasicPreference(
                 .padding(MaterialTheme.spacing.medium)
         ) {
             Icon(
-                imageVector = imageVector,
+                imageVector = icon(),
                 contentDescription = null,
                 tint = MaterialTheme.colors.onSurface,
             )
@@ -47,16 +47,18 @@ fun BasicPreference(
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
-                    text = title,
+                    text = title(),
                     style = MaterialTheme.typography.subtitle1,
                     color = MaterialTheme.colors.onSurface
                 )
 
-                if (description != null) Text(
-                    text = description,
-                    style = MaterialTheme.typography.body2,
-                    color = MaterialTheme.colors.onSurface,
-                )
+                description()?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.body2,
+                        color = MaterialTheme.colors.onSurface,
+                    )
+                }
             }
         }
 
