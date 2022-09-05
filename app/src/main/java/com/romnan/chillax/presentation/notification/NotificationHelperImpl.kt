@@ -11,7 +11,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.Player
-import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.presentation.MainActivity
 import com.romnan.chillax.presentation.model.toPresentation
@@ -52,17 +51,11 @@ class NotificationHelperImpl(
             .setOnlyAlertOnce(true)
 
     override fun updatePlayerServiceNotification(player: Player) {
-        // TODO: extract string format
-        val contentText = when (player.phase) {
-            PlayerPhase.PLAYING -> "Playing ${player.sounds.size} sound(s)"
-            PlayerPhase.PAUSED -> "Paused ${player.sounds.size} sound(s)"
-            PlayerPhase.STOPPED -> "Stopped playing sounds"
-        }
+        val presentation = player.toPresentation()
 
-        // TODO: add notif action
         val updatedNotification = getBasePlayerServiceNotification()
-            .setContentTitle(player.toPresentation().soundsTitle.asString(appContext))
-            .setContentText(contentText)
+            .setContentTitle(presentation.phaseTitle.asString(appContext))
+            .setContentText(presentation.soundsTitle.asString(appContext))
             .build()
 
         notificationManager.notify(PLAYER_SERVICE_NOTIFICATION_ID, updatedNotification)
