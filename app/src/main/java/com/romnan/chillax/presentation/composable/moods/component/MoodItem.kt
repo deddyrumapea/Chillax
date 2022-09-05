@@ -9,7 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -34,7 +34,11 @@ fun MoodItem(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(1f)
-            .clip(RoundedCornerShape(16.dp))
+            .shadow(
+                elevation = 2.dp,
+                shape = RoundedCornerShape(16.dp),
+                clip = true,
+            )
             .clickable { onClick(mood()) }
     ) {
         AsyncImage(
@@ -53,7 +57,7 @@ fun MoodItem(
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            MaterialTheme.colors.surface.copy(alpha = 0.2f),
+                            MaterialTheme.colors.surface.copy(alpha = 0.8f),
                             MaterialTheme.colors.surface,
                         )
                     )
