@@ -1,18 +1,16 @@
 package com.romnan.chillax.presentation.composable.sounds.component
 
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -24,7 +22,7 @@ import com.romnan.chillax.presentation.util.asString
 @Composable
 fun SoundItem(
     sound: () -> SoundPresentation,
-    activeBgColor: () -> Color,
+    selectedColor: () -> Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -36,21 +34,21 @@ fun SoundItem(
             .width(100.dp)
             .clickable { onClick() },
     ) {
-        val bgAlpha = animateFloatAsState(
-            targetValue = if (sound().isSelected) 1f
-            else 0f
+        val boxColor = animateColorAsState(
+            if (sound().isSelected) selectedColor()
+            else MaterialTheme.colors.surface,
         )
 
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .background(activeBgColor().copy(alpha = bgAlpha.value))
+                .drawBehind { drawRect(color = boxColor.value) }
                 .aspectRatio(1f)
                 .fillMaxWidth()
         ) {
             Icon(
                 painter = painterResource(id = sound().iconResId),
-                tint = MaterialTheme.colors.onSurface,
+                tint = contentColorFor(backgroundColor = boxColor.value),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
             )
