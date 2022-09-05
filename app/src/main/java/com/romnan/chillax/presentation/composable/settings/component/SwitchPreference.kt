@@ -12,13 +12,13 @@ import com.romnan.chillax.presentation.composable.theme.spacing
 
 @Composable
 fun SwitchPreference(
-    modifier: Modifier = Modifier,
-    imageVector: ImageVector,
-    title: String,
-    description: String?,
-    checked: Boolean,
+    icon: () -> ImageVector,
+    title: @Composable () -> String,
+    description: @Composable () -> String?,
+    checked: () -> Boolean,
     onClick: () -> Unit,
     onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -34,7 +34,7 @@ fun SwitchPreference(
                 .padding(MaterialTheme.spacing.medium)
         ) {
             Icon(
-                imageVector = imageVector,
+                imageVector = icon(),
                 contentDescription = null,
                 tint = MaterialTheme.colors.onSurface,
             )
@@ -43,12 +43,12 @@ fun SwitchPreference(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = title,
+                    text = title(),
                     style = MaterialTheme.typography.subtitle1,
                     color = MaterialTheme.colors.onSurface
                 )
 
-                description?.let {
+                description()?.let {
                     Text(
                         text = it,
                         style = MaterialTheme.typography.body2,
@@ -56,7 +56,7 @@ fun SwitchPreference(
                     )
                 }
             }
-            Switch(checked = checked, onCheckedChange = onCheckedChange)
+            Switch(checked = checked(), onCheckedChange = onCheckedChange)
         }
 
         Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))

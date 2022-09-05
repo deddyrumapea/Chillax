@@ -21,12 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
+import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.model.ThemeMode
 import com.romnan.chillax.presentation.composable.NavGraphs
+import com.romnan.chillax.presentation.composable.appCurrentDestinationAsState
 import com.romnan.chillax.presentation.composable.component.BottomBar
 import com.romnan.chillax.presentation.composable.component.PlayerPeek
 import com.romnan.chillax.presentation.composable.component.PlayerSheet
@@ -34,8 +37,12 @@ import com.romnan.chillax.presentation.composable.destinations.MoodsScreenDestin
 import com.romnan.chillax.presentation.composable.destinations.SettingsScreenDestination
 import com.romnan.chillax.presentation.composable.destinations.SoundsScreenDestination
 import com.romnan.chillax.presentation.composable.moods.MoodsScreen
+import com.romnan.chillax.presentation.composable.moods.MoodsViewModel
 import com.romnan.chillax.presentation.composable.settings.SettingsScreen
+import com.romnan.chillax.presentation.composable.settings.SettingsViewModel
 import com.romnan.chillax.presentation.composable.sounds.SoundsScreen
+import com.romnan.chillax.presentation.composable.sounds.SoundsViewModel
+import com.romnan.chillax.presentation.composable.startAppDestination
 import com.romnan.chillax.presentation.composable.theme.ChillaxTheme
 import com.romnan.chillax.presentation.composable.theme.spacing
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,6 +52,9 @@ import logcat.logcat
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
+    private val moodsViewModel: MoodsViewModel by viewModels()
+    private val soundsViewModel: SoundsViewModel by viewModels()
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +89,7 @@ class MainActivity : ComponentActivity() {
                     sheetState = sheetState,
                     sheetContent = {
                         PlayerSheet(
-                            player = player,
+                            player = { player },
                             onStopClick = {
                                 scope.launch { sheetState.hide() }
                                 viewModel.onStopClick()
@@ -96,7 +106,23 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
                         scaffoldState = scaffoldState,
-                        bottomBar = { BottomBar(navController) }
+                        bottomBar = {
+                            BottomBar(
+                                currentDestination = {
+                                    navController.appCurrentDestinationAsState().value
+                                        ?: NavGraphs.root.startAppDestination
+                                },
+                                onItemClick = { destination ->
+                                    navController.navigate(destination.direction) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
+                                    }
+                                }
+                            )
+                        }
                     ) { scaffoldPadding ->
                         Column(
                             modifier = Modifier
@@ -113,21 +139,21 @@ class MainActivity : ComponentActivity() {
                                     BackHandler(enabled = sheetState.isVisible) {
                                         scope.launch { sheetState.hide() }
                                     }
-                                    MoodsScreen(viewModel = viewModel)
+                                    MoodsScreen(viewModel = moodsViewModel)
                                 }
 
                                 composable(SoundsScreenDestination) {
                                     BackHandler(enabled = sheetState.isVisible) {
                                         scope.launch { sheetState.hide() }
                                     }
-                                    SoundsScreen(viewModel = viewModel)
+                                    SoundsScreen(viewModel = soundsViewModel)
                                 }
 
                                 composable(SettingsScreenDestination) {
                                     BackHandler(enabled = sheetState.isVisible) {
                                         scope.launch { sheetState.hide() }
                                     }
-                                    SettingsScreen()
+                                    SettingsScreen(viewModel = settingsViewModel)
                                 }
                             }
 
@@ -135,8 +161,8 @@ class MainActivity : ComponentActivity() {
 
                             AnimatedVisibility(visible = player.phase != PlayerPhase.STOPPED) {
                                 PlayerPeek(
-                                    player = player,
-                                    onPlayPauseClick = viewModel::onPlayPauseClick,
+                                    player = { player },
+                                    onPlayPauseClick = { viewModel.onPlayPauseClick() },
                                     onTimerClick = { logcat { "onTimerClick()" } },
                                     modifier = Modifier
                                         .clickable { scope.launch { sheetState.show() } }
