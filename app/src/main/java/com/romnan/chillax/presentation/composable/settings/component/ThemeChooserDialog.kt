@@ -23,9 +23,11 @@ fun ThemeChooserDialog(
     properties: DialogProperties = DialogProperties(),
 ) {
     SettingsDialog(
-        title = stringResource(id = R.string.choose_theme),
+        title = { stringResource(id = R.string.choose_theme) },
         onDismissRequest = onDismissRequest,
     ) {
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+
         ThemeMode.values().forEach { themeMode ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -43,5 +45,7 @@ fun ThemeChooserDialog(
                 Text(text = themeMode.readableName.asString())
             }
         }
+
+        Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
     }
 }

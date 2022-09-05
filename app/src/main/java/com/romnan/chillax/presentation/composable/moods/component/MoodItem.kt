@@ -23,7 +23,7 @@ import com.romnan.chillax.presentation.util.asString
 
 @Composable
 fun MoodItem(
-    mood: MoodPresentation,
+    mood: () -> MoodPresentation,
     onClick: (mood: MoodPresentation) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -33,11 +33,11 @@ fun MoodItem(
             .fillMaxWidth()
             .aspectRatio(1f)
             .clip(RoundedCornerShape(16.dp))
-            .clickable { onClick(mood) }
+            .clickable { onClick(mood()) }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
-                .data(mood.imageResId)
+                .data(mood().imageResId)
                 .scale(Scale.FILL)
                 .build(),
             contentDescription = null,
@@ -63,10 +63,10 @@ fun MoodItem(
         ) {
             // TODO: create plural string formatter
             Text(
-                text = "${mood.sounds.size} sounds",
+                text = "${mood().sounds.size} sounds",
                 style = MaterialTheme.typography.caption,
             )
-            Text(text = mood.readableName.asString())
+            Text(text = mood().readableName.asString())
         }
     }
 }

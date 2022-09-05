@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.romnan.chillax.R
-import com.romnan.chillax.presentation.MainViewModel
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
 import com.romnan.chillax.presentation.composable.moods.component.MoodItem
 import com.romnan.chillax.presentation.composable.theme.spacing
@@ -23,7 +22,7 @@ import com.romnan.chillax.presentation.composable.theme.spacing
 @Destination
 @RootNavGraph(start = true)
 fun MoodsScreen(
-    viewModel: MainViewModel
+    viewModel: MoodsViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
     val moods = viewModel.moods.collectAsState().value
@@ -38,7 +37,7 @@ fun MoodsScreen(
         ) {
             item(span = { GridItemSpan(currentLineSpan = 2) }) {
                 ScreenTitle(
-                    text = stringResource(id = R.string.moods),
+                    text = { stringResource(id = R.string.moods) },
                     paddingValues = PaddingValues(
                         start = MaterialTheme.spacing.small,
                         top = MaterialTheme.spacing.large,
@@ -48,9 +47,12 @@ fun MoodsScreen(
                 )
             }
 
-            items(count = moods.size) { i ->
+            items(
+                count = moods.size,
+                key = { i -> moods[i].name },
+            ) { i ->
                 MoodItem(
-                    mood = moods[i],
+                    mood = { moods[i] },
                     onClick = viewModel::onMoodClick,
                     modifier = Modifier.padding(MaterialTheme.spacing.small),
                 )
