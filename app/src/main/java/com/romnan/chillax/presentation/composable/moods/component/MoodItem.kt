@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -33,7 +34,6 @@ fun MoodItem(
         contentAlignment = Alignment.BottomCenter,
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(1f)
             .shadow(
                 elevation = 2.dp,
                 shape = RoundedCornerShape(16.dp),
@@ -54,24 +54,41 @@ fun MoodItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colors.surface.copy(alpha = 0.8f),
-                            MaterialTheme.colors.surface,
+                .wrapContentHeight()
+        ) {
+            Box(
+                modifier = Modifier
+                    .aspectRatio(1f)
+                    .fillMaxWidth()
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MaterialTheme.colors.surface.copy(alpha = 0.8f),
+                                MaterialTheme.colors.surface,
+                            )
                         )
                     )
+                    .padding(
+                        vertical = MaterialTheme.spacing.small,
+                        horizontal = MaterialTheme.spacing.medium,
+                    )
+            ) {
+                Text(
+                    text = stringResource(id = R.string.count_sounds_format, mood().soundsSize),
+                    style = MaterialTheme.typography.caption,
+                    color = MaterialTheme.colors.onSurface,
                 )
-                .padding(
-                    vertical = MaterialTheme.spacing.small,
-                    horizontal = MaterialTheme.spacing.medium,
+                Text(
+                    text = mood().readableName.asString(),
+                    style = MaterialTheme.typography.subtitle1,
+                    color = MaterialTheme.colors.onSurface,
                 )
-        ) {
-            Text(
-                text = stringResource(id = R.string.count_sounds_format, mood().soundsSize),
-                style = MaterialTheme.typography.caption,
-            )
-            Text(text = mood().readableName.asString())
+            }
         }
     }
 }
