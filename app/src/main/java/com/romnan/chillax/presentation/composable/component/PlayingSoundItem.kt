@@ -25,24 +25,18 @@ fun PlayingSoundItem(
     Box(
         contentAlignment = Alignment.CenterStart,
         modifier = modifier
-            .height(36.dp)
-            .clip(shape = RoundedCornerShape(size = 12.dp))
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colors.secondary.copy(alpha = 0.3f))
+            .height(36.dp),
     ) {
         var volumeState by remember(key1 = sound().name) { mutableStateOf(value = sound().volume) }
 
-        Row(
-            horizontalArrangement = Arrangement.Start,
+        if (volumeState > 0f) Box(
             modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.secondary.copy(alpha = 0.3f)),
-        ) {
-            if (volumeState > 0f) Spacer(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(fraction = volumeState)
-                    .background(MaterialTheme.colors.secondary)
-            )
-        }
+                .fillMaxHeight()
+                .fillMaxWidth(fraction = volumeState)
+                .background(MaterialTheme.colors.secondary)
+        )
 
         Slider(
             value = volumeState,
@@ -57,6 +51,7 @@ fun PlayingSoundItem(
 
         Icon(
             painter = painterResource(id = sound().iconResId),
+            tint = MaterialTheme.colors.onSecondary,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxHeight()
