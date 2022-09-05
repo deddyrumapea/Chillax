@@ -7,12 +7,12 @@ data class MoodPresentation(
     val name: String,
     val readableName: UIText,
     val imageResId: Int,
-    val sounds: List<SoundPresentation>,
+    val soundsSize: Int,
 )
 
 fun Mood.toPresentation() = MoodPresentation(
     name = this.name,
     readableName = this.readableName,
     imageResId = this.imageResId,
-    sounds = this.sounds.map { it.toPresentation(isSelected = false) }
+    soundsSize = this.sounds.size,
 )
