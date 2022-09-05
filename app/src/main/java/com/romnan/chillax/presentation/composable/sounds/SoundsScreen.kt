@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
 import com.romnan.chillax.R
-import com.romnan.chillax.presentation.MainViewModel
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
 import com.romnan.chillax.presentation.composable.sounds.component.CategoryItem
 import com.romnan.chillax.presentation.composable.theme.catBgColors
@@ -22,7 +21,7 @@ import com.romnan.chillax.presentation.composable.theme.spacing
 @Composable
 @Destination
 fun SoundsScreen(
-    viewModel: MainViewModel,
+    viewModel: SoundsViewModel,
 ) {
     val scaffoldState = rememberScaffoldState()
     val categories = viewModel.categories.collectAsState().value
@@ -32,15 +31,16 @@ fun SoundsScreen(
             modifier = Modifier
                 .padding(scaffoldPadding)
         ) {
-            item {
-                ScreenTitle(text = stringResource(id = R.string.sounds))
-            }
+            item { ScreenTitle(text = { stringResource(id = R.string.sounds) }) }
 
-            items(count = categories.size) { i ->
+            items(
+                count = categories.size,
+                key = { i -> categories[i].name },
+            ) { i ->
                 CategoryItem(
-                    category = categories[i],
-                    soundActiveBgColor = catBgColors[i % catBgColors.size],
-                    onSoundClick = viewModel::onSoundClick,
+                    category = { categories[i] },
+                    soundActiveBgColor = { catBgColors[i % catBgColors.size] },
+                    onSoundClick = { sound -> viewModel.onSoundClick(sound = sound) },
                 )
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))

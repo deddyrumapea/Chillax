@@ -18,7 +18,7 @@ import com.romnan.chillax.presentation.model.SoundPresentation
 
 @Composable
 fun PlayingSoundItem(
-    sound: SoundPresentation,
+    sound: () -> SoundPresentation,
     onVolumeChange: (volume: Float) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -28,7 +28,7 @@ fun PlayingSoundItem(
             .height(36.dp)
             .clip(shape = RoundedCornerShape(size = 12.dp))
     ) {
-        var volumeState by remember(key1 = sound.name) { mutableStateOf(value = sound.volume) }
+        var volumeState by remember(key1 = sound().name) { mutableStateOf(value = sound().volume) }
 
         Row(
             horizontalArrangement = Arrangement.Start,
@@ -56,7 +56,7 @@ fun PlayingSoundItem(
         )
 
         Icon(
-            painter = painterResource(id = sound.iconResId),
+            painter = painterResource(id = sound().iconResId),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxHeight()
