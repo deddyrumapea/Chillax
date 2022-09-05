@@ -129,7 +129,8 @@ dependencies {
     implementation "androidx.media3:media3-session:$media3_version"
 
     // Accompanist-SystemUIController
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+    def accompanist_version = "0.25.1"
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
 
     // Coil
     def coil_version = "2.2.0"
