@@ -67,4 +67,9 @@
     <string name="bed_time_content_text">Chill. Relax. And drift off to dream</string>
     <string name="bed_time_content_title">It\'s time to sleep</string>
     <string name="when_do_you_go_to_bed">When do you go to bed?</string>
+    <string name="count_sounds_format">%1$s sounds</string>
+    <string name="max_sounds_format">%1$s sounds [max]</string>
+    <string name="phase_title_playing">Chillax is playing sounds</string>
+    <string name="phase_title_paused">Chillax is paused</string>
+    <string name="phase_title_stopped">Chillax is stopped</string>
 </resources>

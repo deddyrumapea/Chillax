@@ -9,6 +9,7 @@ import com.romnan.chillax.data.model.PlayerSerializable
 import com.romnan.chillax.data.model.SoundData
 import com.romnan.chillax.data.serializer.PlayerSerializer
 import com.romnan.chillax.data.source.AppDataSource
+import com.romnan.chillax.domain.constant.PlayerConstants
 import com.romnan.chillax.domain.model.Category
 import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.Player
@@ -87,7 +88,7 @@ class PlayerRepositoryImpl(
                         currSounds.removeAll { it.name == sound.name }
                     }
 
-                    currSounds.size < MAX_PLAYING_SOUNDS -> {
+                    currSounds.size < PlayerConstants.MAX_SOUNDS -> {
                         isPlaying.value = true
                         currSounds.add(sound.toSerializable(startedAt = System.currentTimeMillis()))
                     }
@@ -110,7 +111,7 @@ class PlayerRepositoryImpl(
 
             playerState.copy(
                 sounds = when {
-                    currSounds.size + moodSounds.size <= MAX_PLAYING_SOUNDS -> {
+                    currSounds.size + moodSounds.size <= PlayerConstants.MAX_SOUNDS -> {
                         isPlaying.value = true
                         currSounds.addAll(moodSounds.mapIndexed { i: Int, sound: SoundData ->
                             sound.toSerializable(startedAt = System.currentTimeMillis() + i)
@@ -144,8 +145,6 @@ class PlayerRepositoryImpl(
     }
 
     companion object {
-        private const val MAX_PLAYING_SOUNDS = 8 // TODO: store this in data store
-
         private const val FILE_NAME = "player.json"
 
         private val Context.playerDataStore by dataStore(
