@@ -43,7 +43,7 @@ fun SoundsScreen(
                     onSoundClick = { sound -> viewModel.onSoundClick(sound = sound) },
                 )
 
-                Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+                Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
             }
 
             item { Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium)) }
