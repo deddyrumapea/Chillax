@@ -50,7 +50,7 @@ fun CategoryItem(
 
                 SoundItem(
                     sound = { category().sounds[i] },
-                    activeBgColor = { soundActiveBgColor() },
+                    selectedColor = { soundActiveBgColor() },
                     onClick = { onSoundClick(category().sounds[i]) },
                 )
 
