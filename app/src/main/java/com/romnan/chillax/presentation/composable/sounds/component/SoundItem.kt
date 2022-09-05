@@ -9,8 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -29,7 +29,11 @@ fun SoundItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
+            .shadow(
+                elevation = 2.dp,
+                shape = RoundedCornerShape(16.dp),
+                clip = true,
+            )
             .background(color = MaterialTheme.colors.surface)
             .width(100.dp)
             .clickable { onClick() },
