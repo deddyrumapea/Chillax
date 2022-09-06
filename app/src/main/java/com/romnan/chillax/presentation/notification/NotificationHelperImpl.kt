@@ -45,7 +45,7 @@ class NotificationHelperImpl(
 
     override fun getBasePlayerServiceNotification(): NotificationCompat.Builder =
         NotificationCompat.Builder(appContext, PLAYER_SERVICE_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_music_note_24)
+            .setSmallIcon(R.drawable.ic_dark_mode_fill)
             .setContentIntent(openMainActivityPendingIntent)
             .setSilent(true)
             .setOnlyAlertOnce(true)
@@ -67,7 +67,7 @@ class NotificationHelperImpl(
 
     override fun showBedtimeReminderNotification() {
         val notification = NotificationCompat.Builder(appContext, BEDTIME_REMINDER_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_bedtime_24)
+            .setSmallIcon(R.drawable.ic_dark_mode_fill)
             .setContentIntent(openMainActivityPendingIntent)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setContentTitle(appContext.getString(R.string.bed_time_content_title))
