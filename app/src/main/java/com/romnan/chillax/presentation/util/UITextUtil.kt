@@ -9,7 +9,7 @@ import com.romnan.chillax.domain.model.UIText
 fun UIText.asString(): String {
     return when (this) {
         is UIText.DynamicString -> this.value
-        is UIText.StringResource -> stringResource(id = this.id)
+        is UIText.StringResource -> stringResource(id = this.id, *this.formatArgs)
         is UIText.Blank -> ""
     }
 }
@@ -17,7 +17,7 @@ fun UIText.asString(): String {
 fun UIText.asString(context: Context): String {
     return when (this) {
         is UIText.DynamicString -> this.value
-        is UIText.StringResource -> context.getString(this.id)
+        is UIText.StringResource -> context.getString(this.id, *this.formatArgs)
         is UIText.Blank -> ""
     }
 }
