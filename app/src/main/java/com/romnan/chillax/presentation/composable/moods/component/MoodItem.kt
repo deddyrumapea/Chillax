@@ -9,14 +9,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.romnan.chillax.R
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.model.MoodPresentation
 import com.romnan.chillax.presentation.util.asString
@@ -31,8 +33,11 @@ fun MoodItem(
         contentAlignment = Alignment.BottomCenter,
         modifier = modifier
             .fillMaxWidth()
-            .aspectRatio(1f)
-            .clip(RoundedCornerShape(16.dp))
+            .shadow(
+                elevation = 2.dp,
+                shape = RoundedCornerShape(16.dp),
+                clip = true,
+            )
             .clickable { onClick(mood()) }
     ) {
         AsyncImage(
@@ -48,25 +53,41 @@ fun MoodItem(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colors.surface.copy(alpha = 0.2f),
-                            MaterialTheme.colors.surface,
+                .wrapContentHeight()
+        ) {
+            Box(
+                modifier = Modifier
+                    .aspectRatio(1f)
+                    .fillMaxWidth()
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                MaterialTheme.colors.surface.copy(alpha = 0.8f),
+                                MaterialTheme.colors.surface,
+                            )
                         )
                     )
+                    .padding(
+                        vertical = MaterialTheme.spacing.small,
+                        horizontal = MaterialTheme.spacing.medium,
+                    )
+            ) {
+                Text(
+                    text = stringResource(id = R.string.count_sounds_format, mood().soundsSize),
+                    style = MaterialTheme.typography.caption,
+                    color = MaterialTheme.colors.onSurface,
                 )
-                .padding(
-                    vertical = MaterialTheme.spacing.small,
-                    horizontal = MaterialTheme.spacing.medium,
+                Text(
+                    text = mood().readableName.asString(),
+                    style = MaterialTheme.typography.subtitle1,
+                    color = MaterialTheme.colors.onSurface,
                 )
-        ) {
-            // TODO: create plural string formatter
-            Text(
-                text = "${mood().sounds.size} sounds",
-                style = MaterialTheme.typography.caption,
-            )
-            Text(text = mood().readableName.asString())
+            }
         }
     }
 }

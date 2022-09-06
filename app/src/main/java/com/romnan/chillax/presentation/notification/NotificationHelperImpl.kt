@@ -11,7 +11,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.Player
-import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.presentation.MainActivity
 import com.romnan.chillax.presentation.model.toPresentation
@@ -46,23 +45,17 @@ class NotificationHelperImpl(
 
     override fun getBasePlayerServiceNotification(): NotificationCompat.Builder =
         NotificationCompat.Builder(appContext, PLAYER_SERVICE_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_music_note_24)
+            .setSmallIcon(R.drawable.ic_dark_mode_fill)
             .setContentIntent(openMainActivityPendingIntent)
             .setSilent(true)
             .setOnlyAlertOnce(true)
 
     override fun updatePlayerServiceNotification(player: Player) {
-        // TODO: extract string format
-        val contentText = when (player.phase) {
-            PlayerPhase.PLAYING -> "Playing ${player.sounds.size} sound(s)"
-            PlayerPhase.PAUSED -> "Paused ${player.sounds.size} sound(s)"
-            PlayerPhase.STOPPED -> "Stopped playing sounds"
-        }
+        val presentation = player.toPresentation()
 
-        // TODO: add notif action
         val updatedNotification = getBasePlayerServiceNotification()
-            .setContentTitle(player.toPresentation().soundsTitle.asString(appContext))
-            .setContentText(contentText)
+            .setContentTitle(presentation.phaseTitle.asString(appContext))
+            .setContentText(presentation.soundsTitle.asString(appContext))
             .build()
 
         notificationManager.notify(PLAYER_SERVICE_NOTIFICATION_ID, updatedNotification)
@@ -74,7 +67,7 @@ class NotificationHelperImpl(
 
     override fun showBedtimeReminderNotification() {
         val notification = NotificationCompat.Builder(appContext, BEDTIME_REMINDER_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_bedtime_24)
+            .setSmallIcon(R.drawable.ic_dark_mode_fill)
             .setContentIntent(openMainActivityPendingIntent)
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setContentTitle(appContext.getString(R.string.bed_time_content_title))
