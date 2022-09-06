@@ -35,10 +35,7 @@
     <string name="mood_name_forest">Forest</string>
     <string name="mood_name_mountains">Mountains</string>
     <string name="mood_name_rain_in_backyard">Rain in Backyard</string>
-    <string name="save_mood">Save mood</string>
     <string name="stop_all">Stop all</string>
-    <string name="timer_disabled">Timer disabled</string>
-    <string name="set_timer">Set timer</string>
     <string name="pref_title_theme">Theme</string>
     <string name="pref_title_rate_app">Rate this app</string>
     <string name="pref_desc_rate_app">Tell us how do you like this app</string>
@@ -66,5 +63,9 @@
     <string name="bed_time_notif_channel_desc">This channel is used to display notifications for bed time reminder</string>
     <string name="bed_time_content_text">Chill. Relax. And drift off to dream</string>
     <string name="bed_time_content_title">It\'s time to sleep</string>
-    <string name="when_do_you_go_to_bed">When do you go to bed?</string>
+    <string name="count_sounds_format">%1$s sounds</string>
+    <string name="max_sounds_format">%1$s sounds [max]</string>
+    <string name="phase_title_playing">Chillax is playing sounds</string>
+    <string name="phase_title_paused">Chillax is paused</string>
+    <string name="phase_title_stopped">Chillax is stopped</string>
 </resources>
