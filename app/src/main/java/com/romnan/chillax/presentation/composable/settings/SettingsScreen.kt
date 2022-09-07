@@ -188,7 +188,7 @@ fun SettingsScreen(
             onDismissRequest = viewModel::hideAttributions
         ) {
             Text(
-                text = stringResource(R.string.attributions),
+                text = stringResource(R.string.attributions_text),
                 modifier = Modifier.padding(MaterialTheme.spacing.medium)
             )
         }
