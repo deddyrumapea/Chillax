@@ -70,7 +70,7 @@
     <string name="sound_rain_on_leaves">Rain on Leaves</string>
     <string name="sound_rain_on_window">Rain on Window</string>
     <string name="sound_rain_on_roof">Rain on Roof</string>
-    <string name="sound_rain_under_umbrella">Rain under Umberella</string>
+    <string name="sound_rain_on_umbrella">Rain on Umbrella</string>
     <string name="sound_rain_on_tent">Rain on Tent</string>
     <string name="sound_rain_on_windshield">Rain on Windshield</string>
     <string name="sound_light_wind">Light Wind</string>
@@ -130,4 +130,10 @@
     <string name="sound_cicadas">Cicadas</string>
     <string name="sound_underwater">Underwater</string>
     <string name="sound_water_drops">Water Drops</string>
+    <string name="sound_brook">Brook</string>
+    <string name="sound_rain_on_metal_roof">Rain on Metal Roof</string>
+    <string name="sound_river">River</string>
+    <string name="sound_wind_in_trees">Wind in Trees</string>
+    <string name="sound_frogs_1">Frogs 1</string>
+    <string name="sound_frogs_2">Frogs 2</string>
 </resources>
