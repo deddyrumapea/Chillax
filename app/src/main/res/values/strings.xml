@@ -92,7 +92,6 @@
     <string name="sound_cuckoo">Cuckoo</string>
     <string name="sound_seagulls">Seagulls</string>
     <string name="sound_crickets">Crickets</string>
-    <string name="sound_frogs">Frogs</string>
     <string name="sound_cat_purring">Cat Purring</string>
     <string name="sound_dogs">Dogs</string>
     <string name="sound_chicken_coop">Chicken Coop</string>
@@ -105,7 +104,7 @@
     <string name="sound_keyboard">Keyboard</string>
     <string name="sound_vacuum_cleaner">Vacuum Cleaner</string>
     <string name="sound_boiling_pot">Boiling Pot</string>
-    <string name="sound_frying_pan">Frying Pan</string>
+    <string name="sound_deep_frying">Deep Frying</string>
     <string name="sound_tap_water">Tap Water</string>
     <string name="sound_music_box">Music Box</string>
     <string name="sound_train_station">Train Station</string>
@@ -114,16 +113,14 @@
     <string name="sound_construction_site">Construction Site</string>
     <string name="sound_traffic">Traffic</string>
     <string name="sound_train_travel">Train Travel</string>
-    <string name="sound_flight">Flight</string>
-    <string name="sound_driving">Driving</string>
+    <string name="sound_jet_plane">Jet Plane</string>
+    <string name="sound_driving_at_night">Driving at Night</string>
     <string name="sound_windshield_wipers">Windshield Wipers</string>
     <string name="sound_turn_signal">Turn Signal</string>
     <string name="sound_truck_engine">Truck Engine</string>
     <string name="sound_conveyor_belt">Conveyor Belt</string>
     <string name="sound_heartbeat">Heartbeat</string>
-    <string name="sound_white_noise">White Noise</string>
-    <string name="sound_brown_noise">Brown Noise</string>
-    <string name="sound_pink_noise">Pink Noise</string>
+    <string name="sound_static_noise">Static Noise</string>
     <string name="sound_rain">Rain</string>
     <string name="sound_thunder">Thunder</string>
     <string name="sound_distant_thunder">Distant Thunder</string>
@@ -136,4 +133,9 @@
     <string name="sound_wind_in_trees">Wind in Trees</string>
     <string name="sound_frogs_1">Frogs 1</string>
     <string name="sound_frogs_2">Frogs 2</string>
+    <string name="sound_window_ac">Window AC</string>
+    <string name="sound_turboprop_plane">Turboprop Plane</string>
+    <string name="sound_radio_static_1">Radio Static 1</string>
+    <string name="sound_radio_static_2">Radio Static 2</string>
+    <string name="sound_electricity">Electricity</string>
 </resources>
