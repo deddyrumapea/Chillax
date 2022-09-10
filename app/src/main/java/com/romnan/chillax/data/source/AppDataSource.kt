@@ -33,104 +33,7 @@ private enum class MoodDataSource(
     override val imageResId: Int,
     override val sounds: List<SoundData>
 ) : MoodData {
-    SpringRain(
-        readableName = UIText.StringResource(R.string.mood_name_spring_rain),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.Rain,
-            SoundDataSource.Thunder,
-        ),
-    ),
-    SummerRain(
-        readableName = UIText.StringResource(R.string.mood_name_summer_rain),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.Frogs1,
-            SoundDataSource.RainOnLeaves,
-        ),
-    ),
-    RainInForest(
-        readableName = UIText.StringResource(R.string.mood_name_rain_in_forest),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.RainOnLeaves,
-            SoundDataSource.WindOnLeaves,
-        ),
-    ),
-    RainOnWindow(
-        readableName = UIText.StringResource(R.string.mood_name_rain_on_window),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.RainOnWindow,
-            SoundDataSource.Thunder,
-            SoundDataSource.Fireplace,
-        ),
-    ),
-    Forest(
-        readableName = UIText.StringResource(R.string.mood_name_forest),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.Birds1,
-            SoundDataSource.WindOnLeaves,
-            SoundDataSource.Creek,
-        ),
-    ),
-    SilentNight(
-        readableName = UIText.StringResource(R.string.mood_name_silent_night),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.Crickets,
-        ),
-    ),
-    NightCamping(
-        readableName = UIText.StringResource(R.string.mood_name_night_camping),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.Crickets,
-            SoundDataSource.Owls,
-            SoundDataSource.Campfire,
-        ),
-    ),
-    Ocean(
-        readableName = UIText.StringResource(R.string.mood_name_ocean),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.Seagulls,
-            SoundDataSource.Waves,
-        ),
-    ),
-    CountrySide(
-        readableName = UIText.StringResource(R.string.mood_name_country_side),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.Dogs,
-            SoundDataSource.Creek,
-        ),
-    ),
-    TrainTravel(
-        readableName = UIText.StringResource(R.string.mood_name_train_travel),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.RainOnRoof,
-            SoundDataSource.TrainTravel,
-        ),
-    ),
-    Driving(
-        readableName = UIText.StringResource(R.string.mood_name_driving),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.RainOnWindow,
-            SoundDataSource.DrivingAtNight,
-        ),
-    ),
-    Flight(
-        readableName = UIText.StringResource(R.string.mood_name_flight),
-        imageResId = R.raw.img_forest,
-        sounds = listOf(
-            SoundDataSource.Crowd,
-            SoundDataSource.JetPlane,
-        ),
-    )
+
 }
 
 private enum class CategoryDataSource(
@@ -189,23 +92,21 @@ private enum class CategoryDataSource(
         readableName = UIText.StringResource(R.string.cat_name_city),
         description = UIText.StringResource(R.string.cat_desc_city),
         sounds = listOf(
-            SoundDataSource.DrivingAtNight,
-            SoundDataSource.TurbopropPlane,
-            SoundDataSource.JetPlane,
-            SoundDataSource.Crowd,
             SoundDataSource.KidsPlayground,
+            SoundDataSource.Crowd,
+            SoundDataSource.JetPlane,
+            SoundDataSource.TurbopropPlane,
             SoundDataSource.WindshieldWipers,
+            SoundDataSource.DrivingAtNight,
         ),
     ),
     Other(
         readableName = UIText.StringResource(R.string.cat_name_other),
         description = UIText.StringResource(R.string.cat_desc_other),
         sounds = listOf(
-            SoundDataSource.RadioStatic1,
-            SoundDataSource.RadioStatic2,
+            SoundDataSource.RadioStatic,
             SoundDataSource.Heartbeat,
             SoundDataSource.Electricity,
-            SoundDataSource.StaticNoise,
         ),
     ),
 }
@@ -360,20 +261,10 @@ private enum class SoundDataSource(
         iconResId = R.drawable.ic_sound_windshield_wipers,
         audioResId = R.raw.sound_windshield_wipers_beeproductive,
     ),
-    StaticNoise(
-        readableName = UIText.StringResource(R.string.sound_static_noise),
-        iconResId = R.drawable.ic_sound_static_noise,
-        audioResId = R.raw.sound_static_noise_deadrobotmusic,
-    ),
-    RadioStatic1(
-        readableName = UIText.StringResource(R.string.sound_radio_static_1),
-        iconResId = R.drawable.ic_sound_radio_static_1,
-        audioResId = R.raw.sound_radio_static_1_dylanhsound,
-    ),
-    RadioStatic2(
-        readableName = UIText.StringResource(R.string.sound_radio_static_2),
-        iconResId = R.drawable.ic_sound_radio_static_2,
-        audioResId = R.raw.sound_radio_static_2_theartguild,
+    RadioStatic(
+        readableName = UIText.StringResource(R.string.sound_radio_static),
+        iconResId = R.drawable.ic_sound_radio_static,
+        audioResId = R.raw.sound_radio_static_theartguild,
     ),
     Electricity(
         readableName = UIText.StringResource(R.string.sound_electricity),
@@ -384,201 +275,6 @@ private enum class SoundDataSource(
         readableName = UIText.StringResource(R.string.sound_heartbeat),
         iconResId = R.drawable.ic_sound_hearbeat,
         audioResId = R.raw.sound_heartbeat_placidplace,
-    ),
-    WindOnLeaves(
-        readableName = UIText.StringResource(R.string.sound_wind_on_leaves),
-        iconResId = R.drawable.ic_sound_wind_on_leaves,
-        audioResId = R.raw.sound_blank,
-    ),
-    HeavyRain(
-        readableName = UIText.StringResource(R.string.sound_heavy_rain),
-        iconResId = R.drawable.ic_sound_heavy_rain,
-        audioResId = R.raw.sound_blank,
-    ),
-    RainOnLeaves(
-        readableName = UIText.StringResource(R.string.sound_rain_on_leaves),
-        iconResId = R.drawable.ic_sound_rain_on_leaves,
-        audioResId = R.raw.sound_blank,
-    ),
-    RainOnWindow(
-        readableName = UIText.StringResource(R.string.sound_rain_on_window),
-        iconResId = R.drawable.ic_sound_rain_on_window,
-        audioResId = R.raw.sound_blank,
-    ),
-    RainOnRoof(
-        readableName = UIText.StringResource(R.string.sound_rain_on_roof),
-        iconResId = R.drawable.ic_sound_rain_on_roof,
-        audioResId = R.raw.sound_blank,
-    ),
-    RainOnTent(
-        readableName = UIText.StringResource(R.string.sound_rain_on_tent),
-        iconResId = R.drawable.ic_sound_rain_on_tent,
-        audioResId = R.raw.sound_blank,
-    ),
-    RainOnWindshield(
-        readableName = UIText.StringResource(R.string.sound_rain_on_windshield),
-        iconResId = R.drawable.ic_sound_rain_on_windshield,
-        audioResId = R.raw.sound_blank,
-    ),
-    DistantThunder(
-        readableName = UIText.StringResource(R.string.sound_distant_thunder),
-        iconResId = R.drawable.ic_sound_distant_thunder,
-        audioResId = R.raw.sound_blank,
-    ),
-    LightWind(
-        readableName = UIText.StringResource(R.string.sound_light_wind),
-        iconResId = R.drawable.ic_sound_light_wind,
-        audioResId = R.raw.sound_blank,
-    ),
-    StrongWind(
-        readableName = UIText.StringResource(R.string.sound_strong_wind),
-        iconResId = R.drawable.ic_sound_strong_wind,
-        audioResId = R.raw.sound_blank,
-    ),
-    HowlingWind(
-        readableName = UIText.StringResource(R.string.sound_howling_wind),
-        iconResId = R.drawable.ic_sound_howling_wind,
-        audioResId = R.raw.sound_blank,
-    ),
-    PolarWind(
-        readableName = UIText.StringResource(R.string.sound_polar_wind),
-        iconResId = R.drawable.ic_sound_polar_wind,
-        audioResId = R.raw.sound_blank,
-    ),
-    Storm(
-        readableName = UIText.StringResource(R.string.sound_storm),
-        iconResId = R.drawable.ic_sound_storm,
-        audioResId = R.raw.sound_blank,
-    ),
-    Campfire(
-        readableName = UIText.StringResource(R.string.sound_campfire),
-        iconResId = R.drawable.ic_sound_campfire,
-        audioResId = R.raw.sound_blank,
-    ),
-    Lake(
-        readableName = UIText.StringResource(R.string.sound_lake),
-        iconResId = R.drawable.ic_sound_lake,
-        audioResId = R.raw.sound_blank,
-    ),
-    Waves(
-        readableName = UIText.StringResource(R.string.sound_waves),
-        iconResId = R.drawable.ic_sound_waves,
-        audioResId = R.raw.sound_blank,
-    ),
-    Underwater(
-        readableName = UIText.StringResource(R.string.sound_underwater),
-        iconResId = R.drawable.ic_sound_underwater,
-        audioResId = R.raw.sound_blank,
-    ),
-    WaterDrops(
-        readableName = UIText.StringResource(R.string.sound_water_drops),
-        iconResId = R.drawable.ic_sound_water_drops,
-        audioResId = R.raw.sound_blank,
-    ),
-    SnowWalk(
-        readableName = UIText.StringResource(R.string.sound_snow_walk),
-        iconResId = R.drawable.ic_sound_snow_walk,
-        audioResId = R.raw.sound_blank,
-    ),
-    Owls(
-        readableName = UIText.StringResource(R.string.sound_owls),
-        iconResId = R.drawable.ic_sound_owls,
-        audioResId = R.raw.sound_blank,
-    ),
-    Cuckoo(
-        readableName = UIText.StringResource(R.string.sound_cuckoo),
-        iconResId = R.drawable.ic_sound_cuckoo,
-        audioResId = R.raw.sound_blank,
-    ),
-    Dogs(
-        readableName = UIText.StringResource(R.string.sound_dogs),
-        iconResId = R.drawable.ic_sound_dogs,
-        audioResId = R.raw.sound_blank,
-    ),
-    ChickenCoop(
-        readableName = UIText.StringResource(R.string.sound_chicken_coop),
-        iconResId = R.drawable.ic_sound_chicken_coop,
-        audioResId = R.raw.sound_blank,
-    ),
-    Fan(
-        readableName = UIText.StringResource(R.string.sound_fan),
-        iconResId = R.drawable.ic_sound_fan,
-        audioResId = R.raw.sound_blank,
-    ),
-    AirConditioner(
-        readableName = UIText.StringResource(R.string.sound_air_conditioner),
-        iconResId = R.drawable.ic_sound_air_conditioner,
-        audioResId = R.raw.sound_blank,
-    ),
-    WashingMachine(
-        readableName = UIText.StringResource(R.string.sound_washing_machine),
-        iconResId = R.drawable.ic_sound_washing_machine,
-        audioResId = R.raw.sound_blank,
-    ),
-    VintageClock(
-        readableName = UIText.StringResource(R.string.sound_vintage_clock),
-        iconResId = R.drawable.ic_sound_vintage_clock,
-        audioResId = R.raw.sound_blank,
-    ),
-    FlippingPages(
-        readableName = UIText.StringResource(R.string.sound_flipping_pages),
-        iconResId = R.drawable.ic_sound_flipping_pages,
-        audioResId = R.raw.sound_blank,
-    ),
-    VacuumCleaner(
-        readableName = UIText.StringResource(R.string.sound_vacuum_cleaner),
-        iconResId = R.drawable.ic_sound_vacuum_cleaner,
-        audioResId = R.raw.sound_blank,
-    ),
-    BoilingPot(
-        readableName = UIText.StringResource(R.string.sound_boiling_pot),
-        iconResId = R.drawable.ic_sound_boiling_pot,
-        audioResId = R.raw.sound_blank,
-    ),
-    TapWater(
-        readableName = UIText.StringResource(R.string.sound_tap_water),
-        iconResId = R.drawable.ic_sound_tap_water,
-        audioResId = R.raw.sound_blank,
-    ),
-    MusicBox(
-        readableName = UIText.StringResource(R.string.sound_music_box),
-        iconResId = R.drawable.ic_sound_music_box,
-        audioResId = R.raw.sound_blank,
-    ),
-    TrainStation(
-        readableName = UIText.StringResource(R.string.sound_train_station),
-        iconResId = R.drawable.ic_sound_train_station,
-        audioResId = R.raw.sound_blank,
-    ),
-    ConstructionSite(
-        readableName = UIText.StringResource(R.string.sound_construction_site),
-        iconResId = R.drawable.ic_sound_construction_site,
-        audioResId = R.raw.sound_blank,
-    ),
-    Traffic(
-        readableName = UIText.StringResource(R.string.sound_traffic),
-        iconResId = R.drawable.ic_sound_traffic,
-        audioResId = R.raw.sound_blank,
-    ),
-    TrainTravel(
-        readableName = UIText.StringResource(R.string.sound_train_travel),
-        iconResId = R.drawable.ic_sound_train_travel,
-        audioResId = R.raw.sound_blank,
-    ),
-    TurnSignal(
-        readableName = UIText.StringResource(R.string.sound_turn_signal),
-        iconResId = R.drawable.ic_sound_turn_signal,
-        audioResId = R.raw.sound_blank,
-    ),
-    TruckEngine(
-        readableName = UIText.StringResource(R.string.sound_truck_engine),
-        iconResId = R.drawable.ic_sound_truck_engine,
-        audioResId = R.raw.sound_blank,
-    ),
-    ConveyorBelt(
-        readableName = UIText.StringResource(R.string.sound_conveyor_belt),
-        iconResId = R.drawable.ic_sound_conveyor_belt,
-        audioResId = R.raw.sound_blank,
     ),
     ;
 
