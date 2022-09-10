@@ -28,7 +28,7 @@
     <string name="pref_desc_share_app">Help spread the word to your friends</string>
     <string name="pref_title_contact_support">Contact support</string>
     <string name="pref_desc_contact_support">Report a problem or give suggestions</string>
-    <string name="pref_title_app_instructions">Show app instructions</string>
+    <string name="pref_title_instructions">Instructions</string>
     <string name="pref_title_privacy_policy">Privacy policy</string>
     <string name="pref_title_attributions">Attributions</string>
     <string name="pref_title_version">App Version</string>
@@ -42,8 +42,8 @@
     <string name="share_text">Chill and relax. Download Chillax now https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
     <string name="url_privacy_policy">https://docs.google.com/document/d/11NiSX8k1j6-xMD7EHAwg3e0Sl5ph0SLvYblqbVzvdyM/preview</string>
     <string name="contact_subject">Chillax feature request/bug report</string>
-    <string name="app_instructions">You can pick sounds to play in the Sounds screen. Or, you can also pick a Mood from Moods screen, a mood is a group of sounds</string>
-    <string name="attributions_text">Music and audio used under free license\n\nSounds icons created by Freepik - Flaticon</string>
+    <string name="app_instructions">You can pick sounds to play in the Sounds menu. Or, you can also pick a mood from Moods menu, a mood is a group of sounds.\n\nWhen playing sounds, you can click on the player at the bottom to show more controls.\n\nEnjoy :)</string>
+    <string name="attributions_text">Images from Freepik\n- Launcher icon background image by freepik\n- All sounds icons by freepik\n- Rainforest by vectorpouch\n- Bedroom by vectorpouch\n- Airplane Cabin by upklyak\n- Camping by upklyak\n- Jungle by freepik\n- Riverside by jcomp\n\nAudios from Pixabay\n- Birds 1 by ivolipa\n- Birds 2 by nektaria909\n- Birds 3 by swiftoid\n- Brook by soundforyou\n- Cat Purring by worldsday\n- Cicadas by sarvegu\n- Creek by soundforyou\n- Crickets by cclaretc\n- Crowd by karinalarasart\n- Deep Frying by juliush\n- Driving at Night by augustsandberg\n- Electricity by flashtrauma\n- Fireplace by juliush\n- Frogs1 by jayalvarez66\n- Frogs2 by zachrau\n- Heartbeat by placidplace\n- Jet Plane by habbis92\n- Keyboard by kevinchocs\n- Kids Playground by brunoauzet\n- Radio Static by theartguild\n- Rain Gentle by soundforyou\n- Rain on Metal Roof by soundforyou\n- Rain by soundforyou\n- Rain Umbrella by soundforyou\n- River by soundforyou\n- Seagulls by olesouwester\n- Thunder by soundforyou\n- Turboprop plane by daveshu88\n- Waterfall by soundforyou\n- Window AC by benhabrams\n- Windshield Wipers by beeproductive\n- Wind in Trees by soundforyou</string>
     <string name="bed_time_notifications">Bed time notifications</string>
     <string name="bed_time_notif_channel_desc">This channel is used to display notifications for bed time reminder</string>
     <string name="bed_time_content_text">Chill. Relax. And drift off to dream</string>
@@ -91,4 +91,5 @@
     <string name="mood_camping">Camping</string>
     <string name="mood_jungle">Jungle</string>
     <string name="mood_riverside">Riverside</string>
+    <string name="cd_close">Close</string>
 </resources>
