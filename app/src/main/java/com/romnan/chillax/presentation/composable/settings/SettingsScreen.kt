@@ -51,9 +51,9 @@ fun SettingsScreen(
             BasicPreference(
                 icon = {
                     when (themeMode.value) {
-                        ThemeMode.System -> Icons.Default.BrightnessMedium
-                        ThemeMode.Light -> Icons.Default.LightMode
-                        ThemeMode.Dark -> Icons.Default.DarkMode
+                        ThemeMode.System -> Icons.Filled.BrightnessMedium
+                        ThemeMode.Light -> Icons.Filled.LightMode
+                        ThemeMode.Dark -> Icons.Filled.DarkMode
                     }
                 },
                 title = { stringResource(R.string.pref_title_theme) },
@@ -64,8 +64,8 @@ fun SettingsScreen(
             val bedtime = viewModel.bedtime.collectAsState()
             SwitchPreference(
                 icon = {
-                    if (bedtime.value.isActivated) Icons.Default.NotificationsActive
-                    else Icons.Default.Notifications
+                    if (bedtime.value.isActivated) Icons.Filled.NotificationsActive
+                    else Icons.Filled.Notifications
                 },
                 title = { stringResource(R.string.pref_title_bedtime_reminder) },
                 description = { bedtime.value.readableTime?.asString() },
@@ -95,7 +95,7 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.padding(MaterialTheme.spacing.small))
 
             BasicPreference(
-                icon = { Icons.Default.RateReview },
+                icon = { Icons.Filled.ThumbUp },
                 title = { stringResource(R.string.pref_title_rate_app) },
                 description = { stringResource(R.string.pref_desc_rate_app) },
                 onClick = {
@@ -106,7 +106,7 @@ fun SettingsScreen(
             )
 
             BasicPreference(
-                icon = { Icons.Default.Share },
+                icon = { Icons.Filled.Share },
                 title = { stringResource(R.string.pref_title_share_app) },
                 description = { stringResource(R.string.pref_desc_share_app) },
                 onClick = {
@@ -118,7 +118,7 @@ fun SettingsScreen(
             )
 
             BasicPreference(
-                icon = { Icons.Default.ContactMail },
+                icon = { Icons.Filled.Mail },
                 title = { stringResource(R.string.pref_title_contact_support) },
                 description = { stringResource(R.string.pref_desc_contact_support) },
                 onClick = {
@@ -136,19 +136,19 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.padding(MaterialTheme.spacing.small))
 
             BasicPreference(
-                icon = { Icons.Default.IntegrationInstructions },
-                title = { stringResource(R.string.pref_title_app_instructions) },
+                icon = { Icons.Filled.Help },
+                title = { stringResource(R.string.pref_title_instructions) },
                 onClick = { viewModel.showAppInstructions() },
             )
 
             BasicPreference(
-                icon = { Icons.Default.Attribution },
+                icon = { Icons.Filled.Badge },
                 title = { stringResource(R.string.pref_title_attributions) },
                 onClick = { viewModel.showAttributions() },
             )
 
             BasicPreference(
-                icon = { Icons.Default.PrivacyTip },
+                icon = { Icons.Filled.VerifiedUser },
                 title = { stringResource(R.string.pref_title_privacy_policy) },
                 onClick = {
                     Intent(Intent.ACTION_VIEW).apply {
@@ -158,7 +158,7 @@ fun SettingsScreen(
             )
 
             BasicPreference(
-                icon = { Icons.Default.Info },
+                icon = { Icons.Filled.Info },
                 title = { stringResource(R.string.pref_title_version) },
                 description = { BuildConfig.VERSION_NAME },
                 onClick = { logcat { "Version onClick. ${BuildConfig.VERSION_NAME}" } },
@@ -174,7 +174,7 @@ fun SettingsScreen(
         )
 
         if (viewModel.isAppInstructionsVisible.collectAsState().value) SettingsDialog(
-            title = { stringResource(id = R.string.pref_title_app_instructions) },
+            title = { stringResource(id = R.string.pref_title_instructions) },
             onDismissRequest = viewModel::hideAppInstructions
         ) {
             Text(
@@ -187,10 +187,16 @@ fun SettingsScreen(
             title = { stringResource(id = R.string.pref_title_attributions) },
             onDismissRequest = viewModel::hideAttributions
         ) {
-            Text(
-                text = stringResource(R.string.attributions),
-                modifier = Modifier.padding(MaterialTheme.spacing.medium)
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                Text(
+                    text = stringResource(R.string.attributions_text),
+                    modifier = Modifier.padding(MaterialTheme.spacing.medium),
+                )
+            }
         }
     }
 }
