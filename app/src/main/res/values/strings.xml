@@ -85,4 +85,10 @@
     <string name="sound_turboprop_plane">Turboprop Plane</string>
     <string name="sound_radio_static">Radio Static </string>
     <string name="sound_electricity">Electricity</string>
+    <string name="mood_rainforest">Rainforest</string>
+    <string name="mood_bedroom">Bedroom</string>
+    <string name="mood_airplane_cabin">Airplane Cabin</string>
+    <string name="mood_camping">Camping</string>
+    <string name="mood_jungle">Jungle</string>
+    <string name="mood_riverside">Riverside</string>
 </resources>

@@ -33,7 +33,63 @@ private enum class MoodDataSource(
     override val imageResId: Int,
     override val sounds: List<SoundData>
 ) : MoodData {
-
+    Rainforest(
+        readableName = UIText.StringResource(R.string.mood_rainforest),
+        imageResId = R.raw.mood_forest_vectorpouch,
+        sounds = listOf(
+            SoundDataSource.GentleRain,
+            SoundDataSource.Rain,
+            SoundDataSource.WindInTrees,
+            SoundDataSource.River,
+            SoundDataSource.Birds2,
+        ),
+    ),
+    Bedroom(
+        readableName = UIText.StringResource(R.string.mood_bedroom),
+        imageResId = R.raw.mood_bedroom_vectorpouch,
+        sounds = listOf(
+            SoundDataSource.WindowAC,
+            SoundDataSource.Crickets,
+        ),
+    ),
+    AirplaneCabin(
+        readableName = UIText.StringResource(R.string.mood_airplane_cabin),
+        imageResId = R.raw.mood_airplane_cabin_upklyak,
+        sounds = listOf(
+            SoundDataSource.WindowAC,
+            SoundDataSource.JetPlane,
+        ),
+    ),
+    Camping(
+        readableName = UIText.StringResource(R.string.mood_camping),
+        imageResId = R.raw.mood_camping_upklyak,
+        sounds = listOf(
+            SoundDataSource.Cicadas,
+            SoundDataSource.Fireplace,
+            SoundDataSource.WindInTrees,
+        ),
+    ),
+    Jungle(
+        readableName = UIText.StringResource(R.string.mood_jungle),
+        imageResId = R.raw.mood_jungle_freepik,
+        sounds = listOf(
+            SoundDataSource.Cicadas,
+            SoundDataSource.Birds1,
+            SoundDataSource.Birds2,
+            SoundDataSource.Birds3,
+            SoundDataSource.Brook,
+            SoundDataSource.WindInTrees,
+        ),
+    ),
+    Riverside(
+        readableName = UIText.StringResource(R.string.mood_riverside),
+        imageResId = R.raw.mood_riverside_jcomp,
+        sounds = listOf(
+            SoundDataSource.Brook,
+            SoundDataSource.Creek,
+            SoundDataSource.River,
+        ),
+    ),
 }
 
 private enum class CategoryDataSource(
