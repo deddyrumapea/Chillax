@@ -119,52 +119,52 @@ private enum class SoundDataSource(
     Rain(
         readableName = UIText.StringResource(R.string.sound_rain),
         iconResId = R.drawable.ic_sound_rain,
-        audioResId = R.raw.sound_rain_sfy,
+        audioResId = R.raw.sound_rain_soundforyou,
     ),
     GentleRain(
         readableName = UIText.StringResource(R.string.sound_gentle_rain),
         iconResId = R.drawable.ic_sound_gentle_rain,
-        audioResId = R.raw.sound_rain_gentle_sfy,
+        audioResId = R.raw.sound_rain_gentle_soundforyou,
     ),
     RainOnUmbrella(
         readableName = UIText.StringResource(R.string.sound_rain_on_umbrella),
         iconResId = R.drawable.ic_sound_rain_on_umbrella,
-        audioResId = R.raw.sound_rain_umbrella_sfy,
+        audioResId = R.raw.sound_rain_umbrella_soundforyou,
     ),
     Thunder(
         readableName = UIText.StringResource(R.string.sound_thunder),
         iconResId = R.drawable.ic_sound_thunder,
-        audioResId = R.raw.sound_thunder_sfy,
+        audioResId = R.raw.sound_thunder_soundforyou,
     ),
     RainOnMetalRoof(
         readableName = UIText.StringResource(R.string.sound_rain_on_metal_roof),
         iconResId = R.drawable.ic_sound_rain_on_metal_roof,
-        audioResId = R.raw.sound_rain_metal_roof_sfy,
+        audioResId = R.raw.sound_rain_metal_roof_soundforyou,
     ),
     Creek(
         readableName = UIText.StringResource(R.string.sound_creek),
         iconResId = R.drawable.ic_sound_creek,
-        audioResId = R.raw.sound_creek_sfy,
+        audioResId = R.raw.sound_creek_soundforyou,
     ),
     Brook(
         readableName = UIText.StringResource(R.string.sound_brook),
         iconResId = R.drawable.ic_sound_brook,
-        audioResId = R.raw.sound_brook_sfy,
+        audioResId = R.raw.sound_brook_soundforyou,
     ),
     River(
         readableName = UIText.StringResource(R.string.sound_river),
         iconResId = R.drawable.ic_sound_river,
-        audioResId = R.raw.sound_river_sfy,
+        audioResId = R.raw.sound_river_soundforyou,
     ),
     Waterfall(
         readableName = UIText.StringResource(R.string.sound_waterfall),
         iconResId = R.drawable.ic_sound_waterfall,
-        audioResId = R.raw.sound_waterfall_sfy,
+        audioResId = R.raw.sound_waterfall_soundforyou,
     ),
     WindInTrees(
         readableName = UIText.StringResource(R.string.sound_wind_in_trees),
         iconResId = R.drawable.ic_sound_wind_in_trees,
-        audioResId = R.raw.sound_wind_in_trees_sfy,
+        audioResId = R.raw.sound_wind_in_trees_soundforyou,
     ),
     Birds1(
         readableName = UIText.StringResource(R.string.sound_birds_1),
