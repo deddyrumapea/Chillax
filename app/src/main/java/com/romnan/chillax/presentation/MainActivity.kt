@@ -165,7 +165,12 @@ class MainActivity : ComponentActivity() {
                                     onPlayPauseClick = { viewModel.onPlayPauseClick() },
                                     onTimerClick = { logcat { "onTimerClick()" } },
                                     modifier = Modifier
-                                        .clickable { scope.launch { sheetState.show() } }
+                                        .then(
+                                            if (player.phase == PlayerPhase.STOPPED) Modifier
+                                            else Modifier.clickable {
+                                                scope.launch { sheetState.show() }
+                                            }
+                                        )
                                         .background(color = MaterialTheme.colors.surface)
                                         .padding(MaterialTheme.spacing.medium),
                                 )
