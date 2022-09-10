@@ -36,12 +36,15 @@ class PlayerService : Service() {
 
     private var playerServiceJob: Job? = null
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onCreate() {
+        super.onCreate()
         startForeground(
             NotificationConstants.PLAYER_SERVICE_NOTIFICATION_ID,
             notificationHelper.getBasePlayerServiceNotification().build()
         )
+    }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         playerServiceJob?.cancel()
         playerServiceJob = serviceScope.launch {
             playerRepository.player.collectLatest { player ->
