@@ -195,7 +195,7 @@ private enum class SoundDataSource(
     RainOnMetalRoof(
         readableName = UIText.StringResource(R.string.sound_rain_on_metal_roof),
         iconResId = R.drawable.ic_sound_rain_on_metal_roof,
-        audioResId = R.raw.sound_rain_metal_roof_soundforyou,
+        audioResId = R.raw.sound_rain_metal_on_roof_soundforyou,
     ),
     Creek(
         readableName = UIText.StringResource(R.string.sound_creek),
@@ -280,7 +280,7 @@ private enum class SoundDataSource(
     DeepFrying(
         readableName = UIText.StringResource(R.string.sound_deep_frying),
         iconResId = R.drawable.ic_sound_deep_frying,
-        audioResId = R.raw.sound_deep_frying_julish,
+        audioResId = R.raw.sound_deep_frying_juliush,
     ),
     Keyboard(
         readableName = UIText.StringResource(R.string.sound_keyboard),
