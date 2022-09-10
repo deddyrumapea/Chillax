@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.romnan.chillax.presentation.composable.theme.spacing
@@ -73,6 +74,8 @@ fun SoundItem(
             color = MaterialTheme.colors.onSurface,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.caption,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .background(MaterialTheme.colors.onSurface.copy(alpha = 0.1f))
                 .fillMaxWidth()
