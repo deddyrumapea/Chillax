@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Chillax</string>
     <string name="moods">Moods</string>
     <string name="sounds">Sounds</string>
@@ -40,7 +40,7 @@
     <string name="choose_theme">Choose theme</string>
     <string name="url_app_listing">https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
     <string name="share_text">Chill and relax. Download Chillax now https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
-    <string name="url_privacy_policy">https://docs.google.com/document/d/11NiSX8k1j6-xMD7EHAwg3e0Sl5ph0SLvYblqbVzvdyM/preview</string>
+    <string name="url_privacy_policy" tools:ignore="TypographyDashes">https://docs.google.com/document/d/1eXCJ_i2_-IjwHqtk-aJ-bDPYXSh--_Pg/preview</string>
     <string name="contact_subject">Chillax feature request/bug report</string>
     <string name="app_instructions">You can pick sounds to play in the Sounds menu. Or, you can also pick a mood from Moods menu, a mood is a group of sounds.\n\nWhen playing sounds, you can click on the player at the bottom to show more controls.\n\nEnjoy :)</string>
     <string name="attributions_text">Images from Freepik\n- Launcher icon background image by freepik\n- All sounds icons by freepik\n- Rainforest by vectorpouch\n- Bedroom by vectorpouch\n- Airplane Cabin by upklyak\n- Camping by upklyak\n- Jungle by freepik\n- Riverside by jcomp\n\nAudios from Pixabay\n- Birds 1 by ivolipa\n- Birds 2 by nektaria909\n- Birds 3 by swiftoid\n- Brook by soundforyou\n- Cat Purring by worldsday\n- Cicadas by sarvegu\n- Creek by soundforyou\n- Crickets by cclaretc\n- Crowd by karinalarasart\n- Deep Frying by juliush\n- Driving at Night by augustsandberg\n- Electricity by flashtrauma\n- Fireplace by juliush\n- Frogs1 by jayalvarez66\n- Frogs2 by zachrau\n- Heartbeat by placidplace\n- Jet Plane by habbis92\n- Keyboard by kevinchocs\n- Kids Playground by brunoauzet\n- Radio Static by theartguild\n- Rain Gentle by soundforyou\n- Rain on Metal Roof by soundforyou\n- Rain by soundforyou\n- Rain Umbrella by soundforyou\n- River by soundforyou\n- Seagulls by olesouwester\n- Thunder by soundforyou\n- Turboprop plane by daveshu88\n- Waterfall by soundforyou\n- Window AC by benhabrams\n- Windshield Wipers by beeproductive\n- Wind in Trees by soundforyou</string>
