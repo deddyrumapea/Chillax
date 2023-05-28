@@ -92,4 +92,5 @@
     <string name="mood_jungle">Jungle</string>
     <string name="mood_riverside">Riverside</string>
     <string name="cd_close">Close</string>
+    <string name="cd_set_timer">Set timer</string>
 </resources>

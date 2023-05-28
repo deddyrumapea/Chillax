@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -78,8 +79,9 @@ class MainActivity : ComponentActivity() {
 
                 val scope = rememberCoroutineScope()
 
+                val player by viewModel.player.collectAsState()
+                val sleepTimer by viewModel.sleepTimer.collectAsState()
                 val scaffoldState = rememberScaffoldState()
-                val player = viewModel.player.collectAsState().value
                 val sheetState = rememberModalBottomSheetState(
                     initialValue = ModalBottomSheetValue.Hidden,
                     skipHalfExpanded = true,
@@ -90,12 +92,13 @@ class MainActivity : ComponentActivity() {
                     sheetContent = {
                         PlayerSheet(
                             player = { player },
+                            sleepTimer = { sleepTimer },
                             onStopClick = {
                                 scope.launch { sheetState.hide() }
                                 viewModel.onStopClick()
                             },
                             onPlayPauseClick = viewModel::onPlayPauseClick,
-                            onTimerClick = { logcat { "onTimerClick()" } /* TODO */ },
+                            onTimerClick = viewModel::onTimerClick,
                             onSaveMoodClick = { logcat { "onSaveMoodClick()" } /* TODO */ },
                             onSoundVolumeChange = viewModel::onSoundVolumeChange,
                         )
@@ -103,27 +106,22 @@ class MainActivity : ComponentActivity() {
                     sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
                     scrimColor = Color.Black.copy(alpha = 0.5f),
                 ) {
-                    Scaffold(
-                        modifier = Modifier.fillMaxSize(),
+                    Scaffold(modifier = Modifier.fillMaxSize(),
                         scaffoldState = scaffoldState,
                         bottomBar = {
-                            BottomBar(
-                                currentDestination = {
-                                    navController.appCurrentDestinationAsState().value
-                                        ?: NavGraphs.root.startAppDestination
-                                },
-                                onItemClick = { destination ->
-                                    navController.navigate(destination.direction) {
-                                        popUpTo(navController.graph.findStartDestination().id) {
-                                            saveState = true
-                                        }
-                                        launchSingleTop = true
-                                        restoreState = true
+                            BottomBar(currentDestination = {
+                                navController.appCurrentDestinationAsState().value
+                                    ?: NavGraphs.root.startAppDestination
+                            }, onItemClick = { destination ->
+                                navController.navigate(destination.direction) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
                                     }
+                                    launchSingleTop = true
+                                    restoreState = true
                                 }
-                            )
-                        }
-                    ) { scaffoldPadding ->
+                            })
+                        }) { scaffoldPadding ->
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -162,15 +160,14 @@ class MainActivity : ComponentActivity() {
                             AnimatedVisibility(visible = player.phase != PlayerPhase.STOPPED) {
                                 PlayerPeek(
                                     player = { player },
+                                    sleepTimer = { sleepTimer },
                                     onPlayPauseClick = { viewModel.onPlayPauseClick() },
-                                    onTimerClick = { logcat { "onTimerClick()" } },
+                                    onTimerClick = viewModel::onTimerClick,
                                     modifier = Modifier
-                                        .then(
-                                            if (player.phase == PlayerPhase.STOPPED) Modifier
-                                            else Modifier.clickable {
-                                                scope.launch { sheetState.show() }
-                                            }
-                                        )
+                                        .then(if (player.phase == PlayerPhase.STOPPED) Modifier
+                                        else Modifier.clickable {
+                                            scope.launch { sheetState.show() }
+                                        })
                                         .background(color = MaterialTheme.colors.surface)
                                         .padding(MaterialTheme.spacing.medium),
                                 )
