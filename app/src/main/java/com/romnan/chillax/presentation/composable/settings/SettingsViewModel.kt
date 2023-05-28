@@ -2,15 +2,25 @@ package com.romnan.chillax.presentation.composable.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.ThemeMode
+import com.romnan.chillax.domain.model.UIText
 import com.romnan.chillax.domain.repository.AppSettingsRepository
 import com.romnan.chillax.presentation.model.BedtimePresentation
 import com.romnan.chillax.presentation.model.toBedtimePresentation
+import com.romnan.chillax.presentation.util.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +36,9 @@ class SettingsViewModel @Inject constructor(
 
     private val _isAttributionsVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isAttributionsVisible: StateFlow<Boolean> = _isAttributionsVisible
+
+    private val _uiEvent = Channel<UIEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
 
     val themeMode: StateFlow<ThemeMode> = appSettingsRepository.appSettings
         .map { it.themeMode }
@@ -110,6 +123,14 @@ class SettingsViewModel @Inject constructor(
         hideAttributionsJob?.cancel()
         hideAttributionsJob = viewModelScope.launch {
             _isAttributionsVisible.update { false }
+        }
+    }
+
+    private var onClickAppVersionJob: Job? = null
+    fun onClickAppVersion() {
+        onClickAppVersionJob?.cancel()
+        onClickAppVersionJob = viewModelScope.launch {
+            _uiEvent.send(UIEvent.ShowSnackbar(UIText.StringResource(R.string.app_developed_by)))
         }
     }
 }
