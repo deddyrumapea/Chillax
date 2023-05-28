@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -45,7 +46,11 @@ fun SettingsDialog(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(MaterialTheme.spacing.medium),
+                    .padding(
+                        top = MaterialTheme.spacing.extraSmall,
+                        bottom = MaterialTheme.spacing.extraSmall,
+                        start = MaterialTheme.spacing.medium,
+                    ),
             ) {
                 Text(
                     text = title(),
@@ -53,11 +58,12 @@ fun SettingsDialog(
                     modifier = Modifier.weight(1f),
                 )
 
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = stringResource(id = R.string.cd_close),
-                    modifier = Modifier.clickable { onDismissRequest() },
-                )
+                IconButton(onClick = { onDismissRequest() }) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = stringResource(R.string.cd_close),
+                    )
+                }
             }
 
             Divider()
