@@ -2,16 +2,34 @@ package com.romnan.chillax.presentation.composable.settings
 
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Badge
+import androidx.compose.material.icons.filled.BrightnessMedium
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.Help
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.Mail
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.NotificationsActive
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,12 +39,17 @@ import com.romnan.chillax.BuildConfig
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.ThemeMode
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
-import com.romnan.chillax.presentation.composable.settings.component.*
+import com.romnan.chillax.presentation.composable.settings.component.BasicPreference
+import com.romnan.chillax.presentation.composable.settings.component.SettingsDialog
+import com.romnan.chillax.presentation.composable.settings.component.SwitchPreference
+import com.romnan.chillax.presentation.composable.settings.component.ThemeChooserDialog
+import com.romnan.chillax.presentation.composable.settings.component.TimePickerDialog
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.constant.IntentConstants
+import com.romnan.chillax.presentation.util.UIEvent
 import com.romnan.chillax.presentation.util.asString
-import logcat.logcat
-import java.util.*
+import kotlinx.coroutines.flow.collectLatest
+import java.util.Calendar
 
 @Composable
 @Destination
@@ -35,6 +58,20 @@ fun SettingsScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                is UIEvent.ShowSnackbar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText.asString(context)
+                    )
+                }
+
+                else -> {}
+            }
+        }
+    }
 
     Scaffold(scaffoldState = scaffoldState) { scaffoldPadding ->
         val scrollState = rememberScrollState()
@@ -89,7 +126,7 @@ fun SettingsScreen(
                             viewModel.onBedtimePicked(hourOfDay = hourOfDay, minute = minute)
                         },
                     ).show() else viewModel.onTurnOffBedtime()
-                }
+                },
             )
 
             Spacer(modifier = Modifier.padding(MaterialTheme.spacing.small))
@@ -99,9 +136,9 @@ fun SettingsScreen(
                 title = { stringResource(R.string.pref_title_rate_app) },
                 description = { stringResource(R.string.pref_desc_rate_app) },
                 onClick = {
-                    Intent(Intent.ACTION_VIEW)
-                        .apply { data = Uri.parse(context.getString(R.string.url_app_listing)) }
-                        .let { context.startActivity(it) }
+                    Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(context.getString(R.string.url_app_listing))
+                    }.let { context.startActivity(it) }
                 },
             )
 
@@ -126,7 +163,7 @@ fun SettingsScreen(
                         data = Uri.parse(IntentConstants.TYPE_EMAIL)
                         putExtra(
                             Intent.EXTRA_SUBJECT,
-                            context.getString(R.string.contact_subject)
+                            context.getString(R.string.contact_subject),
                         )
                     }
                     context.startActivity(intent)
@@ -161,7 +198,7 @@ fun SettingsScreen(
                 icon = { Icons.Filled.Info },
                 title = { stringResource(R.string.pref_title_version) },
                 description = { BuildConfig.VERSION_NAME },
-                onClick = { logcat { "Version onClick. ${BuildConfig.VERSION_NAME}" } },
+                onClick = viewModel::onClickAppVersion,
             )
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
