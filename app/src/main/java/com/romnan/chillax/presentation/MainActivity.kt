@@ -250,7 +250,7 @@ class MainActivity : ComponentActivity() {
                                     shape = RoundedCornerShape(100),
                                 ) {
                                     Text(
-                                        text = getString(R.string.ok),
+                                        text = getString(R.string.ok).uppercase(),
                                         fontWeight = FontWeight.Bold,
                                     )
                                 }
