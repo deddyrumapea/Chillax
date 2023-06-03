@@ -40,7 +40,7 @@ import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.ThemeMode
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
 import com.romnan.chillax.presentation.composable.settings.component.BasicPreference
-import com.romnan.chillax.presentation.composable.settings.component.SettingsDialog
+import com.romnan.chillax.presentation.composable.component.DefaultDialog
 import com.romnan.chillax.presentation.composable.settings.component.SwitchPreference
 import com.romnan.chillax.presentation.composable.settings.component.ThemeChooserDialog
 import com.romnan.chillax.presentation.composable.settings.component.TimePickerDialog
@@ -210,7 +210,7 @@ fun SettingsScreen(
             onDismissRequest = viewModel::hideThemeChooser,
         )
 
-        if (viewModel.isAppInstructionsVisible.collectAsState().value) SettingsDialog(
+        if (viewModel.isAppInstructionsVisible.collectAsState().value) DefaultDialog(
             title = { stringResource(id = R.string.pref_title_instructions) },
             onDismissRequest = viewModel::hideAppInstructions
         ) {
@@ -220,7 +220,7 @@ fun SettingsScreen(
             )
         }
 
-        if (viewModel.isAttributionsVisible.collectAsState().value) SettingsDialog(
+        if (viewModel.isAttributionsVisible.collectAsState().value) DefaultDialog(
             title = { stringResource(id = R.string.pref_title_attributions) },
             onDismissRequest = viewModel::hideAttributions
         ) {

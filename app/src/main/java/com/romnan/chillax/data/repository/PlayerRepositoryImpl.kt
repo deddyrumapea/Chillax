@@ -70,24 +70,24 @@ class PlayerRepositoryImpl(
                 when (it.phase) {
                     PlayerPhase.PLAYING -> {
                         ContextCompat.startForegroundService(appContext, serviceIntent)
-                        startTimer()
+                        startSleepTimer()
                     }
 
                     PlayerPhase.PAUSED -> {
                         ContextCompat.startForegroundService(appContext, serviceIntent)
-                        pauseTimer()
+                        pauseSleepTimer()
                     }
 
                     PlayerPhase.STOPPED -> {
                         appContext.stopService(serviceIntent)
-                        stopTimer()
+                        stopSleepTimer()
                     }
                 }
             }
         }
     }
 
-    private suspend fun startTimer() {
+    private suspend fun startSleepTimer() {
         val sleepTimer = sleepTimerRepository.sleepTimer.firstOrNull() ?: return
 
         if (sleepTimer.timerRunning || sleepTimer.timeLeftInMillis <= 0) return
@@ -100,7 +100,7 @@ class PlayerRepositoryImpl(
             },
             onFinish = {
                 appScope.launch {
-                    stopTimer()
+                    stopSleepTimer()
                     isPlaying.value = false
                 }
             },
@@ -109,7 +109,7 @@ class PlayerRepositoryImpl(
         sleepTimerRepository.updateTimerRunning(true)
     }
 
-    private suspend fun pauseTimer() {
+    private suspend fun pauseSleepTimer() {
         val sleepTimer = sleepTimerRepository.sleepTimer.firstOrNull() ?: return
 
         if (!sleepTimer.timerRunning) return
@@ -118,7 +118,7 @@ class PlayerRepositoryImpl(
         sleepTimerRepository.updateTimerRunning(false)
     }
 
-    private suspend fun stopTimer() {
+    override suspend fun stopSleepTimer() {
         countDownTimer.cancelTimer()
         sleepTimerRepository.updateTimerRunning(false)
         sleepTimerRepository.updateTimeLeftInMillis(0L)
@@ -176,9 +176,15 @@ class PlayerRepositoryImpl(
         }
     }
 
-    override suspend fun setSleepTimer(durationInMillis: Long) {
+    override suspend fun setSleepTimer(
+        hours: Int,
+        minutes: Int,
+    ) {
+        stopSleepTimer()
+        val durationInMillis = hours * 60 * 60 * 1000L + minutes * 60 * 1000L
+        if (durationInMillis <= 0) return
         sleepTimerRepository.updateTimeLeftInMillis(timeLeftInMillis = durationInMillis)
-        if (isPlaying.value) startTimer()
+        if (isPlaying.value) startSleepTimer()
     }
 
     override suspend fun removeAllSounds() {
