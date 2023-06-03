@@ -14,5 +14,10 @@ interface PlayerRepository {
     suspend fun removeAllSounds()
     suspend fun changeSoundVolume(soundName: String, volume: Float)
     suspend fun addMood(moodName: String)
-    suspend fun setSleepTimer(durationInMillis: Long)
+    suspend fun setSleepTimer(
+        hours: Int,
+        minutes: Int,
+    )
+
+    suspend fun stopSleepTimer()
 }

@@ -1,7 +1,6 @@
-package com.romnan.chillax.presentation.composable.settings.component
+package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +24,7 @@ import com.romnan.chillax.R
 import com.romnan.chillax.presentation.composable.theme.spacing
 
 @Composable
-fun SettingsDialog(
+fun DefaultDialog(
     title: @Composable () -> String,
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties(),
