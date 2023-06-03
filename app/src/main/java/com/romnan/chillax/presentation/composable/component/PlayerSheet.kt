@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.romnan.chillax.R
 import com.romnan.chillax.presentation.composable.theme.spacing
@@ -83,7 +84,10 @@ fun PlayerSheet(
                     .height(48.dp)
                     .weight(1f)
             ) {
-                Text(text = stringResource(R.string.stop_all))
+                Text(
+                    text = stringResource(R.string.stop_all).uppercase(),
+                    fontWeight = FontWeight.Bold,
+                )
             }
 
 //            Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
