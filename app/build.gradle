@@ -128,7 +128,7 @@ dependencies {
     implementation 'com.squareup.logcat:logcat:0.1'
 
     // Media3
-    def media3_version = "1.0.1"
+    def media3_version = "1.0.2"
     implementation "androidx.media3:media3-exoplayer:$media3_version"
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
     implementation "androidx.media3:media3-ui:$media3_version"
@@ -146,4 +146,8 @@ dependencies {
     // SplashScreen
     def splash_screen_version = "1.0.1"
     implementation "androidx.core:core-splashscreen:$splash_screen_version"
+
+    // NumberPicker
+    def number_picker_version = "1.0.3"
+    implementation "com.chargemap.compose:numberpicker:$number_picker_version"
 }

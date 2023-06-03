@@ -94,4 +94,10 @@
     <string name="cd_close">Close</string>
     <string name="cd_set_timer">Set timer</string>
     <string name="app_developed_by">Chillax is developed by Deddy Romnan Rumapea</string>
+    <string name="set_sleep_timer">Set Sleep Timer</string>
+    <string name="ok">OK</string>
+    <string name="hours">hours</string>
+    <string name="minutes">minutes</string>
+    <string name="stop_timer">Stop timer</string>
+    <string name="timer_disabled">Timer disabled</string>
 </resources>
