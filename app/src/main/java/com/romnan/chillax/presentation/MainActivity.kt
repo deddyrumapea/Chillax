@@ -199,6 +199,13 @@ class MainActivity : ComponentActivity() {
                                 var pickedHours by remember { mutableStateOf(0) }
                                 var pickedMinutes by remember { mutableStateOf(30) }
 
+                                Text(
+                                    text = getString(R.string.pause_all_sounds_after),
+                                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                                )
+
+                                Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+
                                 Row(
                                     modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = Arrangement.Center,
