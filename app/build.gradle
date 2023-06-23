@@ -21,14 +21,14 @@ kotlin {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.romnan.chillax"
         minSdk 21
-        targetSdk 32
-        versionCode 20230131
-        versionName "2023.01.31"
+        targetSdk 33
+        versionCode 20230608
+        versionName "2023.06.08"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -128,7 +128,7 @@ dependencies {
     implementation 'com.squareup.logcat:logcat:0.1'
 
     // Media3
-    def media3_version = "1.0.0-beta02"
+    def media3_version = "1.0.2"
     implementation "androidx.media3:media3-exoplayer:$media3_version"
     implementation "androidx.media3:media3-exoplayer-dash:$media3_version"
     implementation "androidx.media3:media3-ui:$media3_version"
@@ -144,6 +144,10 @@ dependencies {
     implementation "io.coil-kt:coil-compose:$coil_version"
 
     // SplashScreen
-    def splash_screen_version = "1.0.0"
+    def splash_screen_version = "1.0.1"
     implementation "androidx.core:core-splashscreen:$splash_screen_version"
+
+    // NumberPicker
+    def number_picker_version = "1.0.3"
+    implementation "com.chargemap.compose:numberpicker:$number_picker_version"
 }

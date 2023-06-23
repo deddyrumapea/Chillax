@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.DialogProperties
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.ThemeMode
+import com.romnan.chillax.presentation.composable.component.DefaultDialog
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
@@ -22,7 +23,7 @@ fun ThemeChooserDialog(
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties(),
 ) {
-    SettingsDialog(
+    DefaultDialog(
         title = { stringResource(id = R.string.choose_theme) },
         onDismissRequest = onDismissRequest,
     ) {

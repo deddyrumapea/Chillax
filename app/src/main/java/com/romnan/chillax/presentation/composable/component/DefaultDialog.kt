@@ -1,7 +1,6 @@
-package com.romnan.chillax.presentation.composable.settings.component
+package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -24,7 +24,7 @@ import com.romnan.chillax.R
 import com.romnan.chillax.presentation.composable.theme.spacing
 
 @Composable
-fun SettingsDialog(
+fun DefaultDialog(
     title: @Composable () -> String,
     onDismissRequest: () -> Unit,
     properties: DialogProperties = DialogProperties(),
@@ -45,7 +45,11 @@ fun SettingsDialog(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(MaterialTheme.spacing.medium),
+                    .padding(
+                        top = MaterialTheme.spacing.extraSmall,
+                        bottom = MaterialTheme.spacing.extraSmall,
+                        start = MaterialTheme.spacing.medium,
+                    ),
             ) {
                 Text(
                     text = title(),
@@ -53,11 +57,12 @@ fun SettingsDialog(
                     modifier = Modifier.weight(1f),
                 )
 
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = stringResource(id = R.string.cd_close),
-                    modifier = Modifier.clickable { onDismissRequest() },
-                )
+                IconButton(onClick = { onDismissRequest() }) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = stringResource(R.string.cd_close),
+                    )
+                }
             }
 
             Divider()
