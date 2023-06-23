@@ -31,7 +31,7 @@
     <string name="pref_title_instructions">Instructions</string>
     <string name="pref_title_privacy_policy">Privacy policy</string>
     <string name="pref_title_attributions">Attributions</string>
-    <string name="pref_title_version">App Version</string>
+    <string name="pref_title_version">App version</string>
     <string name="pref_title_bedtime_reminder">Remind me when it\'s bedtime</string>
     <string name="off">Off</string>
     <string name="theme_system">System</string>
@@ -92,4 +92,13 @@
     <string name="mood_jungle">Jungle</string>
     <string name="mood_riverside">Riverside</string>
     <string name="cd_close">Close</string>
+    <string name="cd_set_timer">Set timer</string>
+    <string name="app_developed_by">Chillax is developed by Deddy Romnan Rumapea</string>
+    <string name="set_sleep_timer">Set Sleep Timer</string>
+    <string name="ok">OK</string>
+    <string name="hours">hours</string>
+    <string name="minutes">minutes</string>
+    <string name="stop_timer">Stop timer</string>
+    <string name="timer_disabled">Timer disabled</string>
+    <string name="pause_all_sounds_after">Pause all sounds after…</string>
 </resources>

@@ -1,7 +1,12 @@
 package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -11,15 +16,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.romnan.chillax.R
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.model.PlayerPresentation
+import com.romnan.chillax.presentation.model.SleepTimerPresentation
 import com.romnan.chillax.presentation.model.SoundPresentation
 
 @Composable
 fun PlayerSheet(
     player: () -> PlayerPresentation,
+    sleepTimer: () -> SleepTimerPresentation,
     onStopClick: () -> Unit,
     onPlayPauseClick: () -> Unit,
     onTimerClick: () -> Unit,
@@ -40,6 +48,7 @@ fun PlayerSheet(
 
         PlayerPeek(
             player = player,
+            sleepTimer = sleepTimer,
             onPlayPauseClick = onPlayPauseClick,
             onTimerClick = onTimerClick,
         )
@@ -55,11 +64,9 @@ fun PlayerSheet(
                 count = player().sounds.size,
                 key = { i -> player().sounds[i].name },
             ) { i ->
-                PlayingSoundItem(
-                    sound = { player().sounds[i] },
+                PlayingSoundItem(sound = { player().sounds[i] },
                     modifier = Modifier.padding(vertical = MaterialTheme.spacing.small),
-                    onVolumeChange = { onSoundVolumeChange(player().sounds[i], it) }
-                )
+                    onVolumeChange = { onSoundVolumeChange(player().sounds[i], it) })
             }
         }
 
@@ -77,7 +84,10 @@ fun PlayerSheet(
                     .height(48.dp)
                     .weight(1f)
             ) {
-                Text(text = stringResource(R.string.stop_all))
+                Text(
+                    text = stringResource(R.string.stop_all).uppercase(),
+                    fontWeight = FontWeight.Bold,
+                )
             }
 
 //            Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))

@@ -9,23 +9,32 @@ import com.romnan.chillax.data.model.PlayerSerializable
 import com.romnan.chillax.data.model.SoundData
 import com.romnan.chillax.data.serializer.PlayerSerializer
 import com.romnan.chillax.data.source.AppDataSource
+import com.romnan.chillax.data.util.CountDownTimer
 import com.romnan.chillax.domain.constant.PlayerConstants
 import com.romnan.chillax.domain.model.Category
 import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.repository.PlayerRepository
+import com.romnan.chillax.domain.repository.SleepTimerRepository
 import com.romnan.chillax.presentation.service.PlayerService
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class PlayerRepositoryImpl(
     appContext: Context,
-    appScope: CoroutineScope,
+    private val appScope: CoroutineScope,
+    private val sleepTimerRepository: SleepTimerRepository,
+    private val countDownTimer: CountDownTimer,
 ) : PlayerRepository {
 
     private val playerDataStore: DataStore<PlayerSerializable> = appContext.playerDataStore
@@ -41,7 +50,7 @@ class PlayerRepositoryImpl(
     override val player: Flow<Player>
         get() = combine(
             playerDataStore.data,
-            isPlaying
+            isPlaying,
         ) { playerSerializable: PlayerSerializable, isPlaying: Boolean ->
             Player(
                 phase = when {
@@ -49,9 +58,8 @@ class PlayerRepositoryImpl(
                     !isPlaying -> PlayerPhase.PAUSED
                     else -> PlayerPhase.PLAYING
                 },
-                sounds = playerSerializable.sounds
-                    .sortedBy { it.startedAt }
-                    .mapNotNull { it.toDomain() }
+                sounds = playerSerializable.sounds.sortedBy { it.startedAt }
+                    .mapNotNull { it.toDomain() },
             )
         }
 
@@ -60,16 +68,60 @@ class PlayerRepositoryImpl(
             player.collectLatest {
                 val serviceIntent = Intent(appContext, PlayerService::class.java)
                 when (it.phase) {
-                    PlayerPhase.PLAYING -> ContextCompat
-                        .startForegroundService(appContext, serviceIntent)
+                    PlayerPhase.PLAYING -> {
+                        ContextCompat.startForegroundService(appContext, serviceIntent)
+                        startSleepTimer()
+                    }
 
-                    PlayerPhase.PAUSED -> ContextCompat
-                        .startForegroundService(appContext, serviceIntent)
+                    PlayerPhase.PAUSED -> {
+                        ContextCompat.startForegroundService(appContext, serviceIntent)
+                        pauseSleepTimer()
+                    }
 
-                    PlayerPhase.STOPPED -> appContext.stopService(serviceIntent)
+                    PlayerPhase.STOPPED -> {
+                        appContext.stopService(serviceIntent)
+                        stopSleepTimer()
+                    }
                 }
             }
         }
+    }
+
+    private suspend fun startSleepTimer() {
+        val sleepTimer = sleepTimerRepository.sleepTimer.firstOrNull() ?: return
+
+        if (sleepTimer.timerRunning || sleepTimer.timeLeftInMillis <= 0) return
+
+        countDownTimer.startTimer(
+            durationMillis = sleepTimer.timeLeftInMillis,
+            countDownInterval = 1000L,
+            onTick = { millisUntilFinished ->
+                sleepTimerRepository.updateTimeLeftInMillis(millisUntilFinished)
+            },
+            onFinish = {
+                appScope.launch {
+                    stopSleepTimer()
+                    isPlaying.value = false
+                }
+            },
+        )
+
+        sleepTimerRepository.updateTimerRunning(true)
+    }
+
+    private suspend fun pauseSleepTimer() {
+        val sleepTimer = sleepTimerRepository.sleepTimer.firstOrNull() ?: return
+
+        if (!sleepTimer.timerRunning) return
+
+        countDownTimer.cancelTimer()
+        sleepTimerRepository.updateTimerRunning(false)
+    }
+
+    override suspend fun stopSleepTimer() {
+        countDownTimer.cancelTimer()
+        sleepTimerRepository.updateTimerRunning(false)
+        sleepTimerRepository.updateTimeLeftInMillis(0L)
     }
 
     override suspend fun playOrPausePlayer() {
@@ -94,7 +146,7 @@ class PlayerRepositoryImpl(
                     }
 
                     else -> currSounds
-                }
+                },
             )
         }
     }
@@ -117,10 +169,22 @@ class PlayerRepositoryImpl(
                             sound.toSerializable(startedAt = System.currentTimeMillis() + i)
                         })
                     }
+
                     else -> currSounds
                 }
             )
         }
+    }
+
+    override suspend fun setSleepTimer(
+        hours: Int,
+        minutes: Int,
+    ) {
+        stopSleepTimer()
+        val durationInMillis = hours * 60 * 60 * 1000L + minutes * 60 * 1000L
+        if (durationInMillis <= 0) return
+        sleepTimerRepository.updateTimeLeftInMillis(timeLeftInMillis = durationInMillis)
+        if (isPlaying.value) startSleepTimer()
     }
 
     override suspend fun removeAllSounds() {
@@ -136,10 +200,8 @@ class PlayerRepositoryImpl(
             if (oldSound.volume == scaledVolume) return@updateData player
 
             player.copy(
-                sounds = player.sounds
-                    .toPersistentList()
-                    .remove(oldSound)
-                    .add(oldSound.copy(volume = scaledVolume))
+                sounds = player.sounds.toPersistentList().remove(oldSound)
+                    .add(oldSound.copy(volume = scaledVolume)),
             )
         }
     }
