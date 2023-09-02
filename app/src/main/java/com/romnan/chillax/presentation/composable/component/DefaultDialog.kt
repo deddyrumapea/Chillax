@@ -2,6 +2,8 @@ package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,19 +29,20 @@ import com.romnan.chillax.presentation.composable.theme.spacing
 fun DefaultDialog(
     title: @Composable () -> String,
     onDismissRequest: () -> Unit,
+    modifier: Modifier = Modifier,
     properties: DialogProperties = DialogProperties(),
-    content: @Composable () -> Unit,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
         properties = properties,
     ) {
         Column(
-            modifier = Modifier
-                .background(
-                    color = MaterialTheme.colors.surface,
-                    shape = RoundedCornerShape(8.dp),
-                )
+            modifier = modifier.background(
+                color = MaterialTheme.colors.surface,
+                shape = RoundedCornerShape(8.dp),
+            ),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -67,7 +70,13 @@ fun DefaultDialog(
 
             Divider()
 
-            content.invoke()
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(contentPadding),
+            ) {
+                content.invoke(this)
+            }
         }
     }
 }

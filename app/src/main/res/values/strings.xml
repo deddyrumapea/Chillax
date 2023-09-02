@@ -101,4 +101,8 @@
     <string name="stop_timer">Stop timer</string>
     <string name="timer_disabled">Timer disabled</string>
     <string name="pause_all_sounds_after">Pause all sounds after…</string>
+    <string name="permission_request">Permission Request</string>
+    <string name="rationale_bed_time_reminder">Please allow notification permission to be able to receive Bedtime Reminder notifications</string>
+    <string name="rationale_default">Please allow the requested permissions to support full functionalities</string>
+    <string name="go_to_settings">Go to Settings</string>
 </resources>
