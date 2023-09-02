@@ -1,9 +1,12 @@
 package com.romnan.chillax.presentation
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -31,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.PermissionChecker
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.chargemap.compose.numberpicker.ListItemPicker
@@ -65,6 +69,7 @@ import logcat.logcat
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     private val viewModel: MainViewModel by viewModels()
     private val moodsViewModel: MoodsViewModel by viewModels()
     private val soundsViewModel: SoundsViewModel by viewModels()
@@ -76,6 +81,18 @@ class MainActivity : ComponentActivity() {
 
         installSplashScreen().apply {
             setKeepOnScreenCondition { viewModel.themeMode.value == null }
+        }
+
+        if ((PermissionChecker.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) == PermissionChecker.PERMISSION_DENIED) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+        ) {
+            registerForActivityResult(
+                ActivityResultContracts.RequestMultiplePermissions(),
+            ) { permissionRequestResults ->
+                logcat { permissionRequestResults.toString() }
+            }.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
         }
 
         setContent {

@@ -40,13 +40,15 @@ class SettingsViewModel @Inject constructor(
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    val themeMode: StateFlow<ThemeMode> = appSettingsRepository.appSettings
-        .map { it.themeMode }
+    val themeMode: StateFlow<ThemeMode> = appSettingsRepository.appSettings.map { it.themeMode }
         .stateIn(viewModelScope, SharingStarted.Lazily, ThemeMode.System)
 
-    val bedtime: StateFlow<BedtimePresentation> = appSettingsRepository.appSettings
-        .map { it.bedtimeInMillis.toBedtimePresentation() }
-        .stateIn(viewModelScope, SharingStarted.Lazily, BedtimePresentation.defaultValue)
+    val bedtime: StateFlow<BedtimePresentation> =
+        appSettingsRepository.appSettings.map { it.bedtimeInMillis.toBedtimePresentation() }
+            .stateIn(viewModelScope, SharingStarted.Lazily, BedtimePresentation.defaultValue)
+
+    private val _visiblePermissionDialogQueue = MutableStateFlow<List<String>>(emptyList())
+    val visiblePermissionDialogQueue: StateFlow<List<String>> = _visiblePermissionDialogQueue
 
     private var onThemeModeChangeJob: Job? = null
     fun onThemeModeChange(themeMode: ThemeMode) {
@@ -132,5 +134,15 @@ class SettingsViewModel @Inject constructor(
         onClickAppVersionJob = viewModelScope.launch {
             _uiEvent.send(UIEvent.ShowSnackbar(UIText.StringResource(R.string.app_developed_by)))
         }
+    }
+
+    fun onPermissionResults(permission: String, isGranted: Boolean) {
+        if (!isGranted && !visiblePermissionDialogQueue.value.contains(permission)) {
+            _visiblePermissionDialogQueue.update { it.toMutableList().apply { add(permission) } }
+        }
+    }
+
+    fun onDismissPermissionDialog() {
+        _visiblePermissionDialogQueue.update { it.toMutableList().apply { removeFirst() } }
     }
 }
