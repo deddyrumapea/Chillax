@@ -1,8 +1,14 @@
 package com.romnan.chillax.presentation.composable.settings
 
+import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +16,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -34,13 +43,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.core.content.PermissionChecker
 import com.ramcosta.composedestinations.annotation.Destination
 import com.romnan.chillax.BuildConfig
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.ThemeMode
+import com.romnan.chillax.presentation.composable.component.DefaultDialog
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
 import com.romnan.chillax.presentation.composable.settings.component.BasicPreference
-import com.romnan.chillax.presentation.composable.component.DefaultDialog
 import com.romnan.chillax.presentation.composable.settings.component.SwitchPreference
 import com.romnan.chillax.presentation.composable.settings.component.ThemeChooserDialog
 import com.romnan.chillax.presentation.composable.settings.component.TimePickerDialog
@@ -58,6 +70,23 @@ fun SettingsScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
+
+    val notifPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arrayOf(Manifest.permission.POST_NOTIFICATIONS)
+    } else null
+
+
+    val notifPermissionReqLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+        onResult = { permissionResults ->
+            notifPermissions?.forEach { permission ->
+                viewModel.onPermissionResults(
+                    permission = permission,
+                    isGranted = permissionResults[permission] == true,
+                )
+            }
+        },
+    )
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest { event ->
@@ -99,6 +128,31 @@ fun SettingsScreen(
             )
 
             val bedtime = viewModel.bedtime.collectAsState()
+            val onClickBedtimePreference: () -> Unit = {
+                when {
+                    notifPermissions?.any {
+                        PermissionChecker.checkSelfPermission(
+                            context,
+                            it,
+                        ) == PermissionChecker.PERMISSION_DENIED
+                    } == true -> {
+                        notifPermissionReqLauncher.launch(notifPermissions)
+                    }
+
+                    !bedtime.value.isActivated -> {
+                        TimePickerDialog(
+                            context = context,
+                            initHourOfDay = bedtime.value.calendar[Calendar.HOUR_OF_DAY],
+                            initMinute = bedtime.value.calendar[Calendar.MINUTE],
+                            onPicked = { hourOfDay: Int, minute: Int ->
+                                viewModel.onBedtimePicked(hourOfDay = hourOfDay, minute = minute)
+                            },
+                        ).show()
+                    }
+
+                    else -> viewModel.onTurnOffBedtime()
+                }
+            }
             SwitchPreference(
                 icon = {
                     if (bedtime.value.isActivated) Icons.Filled.NotificationsActive
@@ -107,26 +161,8 @@ fun SettingsScreen(
                 title = { stringResource(R.string.pref_title_bedtime_reminder) },
                 description = { bedtime.value.readableTime?.asString() },
                 checked = { bedtime.value.isActivated },
-                onClick = {
-                    if (!bedtime.value.isActivated) TimePickerDialog(
-                        context = context,
-                        initHourOfDay = bedtime.value.calendar[Calendar.HOUR_OF_DAY],
-                        initMinute = bedtime.value.calendar[Calendar.MINUTE],
-                        onPicked = { hourOfDay: Int, minute: Int ->
-                            viewModel.onBedtimePicked(hourOfDay = hourOfDay, minute = minute)
-                        },
-                    ).show() else viewModel.onTurnOffBedtime()
-                },
-                onCheckedChange = {
-                    if (!bedtime.value.isActivated) TimePickerDialog(
-                        context = context,
-                        initHourOfDay = bedtime.value.calendar[Calendar.HOUR_OF_DAY],
-                        initMinute = bedtime.value.calendar[Calendar.MINUTE],
-                        onPicked = { hourOfDay: Int, minute: Int ->
-                            viewModel.onBedtimePicked(hourOfDay = hourOfDay, minute = minute)
-                        },
-                    ).show() else viewModel.onTurnOffBedtime()
-                },
+                onClick = { onClickBedtimePreference() },
+                onCheckedChange = { onClickBedtimePreference() },
             )
 
             Spacer(modifier = Modifier.padding(MaterialTheme.spacing.small))
@@ -235,5 +271,44 @@ fun SettingsScreen(
                 )
             }
         }
+
+        viewModel.visiblePermissionDialogQueue.collectAsState().value.reversed()
+            .forEach { permission ->
+                DefaultDialog(
+                    title = { stringResource(R.string.permission_request) },
+                    onDismissRequest = viewModel::onDismissPermissionDialog,
+                    contentPadding = PaddingValues(MaterialTheme.spacing.medium),
+                ) {
+                    Text(
+                        text = if (permission == Manifest.permission.POST_NOTIFICATIONS) stringResource(
+                            R.string.rationale_bed_time_reminder
+                        ) else stringResource(R.string.rationale_default),
+                    )
+
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+
+                    Button(
+                        onClick = {
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", context.packageName, null)
+                            ).also { context.startActivity(it) }
+                        },
+                        shape = RoundedCornerShape(100),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.secondary
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp),
+                    ) {
+                        Text(
+                            text = stringResource(R.string.go_to_settings),
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colors.onSecondary,
+                        )
+                    }
+                }
+            }
     }
 }
