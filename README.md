@@ -1,7 +1,5 @@
 # Chillax - Relaxation Sound App
 
-![Chillax Logo](https://github.com/deddyrumapea/Chillax/assets/14845590/c27d1828-c2cc-464f-8177-7d926e6d5f9b)
-
 <a href="https://play.google.com/store/apps/details?id=com.romnan.chillax" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="100"/></a>
 
