@@ -1,7 +1,7 @@
 # Chillax
 chill &amp; relax
 
-<a href="https://play.google.com/store/apps/details?id=com.romnan.kamusbatak" target="_blank">
+<a href="https://play.google.com/store/apps/details?id=com.romnan.chillax" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="100"/></a>
 
 License
