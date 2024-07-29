@@ -4,13 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SleepTimerSerializable(
-    val timerRunning: Boolean,
-    val timeLeftInMillis: Long,
-) {
-    companion object {
-        val defaultValue = SleepTimerSerializable(
-            timerRunning = false,
-            timeLeftInMillis = 0L,
-        )
-    }
-}
+    val timerRunning: Boolean = false,
+    val timeLeftInMillis: Long = 0L,
+)

@@ -9,7 +9,7 @@ import java.io.OutputStream
 
 object PlayerSerializer : Serializer<PlayerSerializable> {
     override val defaultValue: PlayerSerializable
-        get() = PlayerSerializable.defaultValue
+        get() = PlayerSerializable()
 
     override suspend fun readFrom(input: InputStream): PlayerSerializable {
         return try {
