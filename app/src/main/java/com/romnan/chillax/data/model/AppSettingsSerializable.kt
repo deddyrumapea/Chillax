@@ -5,13 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppSettingsSerializable(
-    val themeModeName: String,
-    val bedtimeInMillis: Long?,
-) {
-    companion object {
-        val defaultValue = AppSettingsSerializable(
-            themeModeName = ThemeMode.Dark.name,
-            bedtimeInMillis = null,
-        )
-    }
-}
+    val themeModeName: String = ThemeMode.Dark.name,
+    val bedtimeInMillis: Long? = null,
+)
