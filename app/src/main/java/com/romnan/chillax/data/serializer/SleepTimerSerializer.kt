@@ -9,7 +9,7 @@ import java.io.OutputStream
 
 object SleepTimerSerializer : Serializer<SleepTimerSerializable> {
     override val defaultValue: SleepTimerSerializable
-        get() = SleepTimerSerializable.defaultValue
+        get() = SleepTimerSerializable()
 
     override suspend fun readFrom(input: InputStream): SleepTimerSerializable {
         return try {
@@ -19,7 +19,7 @@ object SleepTimerSerializer : Serializer<SleepTimerSerializable> {
             )
         } catch (e: SerializationException) {
             e.printStackTrace()
-            SleepTimerSerializable.defaultValue
+            defaultValue
         }
     }
 
