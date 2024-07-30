@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.romnan.chillax.data.model.PlayerSerializable
+import com.romnan.chillax.data.model.serializable.PlayerSerializable
 import com.romnan.chillax.data.model.SoundData
 import com.romnan.chillax.data.serializer.PlayerSerializer
 import com.romnan.chillax.data.source.AppDataSource

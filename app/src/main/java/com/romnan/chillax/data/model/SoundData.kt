@@ -1,5 +1,6 @@
 package com.romnan.chillax.data.model
 
+import com.romnan.chillax.data.model.serializable.SoundSerializable
 import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.model.UIText
 
