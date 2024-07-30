@@ -1,7 +1,7 @@
 package com.romnan.chillax.data.serializer
 
 import androidx.datastore.core.Serializer
-import com.romnan.chillax.data.model.PlayerSerializable
+import com.romnan.chillax.data.model.serializable.PlayerSerializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
