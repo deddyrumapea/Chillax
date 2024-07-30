@@ -29,11 +29,10 @@ class BedtimeBroadcastReceiver : BroadcastReceiver() {
                 appContext,
                 PENDING_INTENT_REQUEST_CODE,
                 Intent(appContext, BedtimeBroadcastReceiver::class.java),
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                } else {
-                    PendingIntent.FLAG_UPDATE_CURRENT
-                }
+                when (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    true -> PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                    false -> PendingIntent.FLAG_UPDATE_CURRENT
+                },
             )
         }
     }
