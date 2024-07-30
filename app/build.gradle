@@ -150,4 +150,7 @@ dependencies {
     // NumberPicker
     def number_picker_version = "1.0.3"
     implementation "com.chargemap.compose:numberpicker:$number_picker_version"
+
+    // Custom Tabs
+    implementation 'androidx.browser:browser:1.8.0'
 }
