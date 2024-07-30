@@ -1,7 +1,7 @@
 package com.romnan.chillax.data.serializer
 
 import androidx.datastore.core.Serializer
-import com.romnan.chillax.data.model.PlayerSerializable
+import com.romnan.chillax.data.model.serializable.PlayerSerializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
@@ -9,7 +9,7 @@ import java.io.OutputStream
 
 object PlayerSerializer : Serializer<PlayerSerializable> {
     override val defaultValue: PlayerSerializable
-        get() = PlayerSerializable.defaultValue
+        get() = PlayerSerializable()
 
     override suspend fun readFrom(input: InputStream): PlayerSerializable {
         return try {

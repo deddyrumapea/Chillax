@@ -1,12 +1,12 @@
 package com.romnan.chillax.di
 
 import android.content.Context
-import com.romnan.chillax.data.model.TimeSourceImpl
+import android.os.SystemClock
 import com.romnan.chillax.data.repository.AppSettingsRepositoryImpl
 import com.romnan.chillax.data.repository.PlayerRepositoryImpl
 import com.romnan.chillax.data.repository.SleepTimerRepositoryImpl
 import com.romnan.chillax.data.util.CountDownTimer
-import com.romnan.chillax.domain.model.TimeSource
+import com.romnan.chillax.domain.util.TimeSource
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.domain.repository.AppSettingsRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
@@ -81,7 +81,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTimeSource(): TimeSource = TimeSourceImpl()
+    fun provideTimeSource(): TimeSource {
+        return object : TimeSource {
+            override val elapsedRealTime: Long
+                get() = SystemClock.elapsedRealtime()
+        }
+    }
 }
 
 @Retention(AnnotationRetention.RUNTIME)

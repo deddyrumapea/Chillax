@@ -1,7 +1,7 @@
 package com.romnan.chillax.data.util
 
 import com.romnan.chillax.di.ApplicationScope
-import com.romnan.chillax.domain.model.TimeSource
+import com.romnan.chillax.domain.util.TimeSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

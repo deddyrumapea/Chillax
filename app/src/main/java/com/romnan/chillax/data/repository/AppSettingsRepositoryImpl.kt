@@ -4,7 +4,7 @@ import android.app.AlarmManager
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.romnan.chillax.data.model.AppSettingsSerializable
+import com.romnan.chillax.data.model.serializable.AppSettingsSerializable
 import com.romnan.chillax.data.receiver.BedtimeBroadcastReceiver
 import com.romnan.chillax.data.serializer.AppSettingsSerializer
 import com.romnan.chillax.domain.model.AppSettings

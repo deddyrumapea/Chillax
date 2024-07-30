@@ -1,7 +1,7 @@
 package com.romnan.chillax.data.serializer
 
 import androidx.datastore.core.Serializer
-import com.romnan.chillax.data.model.SleepTimerSerializable
+import com.romnan.chillax.data.model.serializable.SleepTimerSerializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
@@ -9,7 +9,7 @@ import java.io.OutputStream
 
 object SleepTimerSerializer : Serializer<SleepTimerSerializable> {
     override val defaultValue: SleepTimerSerializable
-        get() = SleepTimerSerializable.defaultValue
+        get() = SleepTimerSerializable()
 
     override suspend fun readFrom(input: InputStream): SleepTimerSerializable {
         return try {
@@ -19,7 +19,7 @@ object SleepTimerSerializer : Serializer<SleepTimerSerializable> {
             )
         } catch (e: SerializationException) {
             e.printStackTrace()
-            SleepTimerSerializable.defaultValue
+            defaultValue
         }
     }
 
