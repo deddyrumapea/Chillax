@@ -7,6 +7,7 @@ import android.os.Build
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.BrightnessMedium
+import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Help
 import androidx.compose.material.icons.filled.Info
@@ -62,6 +64,7 @@ import com.romnan.chillax.presentation.util.UIEvent
 import com.romnan.chillax.presentation.util.asString
 import kotlinx.coroutines.flow.collectLatest
 import java.util.Calendar
+
 
 @Composable
 @Destination
@@ -103,14 +106,13 @@ fun SettingsScreen(
     }
 
     Scaffold(scaffoldState = scaffoldState) { scaffoldPadding ->
-        val scrollState = rememberScrollState()
         val themeMode = viewModel.themeMode.collectAsState()
 
         Column(
             modifier = Modifier
                 .padding(scaffoldPadding)
                 .fillMaxSize()
-                .verticalScroll(state = scrollState)
+                .verticalScroll(state = rememberScrollState())
         ) {
             ScreenTitle(text = { stringResource(id = R.string.settings) })
 
@@ -145,7 +147,10 @@ fun SettingsScreen(
                             initHourOfDay = bedtime.value.calendar[Calendar.HOUR_OF_DAY],
                             initMinute = bedtime.value.calendar[Calendar.MINUTE],
                             onPicked = { hourOfDay: Int, minute: Int ->
-                                viewModel.onBedtimePicked(hourOfDay = hourOfDay, minute = minute)
+                                viewModel.onBedtimePicked(
+                                    hourOfDay = hourOfDay,
+                                    minute = minute,
+                                )
                             },
                         ).show()
                     }
@@ -224,9 +229,25 @@ fun SettingsScreen(
                 icon = { Icons.Filled.VerifiedUser },
                 title = { stringResource(R.string.pref_title_privacy_policy) },
                 onClick = {
-                    Intent(Intent.ACTION_VIEW).apply {
-                        data = Uri.parse(context.getString(R.string.url_privacy_policy))
-                    }.let { context.startActivity(it) }
+                    CustomTabsIntent.Builder()
+                        .build()
+                        .launchUrl(
+                            context,
+                            Uri.parse(context.getString(R.string.url_privacy_policy))
+                        )
+                },
+            )
+
+            BasicPreference(
+                icon = { Icons.Filled.Code },
+                title = { stringResource(R.string.source_code) },
+                onClick = {
+                    CustomTabsIntent.Builder()
+                        .build()
+                        .launchUrl(
+                            context,
+                            Uri.parse(context.getString(R.string.url_source_code))
+                        )
                 },
             )
 
