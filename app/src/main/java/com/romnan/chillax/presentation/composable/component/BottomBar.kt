@@ -31,7 +31,7 @@ fun BottomBar(
             .selectableGroup(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        BottomBarDestination.values().forEach { destination ->
+        BottomBarDestination.entries.forEach { destination: BottomBarDestination ->
             val isSelected = currentDestination() == destination.direction
 
             BottomNavigationItem(

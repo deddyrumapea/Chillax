@@ -8,7 +8,7 @@ import com.romnan.chillax.domain.model.UIText
 
 object AppDataSource {
 
-    val sounds: List<Sound> = SoundData.values().map { soundData: SoundData ->
+    val sounds: List<Sound> = SoundData.entries.map { soundData: SoundData ->
         Sound(
             id = soundData.id,
             readableName = soundData.readableName,
@@ -17,7 +17,7 @@ object AppDataSource {
         )
     }
 
-    val moods: List<Mood> = MoodData.values().map { moodData: MoodData ->
+    val moods: List<Mood> = MoodData.entries.map { moodData: MoodData ->
         Mood(
             id = moodData.id,
             readableName = moodData.readableName,
@@ -26,7 +26,7 @@ object AppDataSource {
         )
     }
 
-    val categories: List<Category> = CategoryData.values().map { categoryData: CategoryData ->
+    val categories: List<Category> = CategoryData.entries.map { categoryData: CategoryData ->
         Category(
             id = categoryData.id,
             readableName = categoryData.readableName,
