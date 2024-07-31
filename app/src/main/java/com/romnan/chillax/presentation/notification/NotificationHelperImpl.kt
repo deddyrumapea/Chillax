@@ -10,10 +10,9 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.romnan.chillax.R
-import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.presentation.MainActivity
-import com.romnan.chillax.presentation.model.toPresentation
+import com.romnan.chillax.presentation.model.PlayerPresentation
 import com.romnan.chillax.presentation.notification.NotificationConstants.BEDTIME_NOTIFICATION_ID
 import com.romnan.chillax.presentation.notification.NotificationConstants.BEDTIME_REMINDER_CHANNEL_ID
 import com.romnan.chillax.presentation.notification.NotificationConstants.PLAYER_SERVICE_CHANNEL_ID
@@ -50,12 +49,10 @@ class NotificationHelperImpl(
             .setSilent(true)
             .setOnlyAlertOnce(true)
 
-    override fun updatePlayerServiceNotification(player: Player) {
-        val presentation = player.toPresentation()
-
+    override fun updatePlayerServiceNotification(player: PlayerPresentation) {
         val updatedNotification = getBasePlayerServiceNotification()
-            .setContentTitle(presentation.phaseTitle.asString(appContext))
-            .setContentText(presentation.soundsTitle.asString(appContext))
+            .setContentTitle(player.phaseTitle.asString(appContext))
+            .setContentText(player.soundsTitle.asString(appContext))
             .build()
 
         notificationManager.notify(PLAYER_SERVICE_NOTIFICATION_ID, updatedNotification)

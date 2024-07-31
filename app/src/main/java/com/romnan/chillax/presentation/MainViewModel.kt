@@ -2,6 +2,9 @@ package com.romnan.chillax.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.romnan.chillax.data.model.PlayingSound
+import com.romnan.chillax.domain.model.Player
+import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.model.ThemeMode
 import com.romnan.chillax.domain.repository.AppSettingsRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
@@ -10,6 +13,7 @@ import com.romnan.chillax.presentation.model.PlayerPresentation
 import com.romnan.chillax.presentation.model.SleepTimerPresentation
 import com.romnan.chillax.presentation.model.SoundPresentation
 import com.romnan.chillax.presentation.model.toPresentation
+import com.zhuinden.flowcombinetuplekt.combineTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,10 +33,45 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     val themeMode: StateFlow<ThemeMode?> = appSettingsRepository.appSettings.map { it.themeMode }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            initialValue = null,
+        )
 
-    val player: StateFlow<PlayerPresentation> = playerRepository.player.map { it.toPresentation() }
-        .stateIn(viewModelScope, SharingStarted.Lazily, PlayerPresentation.defaultValue)
+    val player: StateFlow<PlayerPresentation> = combineTuple(
+        playerRepository.player,
+        playerRepository.sounds,
+    ).map { (
+                player: Player,
+                sounds: List<Sound>,
+            ) ->
+        val soundById = sounds.associateBy { it.id }
+
+        PlayerPresentation(
+            phase = player.phase,
+            playingSounds = player.playingSounds.mapNotNull { playingSound: PlayingSound ->
+                when (val sound = soundById[playingSound.id]) {
+                    null -> null
+                    else -> {
+                        SoundPresentation(
+                            id = playingSound.id,
+                            readableName = sound.readableName,
+                            iconResId = sound.iconResId,
+                            audioResId = sound.audioResId,
+                            isPlaying = true,
+                            volume = playingSound.volume,
+                        )
+                    }
+                }
+            },
+        )
+    }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = PlayerPresentation(),
+        )
 
     private val _isSleepTimerPickerDialogVisible = MutableStateFlow(false)
     val sleepTimer: StateFlow<SleepTimerPresentation> = combine(
@@ -59,10 +98,16 @@ class MainViewModel @Inject constructor(
     }
 
     private var onSoundVolumeChangeJob: Job? = null
-    fun onSoundVolumeChange(sound: SoundPresentation, volume: Float) {
+    fun onSoundVolumeChange(
+        soundId: String,
+        newVolume: Float,
+    ) {
         onSoundVolumeChangeJob?.cancel()
         onSoundVolumeChangeJob = viewModelScope.launch {
-            playerRepository.changeSoundVolume(soundName = sound.name, volume = volume)
+            playerRepository.changeSoundVolume(
+                soundId = soundId,
+                newVolume = newVolume,
+            )
         }
     }
 
