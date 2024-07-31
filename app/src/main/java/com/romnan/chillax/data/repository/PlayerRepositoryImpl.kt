@@ -3,10 +3,9 @@ package com.romnan.chillax.data.repository
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat
-import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.romnan.chillax.data.model.serializable.PlayerSerializable
-import com.romnan.chillax.data.model.SoundData
+import com.romnan.chillax.data.model.PlayerSerializable
+import com.romnan.chillax.data.model.PlayingSound
 import com.romnan.chillax.data.serializer.PlayerSerializer
 import com.romnan.chillax.data.source.AppDataSource
 import com.romnan.chillax.data.util.CountDownTimer
@@ -15,6 +14,7 @@ import com.romnan.chillax.domain.model.Category
 import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.model.PlayerPhase
+import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.repository.PlayerRepository
 import com.romnan.chillax.domain.repository.SleepTimerRepository
 import com.romnan.chillax.presentation.service.PlayerService
@@ -31,25 +31,26 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 class PlayerRepositoryImpl(
-    appContext: Context,
+    private val appContext: Context,
     private val appScope: CoroutineScope,
     private val sleepTimerRepository: SleepTimerRepository,
     private val countDownTimer: CountDownTimer,
 ) : PlayerRepository {
 
-    private val playerDataStore: DataStore<PlayerSerializable> = appContext.playerDataStore
-
     private val isPlaying = MutableStateFlow(false)
 
+    override val sounds: Flow<List<Sound>>
+        get() = flowOf(AppDataSource.sounds)
+
     override val moods: Flow<List<Mood>>
-        get() = flowOf(AppDataSource.moods.map { it.toDomain() })
+        get() = flowOf(AppDataSource.moods)
 
     override val categories: Flow<List<Category>>
-        get() = flowOf(AppDataSource.categories.map { it.toDomain() })
+        get() = flowOf(AppDataSource.categories)
 
     override val player: Flow<Player>
         get() = combine(
-            playerDataStore.data,
+            appContext.playerDataStore.data,
             isPlaying,
         ) { playerSerializable: PlayerSerializable, isPlaying: Boolean ->
             Player(
@@ -58,8 +59,8 @@ class PlayerRepositoryImpl(
                     !isPlaying -> PlayerPhase.PAUSED
                     else -> PlayerPhase.PLAYING
                 },
-                sounds = playerSerializable.sounds.sortedBy { it.startedAt }
-                    .mapNotNull { it.toDomain() },
+                playingSounds = playerSerializable.sounds
+                    .sortedBy { sound: PlayingSound -> sound.startedAt },
             )
         }
 
@@ -67,6 +68,7 @@ class PlayerRepositoryImpl(
         appScope.launch {
             player.collectLatest {
                 val serviceIntent = Intent(appContext, PlayerService::class.java)
+
                 when (it.phase) {
                     PlayerPhase.PLAYING -> {
                         ContextCompat.startForegroundService(appContext, serviceIntent)
@@ -95,7 +97,7 @@ class PlayerRepositoryImpl(
         countDownTimer.startTimer(
             durationMillis = sleepTimer.timeLeftInMillis,
             countDownInterval = 1000L,
-            onTick = { millisUntilFinished ->
+            onTick = { millisUntilFinished: Long ->
                 sleepTimerRepository.updateTimeLeftInMillis(millisUntilFinished)
             },
             onFinish = {
@@ -128,50 +130,71 @@ class PlayerRepositoryImpl(
         isPlaying.value = !isPlaying.value
     }
 
-    override suspend fun addOrRemoveSound(soundName: String) {
-        val sound = AppDataSource.getSoundFromName(soundName = soundName) ?: return
+    override suspend fun addOrRemoveSound(
+        soundId: String,
+    ) {
+        val sound = AppDataSource.sounds.find { it.id == soundId } ?: return
 
-        playerDataStore.updateData { playerState ->
-            val currSounds = playerState.sounds.toPersistentList()
+        appContext.playerDataStore.updateData { playerState ->
+            val playingSounds = playerState.sounds.toPersistentList()
 
             playerState.copy(
                 sounds = when {
-                    currSounds.any { it.name == sound.name } -> {
-                        currSounds.removeAll { it.name == sound.name }
+                    playingSounds.any { playingSound: PlayingSound ->
+                        playingSound.id == sound.id
+                    } -> {
+                        playingSounds.removeAll { playingSound: PlayingSound ->
+                            playingSound.id == sound.id
+                        }
                     }
 
-                    currSounds.size < PlayerConstants.MAX_SOUNDS -> {
+                    playingSounds.size < PlayerConstants.MAX_SOUNDS -> {
                         isPlaying.value = true
-                        currSounds.add(sound.toSerializable(startedAt = System.currentTimeMillis()))
+
+                        playingSounds.add(
+                            PlayingSound(
+                                id = soundId,
+                                volume = PlayerConstants.DEFAULT_SOUND_VOLUME,
+                                startedAt = System.currentTimeMillis(),
+                            )
+                        )
                     }
 
-                    else -> currSounds
+                    else -> playingSounds
                 },
             )
         }
     }
 
-    override suspend fun addMood(moodName: String) {
-        val mood = AppDataSource.getMoodFromName(moodName = moodName) ?: return
+    override suspend fun addMood(
+        moodId: String,
+    ) {
+        val mood = AppDataSource.moods.find { it.id == moodId } ?: return
 
-        playerDataStore.updateData { playerState ->
-            val currSounds = playerState.sounds.toPersistentList()
+        appContext.playerDataStore.updateData { playerState ->
+            val playingSounds = playerState.sounds.toPersistentList()
 
-            val moodSounds = mood.sounds.filter { sound ->
-                !currSounds.any { it.name == sound.name }
+            val soundIdsToAdd = mood.soundIds.filter { soundId: String ->
+                !playingSounds.any { playingSound: PlayingSound -> playingSound.id == soundId }
             }
 
             playerState.copy(
                 sounds = when {
-                    currSounds.size + moodSounds.size <= PlayerConstants.MAX_SOUNDS -> {
+                    playingSounds.size + soundIdsToAdd.size <= PlayerConstants.MAX_SOUNDS -> {
                         isPlaying.value = true
-                        currSounds.addAll(moodSounds.mapIndexed { i: Int, sound: SoundData ->
-                            sound.toSerializable(startedAt = System.currentTimeMillis() + i)
-                        })
+                        playingSounds.addAll(
+                            soundIdsToAdd.mapIndexed { i: Int, soundId: String ->
+                                PlayingSound(
+                                    id = soundId,
+                                    volume = PlayerConstants.DEFAULT_SOUND_VOLUME,
+                                    startedAt = System.currentTimeMillis() + i,
+                                )
+                            },
+                        )
                     }
 
-                    else -> currSounds
-                }
+                    else -> playingSounds
+                },
             )
         }
     }
@@ -188,15 +211,21 @@ class PlayerRepositoryImpl(
     }
 
     override suspend fun removeAllSounds() {
-        playerDataStore.updateData { it.copy(sounds = persistentListOf()) }
+        appContext.playerDataStore.updateData { it.copy(sounds = persistentListOf()) }
         isPlaying.value = false
     }
 
-    override suspend fun changeSoundVolume(soundName: String, volume: Float) {
-        val scaledVolume = (volume * 20).roundToInt() / 20f
+    override suspend fun changeSoundVolume(
+        soundId: String,
+        newVolume: Float,
+    ) {
+        val scaledVolume = (newVolume * 20).roundToInt() / 20f
 
-        playerDataStore.updateData { player ->
-            val oldSound = player.sounds.find { it.name == soundName } ?: return@updateData player
+        appContext.playerDataStore.updateData { player ->
+            val oldSound = player.sounds.find {
+                it.id == soundId
+            } ?: return@updateData player
+
             if (oldSound.volume == scaledVolume) return@updateData player
 
             player.copy(

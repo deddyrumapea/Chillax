@@ -1,4 +1,4 @@
-package com.romnan.chillax.data.model.serializable
+package com.romnan.chillax.data.model
 
 import kotlinx.serialization.Serializable
 

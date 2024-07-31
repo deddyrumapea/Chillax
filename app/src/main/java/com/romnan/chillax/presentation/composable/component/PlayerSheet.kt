@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Divider
@@ -32,7 +33,10 @@ fun PlayerSheet(
     onPlayPauseClick: () -> Unit,
     onTimerClick: () -> Unit,
     onSaveMoodClick: () -> Unit,
-    onSoundVolumeChange: (sound: SoundPresentation, volume: Float) -> Unit,
+    onSoundVolumeChange: (
+        soundId: String,
+        newVolume: Float,
+    ) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -61,12 +65,16 @@ fun PlayerSheet(
 
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(
-                count = player().sounds.size,
-                key = { i -> player().sounds[i].name },
-            ) { i ->
-                PlayingSoundItem(sound = { player().sounds[i] },
+                items = player().playingSounds,
+                key = { sound: SoundPresentation -> sound.id },
+            ) { sound: SoundPresentation ->
+                PlayingSoundItem(
+                    sound = { sound },
                     modifier = Modifier.padding(vertical = MaterialTheme.spacing.small),
-                    onVolumeChange = { onSoundVolumeChange(player().sounds[i], it) })
+                    onVolumeChange = { newVolume: Float ->
+                        onSoundVolumeChange(sound.id, newVolume)
+                    },
+                )
             }
         }
 

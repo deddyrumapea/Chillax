@@ -1,8 +1,8 @@
 package com.romnan.chillax.domain.model
 
 class Category(
-    val name: String,
+    val id: String,
     val readableName: UIText,
     val description: UIText,
-    val sounds: List<Sound>,
+    val soundIds: List<String>,
 )

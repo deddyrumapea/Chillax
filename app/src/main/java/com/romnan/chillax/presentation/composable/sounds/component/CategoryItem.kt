@@ -1,7 +1,14 @@
 package com.romnan.chillax.presentation.composable.sounds.component
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +23,7 @@ import com.romnan.chillax.presentation.util.asString
 fun CategoryItem(
     category: () -> CategoryPresentation,
     soundActiveBgColor: () -> Color,
-    onSoundClick: (sound: SoundPresentation) -> Unit,
+    onClickSound: (soundId: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -43,15 +50,15 @@ fun CategoryItem(
             item { Spacer(modifier = Modifier.width(MaterialTheme.spacing.small)) }
 
             items(
-                count = category().sounds.size,
-                key = { i -> category().sounds[i].name },
-            ) { i ->
+                items = category().sounds,
+                key = { sound: SoundPresentation -> sound.id },
+            ) { sound: SoundPresentation ->
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
                 SoundItem(
-                    sound = { category().sounds[i] },
+                    sound = { sound },
                     selectedColor = { soundActiveBgColor() },
-                    onClick = { onSoundClick(category().sounds[i]) },
+                    onClick = { onClickSound(sound.id) },
                 )
 
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
