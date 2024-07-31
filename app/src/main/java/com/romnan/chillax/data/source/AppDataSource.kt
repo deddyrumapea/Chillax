@@ -1,177 +1,191 @@
 package com.romnan.chillax.data.source
 
 import com.romnan.chillax.R
-import com.romnan.chillax.data.model.CategoryData
-import com.romnan.chillax.data.model.MoodData
-import com.romnan.chillax.data.model.SoundData
-import com.romnan.chillax.data.util.DataConstants
+import com.romnan.chillax.domain.model.Category
+import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.model.UIText
 
 object AppDataSource {
-    val moods: List<MoodData> = MoodDataSource.values().toList()
-    val categories: List<CategoryData> = CategoryDataSource.values().toList()
 
-    fun getSoundFromName(soundName: String): SoundData? {
-        return try {
-            SoundDataSource.valueOf(soundName)
-        } catch (e: IllegalArgumentException) {
-            null
-        }
+    val sounds: List<Sound> = SoundData.values().map { soundData: SoundData ->
+        Sound(
+            id = soundData.id,
+            readableName = soundData.readableName,
+            iconResId = soundData.iconResId,
+            audioResId = soundData.audioResId,
+        )
     }
 
-    fun getMoodFromName(moodName: String): MoodData? {
-        return try {
-            MoodDataSource.valueOf(moodName)
-        } catch (e: IllegalArgumentException) {
-            null
-        }
+    val moods: List<Mood> = MoodData.values().map { moodData: MoodData ->
+        Mood(
+            id = moodData.id,
+            readableName = moodData.readableName,
+            imageResId = moodData.imageResId,
+            soundIds = moodData.sounds.map { soundData: SoundData -> soundData.id },
+        )
+    }
+
+    val categories: List<Category> = CategoryData.values().map { categoryData: CategoryData ->
+        Category(
+            id = categoryData.id,
+            readableName = categoryData.readableName,
+            description = categoryData.description,
+            soundIds = categoryData.sounds.map { soundData: SoundData -> soundData.id },
+        )
     }
 }
 
-private enum class MoodDataSource(
-    override val readableName: UIText,
-    override val imageResId: Int,
-    override val sounds: List<SoundData>
-) : MoodData {
+private enum class MoodData(
+    val readableName: UIText,
+    val imageResId: Int,
+    val sounds: List<SoundData>,
+) {
     Rainforest(
         readableName = UIText.StringResource(R.string.mood_rainforest),
         imageResId = R.raw.mood_forest_vectorpouch,
         sounds = listOf(
-            SoundDataSource.GentleRain,
-            SoundDataSource.Rain,
-            SoundDataSource.WindInTrees,
-            SoundDataSource.River,
-            SoundDataSource.Birds2,
+            SoundData.GentleRain,
+            SoundData.Rain,
+            SoundData.WindInTrees,
+            SoundData.River,
+            SoundData.Birds2,
         ),
     ),
     Bedroom(
         readableName = UIText.StringResource(R.string.mood_bedroom),
         imageResId = R.raw.mood_bedroom_vectorpouch,
         sounds = listOf(
-            SoundDataSource.WindowAC,
-            SoundDataSource.Crickets,
+            SoundData.WindowAC,
+            SoundData.Crickets,
         ),
     ),
     AirplaneCabin(
         readableName = UIText.StringResource(R.string.mood_airplane_cabin),
         imageResId = R.raw.mood_airplane_cabin_upklyak,
         sounds = listOf(
-            SoundDataSource.WindowAC,
-            SoundDataSource.JetPlane,
+            SoundData.WindowAC,
+            SoundData.JetPlane,
         ),
     ),
     Camping(
         readableName = UIText.StringResource(R.string.mood_camping),
         imageResId = R.raw.mood_camping_upklyak,
         sounds = listOf(
-            SoundDataSource.Cicadas,
-            SoundDataSource.Fireplace,
-            SoundDataSource.WindInTrees,
+            SoundData.Cicadas,
+            SoundData.Fireplace,
+            SoundData.WindInTrees,
         ),
     ),
     Jungle(
         readableName = UIText.StringResource(R.string.mood_jungle),
         imageResId = R.raw.mood_jungle_freepik,
         sounds = listOf(
-            SoundDataSource.Cicadas,
-            SoundDataSource.Birds1,
-            SoundDataSource.Birds2,
-            SoundDataSource.Birds3,
-            SoundDataSource.Brook,
-            SoundDataSource.WindInTrees,
+            SoundData.Cicadas,
+            SoundData.Birds1,
+            SoundData.Birds2,
+            SoundData.Birds3,
+            SoundData.Brook,
+            SoundData.WindInTrees,
         ),
     ),
     Riverside(
         readableName = UIText.StringResource(R.string.mood_riverside),
         imageResId = R.raw.mood_riverside_jcomp,
         sounds = listOf(
-            SoundDataSource.Brook,
-            SoundDataSource.Creek,
-            SoundDataSource.River,
+            SoundData.Brook,
+            SoundData.Creek,
+            SoundData.River,
         ),
-    ),
+    ), ;
+
+    val id: String
+        get() = name
 }
 
-private enum class CategoryDataSource(
-    override val readableName: UIText,
-    override val description: UIText,
-    override val sounds: List<SoundData>
-) : CategoryData {
+private enum class CategoryData(
+    val readableName: UIText,
+    val description: UIText,
+    val sounds: List<SoundData>,
+) {
     Rain(
         readableName = UIText.StringResource(R.string.cat_name_rain),
         description = UIText.StringResource(R.string.cat_desc_rain),
         sounds = listOf(
-            SoundDataSource.GentleRain,
-            SoundDataSource.Rain,
-            SoundDataSource.RainOnUmbrella,
-            SoundDataSource.RainOnMetalRoof,
-            SoundDataSource.Thunder,
+            SoundData.GentleRain,
+            SoundData.Rain,
+            SoundData.RainOnUmbrella,
+            SoundData.RainOnMetalRoof,
+            SoundData.Thunder,
         ),
     ),
     Nature(
         readableName = UIText.StringResource(R.string.cat_name_nature),
         description = UIText.StringResource(R.string.cat_desc_nature),
         sounds = listOf(
-            SoundDataSource.Brook,
-            SoundDataSource.Creek,
-            SoundDataSource.River,
-            SoundDataSource.WindInTrees,
-            SoundDataSource.Waterfall,
+            SoundData.Brook,
+            SoundData.Creek,
+            SoundData.River,
+            SoundData.WindInTrees,
+            SoundData.Waterfall,
         ),
     ),
     Animals(
         readableName = UIText.StringResource(R.string.cat_name_animals),
         description = UIText.StringResource(R.string.cat_desc_animals),
         sounds = listOf(
-            SoundDataSource.Crickets,
-            SoundDataSource.Cicadas,
-            SoundDataSource.CatPurring,
-            SoundDataSource.Seagulls,
-            SoundDataSource.Birds1,
-            SoundDataSource.Birds2,
-            SoundDataSource.Birds3,
-            SoundDataSource.Frogs1,
-            SoundDataSource.Frogs2,
+            SoundData.Crickets,
+            SoundData.Cicadas,
+            SoundData.CatPurring,
+            SoundData.Seagulls,
+            SoundData.Birds1,
+            SoundData.Birds2,
+            SoundData.Birds3,
+            SoundData.Frogs1,
+            SoundData.Frogs2,
         ),
     ),
     Room(
         readableName = UIText.StringResource(R.string.cat_name_room),
         description = UIText.StringResource(R.string.cat_desc_room),
         sounds = listOf(
-            SoundDataSource.WindowAC,
-            SoundDataSource.Keyboard,
-            SoundDataSource.Fireplace,
-            SoundDataSource.DeepFrying,
+            SoundData.WindowAC,
+            SoundData.Keyboard,
+            SoundData.Fireplace,
+            SoundData.DeepFrying,
         ),
     ),
     City(
         readableName = UIText.StringResource(R.string.cat_name_city),
         description = UIText.StringResource(R.string.cat_desc_city),
         sounds = listOf(
-            SoundDataSource.KidsPlayground,
-            SoundDataSource.Crowd,
-            SoundDataSource.JetPlane,
-            SoundDataSource.TurbopropPlane,
-            SoundDataSource.WindshieldWipers,
-            SoundDataSource.DrivingAtNight,
+            SoundData.KidsPlayground,
+            SoundData.Crowd,
+            SoundData.JetPlane,
+            SoundData.TurbopropPlane,
+            SoundData.WindshieldWipers,
+            SoundData.DrivingAtNight,
         ),
     ),
     Other(
         readableName = UIText.StringResource(R.string.cat_name_other),
         description = UIText.StringResource(R.string.cat_desc_other),
         sounds = listOf(
-            SoundDataSource.RadioStatic,
-            SoundDataSource.Heartbeat,
-            SoundDataSource.Electricity,
+            SoundData.RadioStatic,
+            SoundData.Heartbeat,
+            SoundData.Electricity,
         ),
-    ),
+    ), ;
+
+    val id: String
+        get() = name
 }
 
-private enum class SoundDataSource(
-    override val readableName: UIText,
-    override val iconResId: Int,
-    override val audioResId: Int,
-) : SoundData {
+private enum class SoundData(
+    val readableName: UIText,
+    val iconResId: Int,
+    val audioResId: Int,
+) {
     Rain(
         readableName = UIText.StringResource(R.string.sound_rain),
         iconResId = R.drawable.ic_sound_rain,
@@ -331,9 +345,8 @@ private enum class SoundDataSource(
         readableName = UIText.StringResource(R.string.sound_heartbeat),
         iconResId = R.drawable.ic_sound_hearbeat,
         audioResId = R.raw.sound_heartbeat_placidplace,
-    ),
-    ;
+    ), ;
 
-    override val volume: Float
-        get() = DataConstants.DEFAULT_SOUND_VOLUME
+    val id: String
+        get() = name
 }

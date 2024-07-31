@@ -1,9 +1,14 @@
 package com.romnan.chillax.presentation.composable.moods
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
@@ -14,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.romnan.chillax.R
+import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
 import com.romnan.chillax.presentation.composable.moods.component.MoodItem
 import com.romnan.chillax.presentation.composable.theme.spacing
@@ -48,11 +54,11 @@ fun MoodsScreen(
             }
 
             items(
-                count = moods.size,
-                key = { i -> moods[i].name },
-            ) { i ->
+                items = moods,
+                key = { mood: Mood -> mood.id },
+            ) { mood: Mood ->
                 MoodItem(
-                    mood = { moods[i] },
+                    mood = { mood },
                     onClick = viewModel::onMoodClick,
                     modifier = Modifier.padding(MaterialTheme.spacing.small),
                 )

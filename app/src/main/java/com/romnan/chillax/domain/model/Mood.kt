@@ -1,8 +1,10 @@
 package com.romnan.chillax.domain.model
 
+import androidx.annotation.RawRes
+
 data class Mood(
-    val name: String,
+    val id: String,
     val readableName: UIText,
-    val imageResId: Int,
-    val sounds: List<Sound>,
+    @RawRes val imageResId: Int,
+    val soundIds: List<String>,
 )

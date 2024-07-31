@@ -2,7 +2,12 @@ package com.romnan.chillax.presentation.composable.moods.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -19,14 +24,14 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.romnan.chillax.R
+import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.presentation.composable.theme.spacing
-import com.romnan.chillax.presentation.model.MoodPresentation
 import com.romnan.chillax.presentation.util.asString
 
 @Composable
 fun MoodItem(
-    mood: () -> MoodPresentation,
-    onClick: (mood: MoodPresentation) -> Unit,
+    mood: () -> Mood,
+    onClick: (mood: Mood) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -78,7 +83,7 @@ fun MoodItem(
                     )
             ) {
                 Text(
-                    text = stringResource(id = R.string.count_sounds_format, mood().soundsSize),
+                    text = stringResource(id = R.string.count_sounds_format, mood().soundIds.size),
                     style = MaterialTheme.typography.caption,
                     color = MaterialTheme.colors.onSurface,
                 )
