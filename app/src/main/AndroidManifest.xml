@@ -28,6 +28,10 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/CropImageActivityTheme" />
+
         <service
             android:name="com.romnan.chillax.presentation.service.PlayerService"
             android:exported="false"
