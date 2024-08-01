@@ -1,5 +1,6 @@
 package com.romnan.chillax.presentation.composable.sounds.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,7 @@ import com.romnan.chillax.presentation.model.CategoryPresentation
 import com.romnan.chillax.presentation.model.SoundPresentation
 import com.romnan.chillax.presentation.util.asString
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryItem(
     category: () -> CategoryPresentation,
@@ -59,6 +61,7 @@ fun CategoryItem(
                     sound = { sound },
                     selectedColor = { soundActiveBgColor() },
                     onClick = { onClickSound(sound.id) },
+                    modifier = Modifier.animateItemPlacement(),
                 )
 
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))

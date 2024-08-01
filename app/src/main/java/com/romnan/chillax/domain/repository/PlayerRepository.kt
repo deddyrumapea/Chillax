@@ -10,8 +10,6 @@ interface PlayerRepository {
 
     val sounds: Flow<List<Sound>>
 
-    val moods: Flow<List<Mood>>
-
     val categories: Flow<List<Category>>
 
     val player: Flow<Player>
@@ -30,7 +28,8 @@ interface PlayerRepository {
     )
 
     suspend fun addMood(
-        moodId: String,
+        mood: Mood,
+        autoplay: Boolean = true,
     )
 
     suspend fun setSleepTimer(

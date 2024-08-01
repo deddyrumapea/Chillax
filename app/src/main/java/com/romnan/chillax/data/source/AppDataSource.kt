@@ -1,12 +1,18 @@
 package com.romnan.chillax.data.source
 
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
 import com.romnan.chillax.R
+import com.romnan.chillax.domain.constant.PlayerConstants
 import com.romnan.chillax.domain.model.Category
 import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.model.UIText
 
-object AppDataSource {
+class AppDataSource(
+    private val appContext: Context,
+) {
 
     val sounds: List<Sound> = SoundData.entries.map { soundData: SoundData ->
         Sound(
@@ -17,12 +23,21 @@ object AppDataSource {
         )
     }
 
-    val moods: List<Mood> = MoodData.entries.map { moodData: MoodData ->
+    val presetMoods: List<Mood> = MoodData.entries.map { moodData: MoodData ->
+        val imageUri = Uri.Builder()
+            .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+            .authority(appContext.packageName)
+            .appendPath(moodData.imageResId.toString())
+            .build()
+            .toString()
+
         Mood(
             id = moodData.id,
             readableName = moodData.readableName,
-            imageResId = moodData.imageResId,
-            soundIds = moodData.sounds.map { soundData: SoundData -> soundData.id },
+            imageUri = imageUri,
+            soundIdToVolume = moodData.sounds.associate { soundData: SoundData ->
+                soundData.id to PlayerConstants.DEFAULT_SOUND_VOLUME
+            },
         )
     }
 
@@ -34,6 +49,22 @@ object AppDataSource {
             soundIds = categoryData.sounds.map { soundData: SoundData -> soundData.id },
         )
     }
+
+    val moodImageUris: Set<String> = listOf(
+        R.raw.mood_airplane_cabin_upklyak,
+        R.raw.mood_bedroom_vectorpouch,
+        R.raw.mood_camping_upklyak,
+        R.raw.mood_forest_vectorpouch,
+        R.raw.mood_jungle_freepik,
+        R.raw.mood_riverside_jcomp,
+    ).map { resId: Int ->
+        Uri.Builder()
+            .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+            .authority(appContext.packageName)
+            .appendPath(resId.toString())
+            .build()
+            .toString()
+    }.toSet()
 }
 
 private enum class MoodData(

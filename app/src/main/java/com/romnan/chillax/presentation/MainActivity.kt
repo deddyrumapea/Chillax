@@ -20,16 +20,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.collectAsState
@@ -40,15 +45,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.PermissionChecker
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import coil.compose.AsyncImage
 import com.chargemap.compose.numberpicker.ListItemPicker
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
+import com.ramcosta.composedestinations.navigation.dependency
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.romnan.chillax.R
@@ -60,6 +70,7 @@ import com.romnan.chillax.presentation.composable.component.BottomBar
 import com.romnan.chillax.presentation.composable.component.DefaultDialog
 import com.romnan.chillax.presentation.composable.component.PlayerPeek
 import com.romnan.chillax.presentation.composable.component.PlayerSheet
+import com.romnan.chillax.presentation.composable.component.SaveMoodDialog
 import com.romnan.chillax.presentation.composable.destinations.MoodsScreenDestination
 import com.romnan.chillax.presentation.composable.destinations.SettingsScreenDestination
 import com.romnan.chillax.presentation.composable.destinations.SoundsScreenDestination
@@ -72,6 +83,7 @@ import com.romnan.chillax.presentation.composable.sounds.SoundsViewModel
 import com.romnan.chillax.presentation.composable.startAppDestination
 import com.romnan.chillax.presentation.composable.theme.ChillaxTheme
 import com.romnan.chillax.presentation.composable.theme.spacing
+import com.romnan.chillax.presentation.util.handleInLaunchedEffect
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import logcat.logcat
@@ -125,6 +137,10 @@ class MainActivity : ComponentActivity() {
                     initialValue = ModalBottomSheetValue.Hidden,
                     skipHalfExpanded = true,
                 )
+                val saveMoodDialogState by viewModel.saveMoodDialogState.collectAsState()
+                val snackbarHostState = remember { SnackbarHostState() }
+
+                viewModel.uiEvent.handleInLaunchedEffect(snackbarHostState = snackbarHostState)
 
                 ModalBottomSheetLayout(
                     sheetState = sheetState,
@@ -132,45 +148,54 @@ class MainActivity : ComponentActivity() {
                         PlayerSheet(
                             player = { player },
                             sleepTimer = { sleepTimer },
-                            onStopClick = {
+                            onClickStop = {
                                 scope.launch { sheetState.hide() }
-                                viewModel.onStopClick()
+                                viewModel.onClickStop()
                             },
-                            onPlayPauseClick = viewModel::onPlayPauseClick,
-                            onTimerClick = viewModel::onTimerClick,
-                            onSaveMoodClick = { logcat { "onSaveMoodClick()" } /* TODO */ },
-                            onSoundVolumeChange = viewModel::onSoundVolumeChange,
+                            onClickPlayPause = viewModel::onClickPlayPause,
+                            onClickTimer = viewModel::onClickTimer,
+                            onClickSaveMood = viewModel::onClickSaveMood,
+                            onChangeSoundVolume = viewModel::onChangeSoundVolume,
                         )
                     },
                     sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
                     scrimColor = Color.Black.copy(alpha = 0.5f),
                 ) {
-                    Scaffold(modifier = Modifier.fillMaxSize(),
+                    Scaffold(
+                        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+                        modifier = Modifier.fillMaxSize(),
                         scaffoldState = scaffoldState,
                         bottomBar = {
-                            BottomBar(currentDestination = {
-                                navController.appCurrentDestinationAsState().value
-                                    ?: NavGraphs.root.startAppDestination
-                            }, onItemClick = { destination ->
-                                navController.navigate(destination.direction) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                            BottomBar(
+                                currentDestination = {
+                                    navController.appCurrentDestinationAsState().value
+                                        ?: NavGraphs.root.startAppDestination
+                                },
+                                onClickItem = { destination ->
+                                    navController.navigate(destination.direction) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            })
-                        }) { scaffoldPadding ->
+                                },
+                            )
+                        },
+                    ) { scaffoldPadding ->
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(scaffoldPadding)
+                                .padding(scaffoldPadding),
                         ) {
                             DestinationsNavHost(
                                 engine = engine,
                                 navController = navController,
                                 navGraph = NavGraphs.root,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
+                                dependenciesContainerBuilder = {
+                                    dependency(snackbarHostState)
+                                },
                             ) {
                                 composable(MoodsScreenDestination) {
                                     BackHandler(enabled = sheetState.isVisible) {
@@ -190,7 +215,10 @@ class MainActivity : ComponentActivity() {
                                     BackHandler(enabled = sheetState.isVisible) {
                                         scope.launch { sheetState.hide() }
                                     }
-                                    SettingsScreen(viewModel = settingsViewModel)
+                                    SettingsScreen(
+                                        viewModel = settingsViewModel,
+                                        snackbarHostState = snackbarHostState,
+                                    )
                                 }
                             }
 
@@ -200,93 +228,175 @@ class MainActivity : ComponentActivity() {
                                 PlayerPeek(
                                     player = { player },
                                     sleepTimer = { sleepTimer },
-                                    onPlayPauseClick = { viewModel.onPlayPauseClick() },
-                                    onTimerClick = viewModel::onTimerClick,
+                                    onClickPlayPause = { viewModel.onClickPlayPause() },
+                                    onClickTimer = viewModel::onClickTimer,
                                     modifier = Modifier
-                                        .then(if (player.phase == PlayerPhase.STOPPED) Modifier
-                                        else Modifier.clickable {
-                                            scope.launch { sheetState.show() }
-                                        })
+                                        .then(
+                                            when (player.phase) {
+                                                PlayerPhase.STOPPED -> Modifier
+                                                else -> Modifier.clickable {
+                                                    scope.launch { sheetState.show() }
+                                                }
+                                            },
+                                        )
                                         .background(color = MaterialTheme.colors.surface)
                                         .padding(MaterialTheme.spacing.medium),
                                 )
                             }
                         }
 
-                        if (sleepTimer.isPickerDialogVisible) DefaultDialog(
-                            title = { getString(R.string.set_sleep_timer) },
-                            onDismissRequest = viewModel::onDismissSleepTimerPickerDialog,
-                        ) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(MaterialTheme.spacing.medium),
+                        if (sleepTimer.isPickerDialogVisible) {
+                            DefaultDialog(
+                                title = { getString(R.string.set_sleep_timer) },
+                                onDismissRequest = viewModel::onDismissSleepTimerPickerDialog,
                             ) {
-                                var pickedHours by remember { mutableStateOf(0) }
-                                var pickedMinutes by remember { mutableStateOf(30) }
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(MaterialTheme.spacing.medium),
+                                ) {
+                                    var pickedHours by remember { mutableStateOf(0) }
+                                    var pickedMinutes by remember { mutableStateOf(30) }
+
+                                    Text(
+                                        text = getString(R.string.pause_all_sounds_after),
+                                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                                    )
+
+                                    Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically,
+                                    ) {
+                                        ListItemPicker(
+                                            label = { it.toString().padStart(2, '0') },
+                                            value = pickedHours,
+                                            onValueChange = { value -> pickedHours = value },
+                                            dividersColor = MaterialTheme.colors.primary.copy(alpha = 0.5f),
+                                            list = (0..12).toList(),
+                                            textStyle = MaterialTheme.typography.h6,
+                                        )
+
+                                        Text(
+                                            text = getString(R.string.hours),
+                                            color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                                        )
+
+                                        Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
+
+                                        ListItemPicker(
+                                            label = { it.toString().padStart(2, '0') },
+                                            value = pickedMinutes,
+                                            onValueChange = { value -> pickedMinutes = value },
+                                            dividersColor = MaterialTheme.colors.primary.copy(alpha = 0.5f),
+                                            list = (0..59).step(5).toList(),
+                                            textStyle = MaterialTheme.typography.h6,
+                                        )
+
+                                        Text(
+                                            text = getString(R.string.minutes),
+                                            color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                                        )
+                                    }
+
+                                    Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+
+                                    Button(
+                                        onClick = {
+                                            viewModel.onClickSetSleepTimer(
+                                                pickedHours = pickedHours,
+                                                pickedMinutes = pickedMinutes,
+                                            )
+                                        },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(48.dp),
+                                        shape = RoundedCornerShape(100),
+                                    ) {
+                                        Text(
+                                            text = getString(R.string.ok).uppercase(),
+                                            fontWeight = FontWeight.Bold,
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        if (saveMoodDialogState.showSaveMoodDialog) {
+                            SaveMoodDialog(
+                                state = saveMoodDialogState,
+                                onDismissRequest = viewModel::onDismissSaveMoodDialog,
+                                onClickConfirmSaveMood = viewModel::onClickConfirmSaveMood,
+                                onPickNewMoodCustomImage = viewModel::onPickNewMoodCustomImage,
+                                onClickRemoveCustomImage = viewModel::onClickRemoveCustomImage,
+                            )
+                        }
+
+                        saveMoodDialogState.moodCustomImageUriToDelete?.let { uri: String ->
+                            DefaultDialog(
+                                title = { stringResource(R.string.remove_mood_image) },
+                                onDismissRequest = viewModel::onDismissDeleteMoodImageDialog,
+                            ) {
+                                Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
                                 Text(
-                                    text = getString(R.string.pause_all_sounds_after),
-                                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                                    text = stringResource(R.string.are_you_sure_you_want_to_remove_this_image),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = MaterialTheme.spacing.medium),
                                 )
 
-                                Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
+                                Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
 
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically,
+                                AsyncImage(
+                                    model = uri,
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .align(Alignment.CenterHorizontally)
+                                        .size(84.dp)
+                                        .clip(RoundedCornerShape(16.dp)),
+                                    contentScale = ContentScale.Crop,
+                                )
+
+                                Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
+
+                                Button(
+                                    onClick = { viewModel.onClickConfirmDeleteMoodImage(uri = uri) },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = MaterialTheme.spacing.medium)
+                                        .height(48.dp),
+                                    shape = RoundedCornerShape(100),
                                 ) {
-                                    ListItemPicker(
-                                        label = { it.toString().padStart(2, '0') },
-                                        value = pickedHours,
-                                        onValueChange = { value -> pickedHours = value },
-                                        dividersColor = MaterialTheme.colors.primary.copy(alpha = 0.5f),
-                                        list = (0..12).toList(),
-                                        textStyle = MaterialTheme.typography.h6,
-                                    )
-
                                     Text(
-                                        text = getString(R.string.hours),
-                                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
-                                    )
-
-                                    Spacer(modifier = Modifier.width(MaterialTheme.spacing.medium))
-
-                                    ListItemPicker(
-                                        label = { it.toString().padStart(2, '0') },
-                                        value = pickedMinutes,
-                                        onValueChange = { value -> pickedMinutes = value },
-                                        dividersColor = MaterialTheme.colors.primary.copy(alpha = 0.5f),
-                                        list = (0..59).step(5).toList(),
-                                        textStyle = MaterialTheme.typography.h6,
-                                    )
-
-                                    Text(
-                                        text = getString(R.string.minutes),
-                                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                                        text = getString(R.string.yes).uppercase(),
+                                        fontWeight = FontWeight.Bold,
                                     )
                                 }
 
                                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
-                                Button(
-                                    onClick = {
-                                        viewModel.onSetSleepTimerClick(
-                                            pickedHours = pickedHours,
-                                            pickedMinutes = pickedMinutes,
-                                        )
-                                    },
+                                TextButton(
+                                    onClick = viewModel::onDismissDeleteMoodImageDialog,
                                     modifier = Modifier
                                         .fillMaxWidth()
+                                        .padding(horizontal = MaterialTheme.spacing.medium)
                                         .height(48.dp),
                                     shape = RoundedCornerShape(100),
+                                    colors = ButtonDefaults.textButtonColors(
+                                        backgroundColor = MaterialTheme.colors.onSurface
+                                            .copy(alpha = 0.1f),
+                                    ),
                                 ) {
                                     Text(
-                                        text = getString(R.string.ok).uppercase(),
+                                        text = getString(R.string.cancel).uppercase(),
                                         fontWeight = FontWeight.Bold,
                                     )
                                 }
+
+                                Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
                             }
                         }
                     }

@@ -23,6 +23,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Badge
@@ -40,7 +41,6 @@ import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -60,9 +60,8 @@ import com.romnan.chillax.presentation.composable.settings.component.ThemeChoose
 import com.romnan.chillax.presentation.composable.settings.component.TimePickerDialog
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.constant.IntentConstants
-import com.romnan.chillax.presentation.util.UIEvent
 import com.romnan.chillax.presentation.util.asString
-import kotlinx.coroutines.flow.collectLatest
+import com.romnan.chillax.presentation.util.handleInLaunchedEffect
 import java.util.Calendar
 
 
@@ -70,6 +69,7 @@ import java.util.Calendar
 @Destination
 fun SettingsScreen(
     viewModel: SettingsViewModel,
+    snackbarHostState: SnackbarHostState,
 ) {
     val scaffoldState = rememberScaffoldState()
     val context = LocalContext.current
@@ -91,19 +91,7 @@ fun SettingsScreen(
         },
     )
 
-    LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collectLatest { event ->
-            when (event) {
-                is UIEvent.ShowSnackbar -> {
-                    scaffoldState.snackbarHostState.showSnackbar(
-                        message = event.uiText.asString(context)
-                    )
-                }
-
-                else -> {}
-            }
-        }
-    }
+    viewModel.uiEvent.handleInLaunchedEffect(snackbarHostState = snackbarHostState)
 
     Scaffold(scaffoldState = scaffoldState) { scaffoldPadding ->
         val themeMode = viewModel.themeMode.collectAsState()

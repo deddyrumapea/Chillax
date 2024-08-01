@@ -104,6 +104,7 @@ class PlayerService : Service() {
                             }
                         }
                     },
+                    playingMood = player.playingMood,
                 )
 
                 notificationHelper.updatePlayerServiceNotification(playerPresentation)

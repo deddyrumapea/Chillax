@@ -51,7 +51,7 @@ class NotificationHelperImpl(
 
     override fun updatePlayerServiceNotification(player: PlayerPresentation) {
         val updatedNotification = getBasePlayerServiceNotification()
-            .setContentTitle(player.phaseTitle.asString(appContext))
+            .setContentTitle(player.contentTitle.asString(appContext))
             .setContentText(player.soundsTitle.asString(appContext))
             .build()
 

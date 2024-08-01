@@ -107,4 +107,27 @@
     <string name="rationale_default">Please allow the requested permissions to support full functionalities</string>
     <string name="go_to_settings">Go to Settings</string>
     <string name="source_code">Source Code</string>
+    <string name="save_mood">Save Mood</string>
+    <string name="save_new_mood">Save New Mood</string>
+    <string name="mood_name_cannot_be_blank">Mood name cannot be blank</string>
+    <string name="save">Save</string>
+    <string name="please_select_mood_image">Please select mood image</string>
+    <string name="please_enter_mood_name">Please enter mood name</string>
+    <string name="mood_name">Mood Name</string>
+    <string name="cd_add_image">Add image</string>
+    <string name="delete_mood_image">Delete Mood Image</string>
+    <string name="are_you_sure_you_want_to_remove_this_image">Are you sure you want to remove this image?</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="pick_image_chooser_title">Please select image source</string>
+    <string name="remove_mood_image">Remove Mood Image</string>
+    <string name="delete_x">Delete %1$s</string>
+    <string name="are_you_sure_you_want_to_delete_x">Are you sure you want to delete %1$s?</string>
+    <string name="failed_to_pick_image_please_try_again">Failed to pick image. Please try again.</string>
+    <string name="failed_to_load_image_please_try_again">Failed to load image. Please try again.</string>
+    <string name="failed_to_decode_image_please_try_again">Failed to decode image. Please try again.</string>
+    <plurals name="chillax_is_playing_n_sounds">
+        <item quantity="one">Chillax is playing %1$s sound</item>
+        <item quantity="other">Chillax is playing %1$s sounds</item>
+    </plurals>
 </resources>
