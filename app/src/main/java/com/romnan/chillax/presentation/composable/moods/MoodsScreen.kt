@@ -1,20 +1,26 @@
 package com.romnan.chillax.presentation.composable.moods
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -23,7 +29,9 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,10 +44,11 @@ import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.presentation.composable.component.DefaultDialog
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
 import com.romnan.chillax.presentation.composable.moods.component.MoodItem
+import com.romnan.chillax.presentation.composable.moods.model.MoodType
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 @Destination
 @RootNavGraph(start = true)
@@ -62,12 +71,65 @@ fun MoodsScreen(
                 ScreenTitle(
                     text = { stringResource(id = R.string.moods) },
                     paddingValues = PaddingValues(
-                        start = MaterialTheme.spacing.small,
-                        top = MaterialTheme.spacing.large,
-                        end = MaterialTheme.spacing.small,
-                        bottom = MaterialTheme.spacing.medium,
+                        horizontal = MaterialTheme.spacing.small,
+                        vertical = MaterialTheme.spacing.large,
                     ),
                 )
+            }
+
+            item(
+                span = { GridItemSpan(currentLineSpan = 2) },
+            ) {
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = MaterialTheme.spacing.medium),
+                ) {
+                    item { Spacer(modifier = Modifier.width(MaterialTheme.spacing.small)) }
+
+                    items(
+                        items = state.moodTypes,
+                    ) { moodType: MoodType ->
+                        val moodTypeBgColor by animateColorAsState(
+                            targetValue = when (moodType == state.selectedMoodType) {
+                                true -> MaterialTheme.colors.primary
+                                false -> MaterialTheme.colors.surface
+                            },
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .shadow(
+                                    elevation = 2.dp,
+                                    shape = RoundedCornerShape(100),
+                                    clip = true,
+                                )
+                                .drawBehind { drawRect(moodTypeBgColor) }
+                                .clickable { viewModel.onSelectMoodType(moodType) }
+                                .padding(
+                                    vertical = MaterialTheme.spacing.small,
+                                    horizontal = MaterialTheme.spacing.medium,
+                                ),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Icon(
+                                imageVector = moodType.icon,
+                                contentDescription = null,
+                            )
+
+                            Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
+
+                            Text(
+                                text = moodType.label.asString(),
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
+                    }
+
+                    item { Spacer(modifier = Modifier.width(MaterialTheme.spacing.small)) }
+                }
             }
 
             items(

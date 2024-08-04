@@ -6,6 +6,7 @@ import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.repository.MoodRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
+import com.romnan.chillax.presentation.composable.moods.model.MoodType
 import com.zhuinden.flowcombinetuplekt.combineTuple
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -24,28 +25,50 @@ class MoodsViewModel @Inject constructor(
     private val moodRepository: MoodRepository,
 ) : ViewModel() {
 
+    private val selectedMoodType = MutableStateFlow(MoodsState().selectedMoodType)
     private val player = playerRepository.player
-    private val moods = moodRepository.moods
+    private val moods = combineTuple(
+        moodRepository.moods,
+        selectedMoodType,
+    ).map { (
+                moods,
+                selectedMoodType,
+            ) ->
+        moods.filter { mood: Mood ->
+            when (selectedMoodType) {
+                MoodType.All -> true
+                MoodType.Preset -> !mood.isCustom
+                MoodType.Custom -> mood.isCustom
+            }
+        }
+    }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
             initialValue = emptyList(),
         )
     private val customMoodToDelete = MutableStateFlow(MoodsState().customMoodToDelete)
+    private val moodTypes = MutableStateFlow(MoodsState().moodTypes)
 
     val state: StateFlow<MoodsState> = combineTuple(
         player,
         moods,
         customMoodToDelete,
+        moodTypes,
+        selectedMoodType,
     ).map { (
                 player,
                 moods,
                 customMoodToDelete,
+                moodTypes,
+                selectedMoodType,
             ) ->
         MoodsState(
             player = player,
             moods = moods,
             customMoodToDelete = customMoodToDelete,
+            moodTypes = moodTypes,
+            selectedMoodType = selectedMoodType,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -89,5 +112,9 @@ class MoodsViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun onSelectMoodType(moodType: MoodType) {
+        selectedMoodType.update { moodType }
     }
 }
