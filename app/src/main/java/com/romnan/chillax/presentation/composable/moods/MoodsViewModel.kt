@@ -23,6 +23,7 @@ class MoodsViewModel @Inject constructor(
     private val moodRepository: MoodRepository,
 ) : ViewModel() {
 
+    private val player = playerRepository.player
     private val moods = moodRepository.moods
         .stateIn(
             scope = viewModelScope,
@@ -34,15 +35,18 @@ class MoodsViewModel @Inject constructor(
     private val customMoodToDelete = MutableStateFlow(MoodsState().customMoodToDelete)
 
     val state: StateFlow<MoodsState> = combineTuple(
+        player,
         moods,
         customMoodIdToShowDeleteButton,
         customMoodToDelete,
     ).map { (
+                player,
                 moods,
                 customMoodIdToShowDeleteButton,
                 customMoodToDelete,
             ) ->
         MoodsState(
+            player = player,
             moods = moods,
             customMoodIdToShowDeleteButton = customMoodIdToShowDeleteButton,
             customMoodToDelete = customMoodToDelete,
