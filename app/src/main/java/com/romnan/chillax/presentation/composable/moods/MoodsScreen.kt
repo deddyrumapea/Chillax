@@ -2,6 +2,7 @@ package com.romnan.chillax.presentation.composable.moods
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
@@ -38,6 +39,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,6 +51,12 @@ import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.presentation.composable.component.DefaultDialog
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
 import com.romnan.chillax.presentation.composable.moods.component.MoodItem
+import com.romnan.chillax.presentation.composable.theme.Blue400
+import com.romnan.chillax.presentation.composable.theme.Blue700
+import com.romnan.chillax.presentation.composable.theme.DarkGreen400
+import com.romnan.chillax.presentation.composable.theme.Gold700
+import com.romnan.chillax.presentation.composable.theme.LightBlue400
+import com.romnan.chillax.presentation.composable.theme.Orange900
 import com.romnan.chillax.presentation.composable.theme.Pink400
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.util.asString
@@ -103,6 +111,27 @@ fun MoodsScreen(
                                 elevation = 2.dp,
                                 shape = RoundedCornerShape(16.dp),
                                 clip = true,
+                            )
+                            .then(
+                                when (state.player?.playingMood?.id == mood.id) {
+                                    true -> Modifier
+                                        .border(
+                                            width = 3.dp,
+                                            brush = Brush.sweepGradient(
+                                                colors = listOf(
+                                                    DarkGreen400,
+                                                    Gold700,
+                                                    Orange900,
+                                                    LightBlue400,
+                                                    Blue700,
+                                                    Blue400,
+                                                ),
+                                            ),
+                                            shape = RoundedCornerShape(16.dp),
+                                        )
+
+                                    false -> Modifier
+                                }
                             )
                             .then(
                                 when (mood.isCustom) {
