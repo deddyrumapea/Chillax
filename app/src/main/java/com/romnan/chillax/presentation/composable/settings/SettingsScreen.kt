@@ -102,7 +102,11 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .verticalScroll(state = rememberScrollState())
         ) {
-            ScreenTitle(text = { stringResource(id = R.string.settings) })
+            ScreenTitle(
+                text = { stringResource(id = R.string.settings) },
+            )
+
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
             BasicPreference(
                 icon = {
@@ -246,7 +250,7 @@ fun SettingsScreen(
                 onClick = viewModel::onClickAppVersion,
             )
 
-            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+            Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
         }
 
         if (viewModel.isThemeChooserVisible.collectAsState().value) ThemeChooserDialog(
