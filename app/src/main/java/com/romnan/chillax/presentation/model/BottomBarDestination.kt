@@ -2,9 +2,9 @@ package com.romnan.chillax.presentation.model
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Apps
-import androidx.compose.material.icons.filled.MusicNote
-import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.rounded.GridView
+import androidx.compose.material.icons.rounded.MusicNote
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.romnan.chillax.R
@@ -19,19 +19,19 @@ enum class BottomBarDestination(
 ) {
     Moods(
         direction = MoodsScreenDestination,
-        icon = Icons.Default.Apps,
+        icon = Icons.Rounded.GridView,
         label = R.string.moods
     ),
 
     Sounds(
         direction = SoundsScreenDestination,
-        icon = Icons.Default.MusicNote,
+        icon = Icons.Rounded.MusicNote,
         label = R.string.sounds
     ),
 
     Settings(
         direction = SettingsScreenDestination,
-        icon = Icons.Default.Tune,
+        icon = Icons.Rounded.Tune,
         label = R.string.settings
     )
 }
