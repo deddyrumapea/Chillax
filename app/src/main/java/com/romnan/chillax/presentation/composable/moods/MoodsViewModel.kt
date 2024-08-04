@@ -3,6 +3,7 @@ package com.romnan.chillax.presentation.composable.moods
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.repository.MoodRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
 import com.zhuinden.flowcombinetuplekt.combineTuple
@@ -30,25 +31,20 @@ class MoodsViewModel @Inject constructor(
             started = SharingStarted.Lazily,
             initialValue = emptyList(),
         )
-    private val customMoodIdToShowDeleteButton =
-        MutableStateFlow(MoodsState().customMoodIdToShowDeleteButton)
     private val customMoodToDelete = MutableStateFlow(MoodsState().customMoodToDelete)
 
     val state: StateFlow<MoodsState> = combineTuple(
         player,
         moods,
-        customMoodIdToShowDeleteButton,
         customMoodToDelete,
     ).map { (
                 player,
                 moods,
-                customMoodIdToShowDeleteButton,
                 customMoodToDelete,
             ) ->
         MoodsState(
             player = player,
             moods = moods,
-            customMoodIdToShowDeleteButton = customMoodIdToShowDeleteButton,
             customMoodToDelete = customMoodToDelete,
         )
     }.stateIn(
@@ -57,26 +53,9 @@ class MoodsViewModel @Inject constructor(
         initialValue = MoodsState(),
     )
 
-    private var onMoodClickJob: Job? = null
-    fun onClickMood(mood: Mood) {
-        onMoodClickJob?.cancel()
-        onMoodClickJob = viewModelScope.launch {
-            customMoodIdToShowDeleteButton.update { null }
-            customMoodToDelete.update { null }
-
-            playerRepository.addMood(mood = mood)
-        }
-    }
-
     fun onClickDeleteMood(mood: Mood) {
         if (mood.isCustom) {
             customMoodToDelete.update { mood }
-        }
-    }
-
-    fun onLongClickMood(mood: Mood) {
-        if (mood.isCustom) {
-            customMoodIdToShowDeleteButton.update { mood.id }
         }
     }
 
@@ -89,8 +68,26 @@ class MoodsViewModel @Inject constructor(
         onClickConfirmDeleteMoodJob?.cancel()
         onClickConfirmDeleteMoodJob = viewModelScope.launch {
             moodRepository.deleteCustomMood(moodId = mood.id)
-            customMoodIdToShowDeleteButton.update { null }
             customMoodToDelete.update { null }
+        }
+    }
+
+    private var onClickPlayOrPauseJob: Job? = null
+    fun onClickPlayOrPause(mood: Mood) {
+        onClickPlayOrPauseJob?.cancel()
+        onClickPlayOrPauseJob = viewModelScope.launch {
+            val player = state.value.player
+
+            when {
+                player?.playingMood?.id == mood.id && player.phase == PlayerPhase.PLAYING -> {
+                    playerRepository.pausePlayer()
+                }
+
+                else -> {
+                    customMoodToDelete.update { null }
+                    playerRepository.addMood(mood = mood)
+                }
+            }
         }
     }
 }

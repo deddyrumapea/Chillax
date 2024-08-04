@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -136,6 +137,10 @@ class PlayerRepositoryImpl(
         countDownTimer.cancelTimer()
         sleepTimerRepository.updateTimerRunning(false)
         sleepTimerRepository.updateTimeLeftInMillis(0L)
+    }
+
+    override suspend fun pausePlayer() {
+        isPlaying.update { false }
     }
 
     override suspend fun playOrPausePlayer() {
