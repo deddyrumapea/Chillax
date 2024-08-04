@@ -38,4 +38,6 @@ interface PlayerRepository {
     )
 
     suspend fun stopSleepTimer()
+
+    suspend fun pausePlayer()
 }

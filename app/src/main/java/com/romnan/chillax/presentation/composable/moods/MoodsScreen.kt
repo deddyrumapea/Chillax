@@ -1,46 +1,30 @@
 package com.romnan.chillax.presentation.composable.moods
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.RemoveCircle
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -48,16 +32,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.presentation.composable.component.DefaultDialog
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
 import com.romnan.chillax.presentation.composable.moods.component.MoodItem
-import com.romnan.chillax.presentation.composable.theme.Blue400
-import com.romnan.chillax.presentation.composable.theme.Blue700
-import com.romnan.chillax.presentation.composable.theme.DarkGreen400
-import com.romnan.chillax.presentation.composable.theme.Gold700
-import com.romnan.chillax.presentation.composable.theme.LightBlue400
-import com.romnan.chillax.presentation.composable.theme.Orange900
-import com.romnan.chillax.presentation.composable.theme.Pink400
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
@@ -96,78 +74,21 @@ fun MoodsScreen(
                 items = state.moods,
                 key = { mood: Mood -> mood.id },
             ) { mood: Mood ->
-                Box(
+                MoodItem(
+                    mood = { mood },
+                    isPlaying = state.player?.phase == PlayerPhase.PLAYING && state.player?.playingMood?.id == mood.id,
+                    onClickPlayOrPause = viewModel::onClickPlayOrPause,
+                    onClickDelete = viewModel::onClickDeleteMood,
                     modifier = Modifier
                         .animateItemPlacement()
-                        .padding(MaterialTheme.spacing.extraSmall)
-                        .fillMaxWidth(),
-                ) {
-                    MoodItem(
-                        mood = { mood },
-                        modifier = Modifier
-                            .padding(MaterialTheme.spacing.extraSmall)
-                            .fillMaxSize()
-                            .shadow(
-                                elevation = 2.dp,
-                                shape = RoundedCornerShape(16.dp),
-                                clip = true,
-                            )
-                            .then(
-                                when (state.player?.playingMood?.id == mood.id) {
-                                    true -> Modifier
-                                        .border(
-                                            width = 3.dp,
-                                            brush = Brush.sweepGradient(
-                                                colors = listOf(
-                                                    DarkGreen400,
-                                                    Gold700,
-                                                    Orange900,
-                                                    LightBlue400,
-                                                    Blue700,
-                                                    Blue400,
-                                                ),
-                                            ),
-                                            shape = RoundedCornerShape(16.dp),
-                                        )
-
-                                    false -> Modifier
-                                }
-                            )
-                            .then(
-                                when (mood.isCustom) {
-                                    true -> Modifier.combinedClickable(
-                                        onClick = { viewModel.onClickMood(mood = mood) },
-                                        onLongClick = { viewModel.onLongClickMood(mood = mood) }
-                                    )
-
-                                    false -> Modifier.clickable(
-                                        onClick = { viewModel.onClickMood(mood = mood) },
-                                    )
-                                }
-                            ),
-                    )
-
-                    if (state.customMoodIdToShowDeleteButton == mood.id) {
-                        CompositionLocalProvider(
-                            LocalMinimumInteractiveComponentEnforcement provides false
-                        ) {
-                            IconButton(
-                                onClick = { viewModel.onClickDeleteMood(mood = mood) },
-                                modifier = Modifier.align(Alignment.TopEnd),
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.RemoveCircle,
-                                    contentDescription = null,
-                                    tint = Pink400,
-                                    modifier = Modifier.background(
-                                        color = Color.White,
-                                        shape = CircleShape,
-                                    ),
-                                )
-                            }
-                        }
-                    }
-                }
+                        .padding(MaterialTheme.spacing.small)
+                        .fillMaxWidth()
+                        .shadow(
+                            elevation = 2.dp,
+                            shape = RoundedCornerShape(20.dp),
+                            clip = true,
+                        ),
+                )
             }
 
             item(span = { GridItemSpan(currentLineSpan = 2) }) {
@@ -195,20 +116,6 @@ fun MoodsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = MaterialTheme.spacing.medium),
-                )
-
-                Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
-
-                MoodItem(
-                    mood = { mood },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .width(144.dp)
-                        .shadow(
-                            elevation = 2.dp,
-                            shape = RoundedCornerShape(16.dp),
-                            clip = true,
-                        ),
                 )
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
