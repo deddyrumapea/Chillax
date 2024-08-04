@@ -127,6 +127,9 @@
     <string name="failed_to_load_image_please_try_again">Failed to load image. Please try again.</string>
     <string name="failed_to_decode_image_please_try_again">Failed to decode image. Please try again.</string>
     <string name="cd_play_x">Play %1$s</string>
+    <string name="mood_type_all">All</string>
+    <string name="mood_type_preset">Preset</string>
+    <string name="mood_type_custom">Custom</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>

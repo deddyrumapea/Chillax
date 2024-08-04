@@ -35,7 +35,13 @@ fun SoundsScreen(
             modifier = Modifier
                 .padding(scaffoldPadding)
         ) {
-            item { ScreenTitle(text = { stringResource(id = R.string.sounds) }) }
+            item {
+                ScreenTitle(
+                    text = { stringResource(id = R.string.sounds) },
+                )
+
+                Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
+            }
 
             itemsIndexed(
                 items = categories,
