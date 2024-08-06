@@ -72,7 +72,7 @@ fun MoodItem(
                 .align(Alignment.TopStart)
                 .padding(MaterialTheme.spacing.extraSmall)
                 .clip(RoundedCornerShape(100))
-                .background(MaterialTheme.colors.background.copy(alpha = 0.7f))
+                .background(MaterialTheme.colors.background.copy(alpha = 0.8f))
                 .padding(MaterialTheme.spacing.small),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -104,7 +104,7 @@ fun MoodItem(
                         shape = RoundedCornerShape(100),
                         clip = true,
                     )
-                    .background(MaterialTheme.colors.background.copy(alpha = 0.7f))
+                    .background(MaterialTheme.colors.background.copy(alpha = 0.8f))
                     .padding(MaterialTheme.spacing.small),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -133,7 +133,7 @@ fun MoodItem(
                     clip = true,
                 )
                 .clickable { onClickPlayOrPause(mood()) }
-                .background(MaterialTheme.colors.background.copy(alpha = 0.7f))
+                .background(MaterialTheme.colors.background.copy(alpha = 0.8f))
                 .padding(MaterialTheme.spacing.small),
             verticalAlignment = Alignment.CenterVertically,
         ) {
