@@ -23,7 +23,7 @@
     <string name="stop_all">Stop all</string>
     <string name="pref_title_theme">Theme</string>
     <string name="pref_title_rate_app">Rate this app</string>
-    <string name="pref_desc_rate_app">Tell us how do you like this app</string>
+    <string name="pref_desc_rate_app">Tell me how do you like this app</string>
     <string name="pref_title_share_app">Share this app</string>
     <string name="pref_desc_share_app">Help spread the word to your friends</string>
     <string name="pref_title_contact_support">Contact support</string>
@@ -39,9 +39,11 @@
     <string name="theme_dark">Dark</string>
     <string name="choose_theme">Choose theme</string>
     <string name="url_app_listing">https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
+    <string name="url_developer_page">https://play.google.com/store/apps/dev?id=5065489230537845201</string>
     <string name="share_text">Chill and relax. Download Chillax now https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
     <string name="url_privacy_policy" tools:ignore="TypographyDashes">https://github.com/deddyrumapea/Chillax/blob/master/PRIVACY_POLICY.md</string>
     <string name="url_source_code" tools:ignore="TypographyDashes">https://github.com/deddyrumapea/Chillax/</string>
+    <string name="url_attributions" tools:ignore="TypographyDashes">https://github.com/deddyrumapea/Chillax/blob/master/ATTRIBUTIONS.md</string>
     <string name="contact_subject">Chillax feature request/bug report</string>
     <string name="app_instructions">You can pick sounds to play in the Sounds menu. Or, you can also pick a mood from Moods menu, a mood is a group of sounds.\n\nWhen playing sounds, you can click on the player at the bottom to show more controls.\n\nEnjoy :)</string>
     <string name="attributions_text">Images from Freepik\n- Launcher icon background image by freepik\n- All sounds icons by freepik\n- Rainforest by vectorpouch\n- Bedroom by vectorpouch\n- Airplane Cabin by upklyak\n- Camping by upklyak\n- Jungle by freepik\n- Riverside by jcomp\n\nAudios from Pixabay\n- Birds 1 by ivolipa\n- Birds 2 by nektaria909\n- Birds 3 by swiftoid\n- Brook by soundforyou\n- Cat Purring by worldsday\n- Cicadas by sarvegu\n- Creek by soundforyou\n- Crickets by cclaretc\n- Crowd by karinalarasart\n- Deep Frying by juliush\n- Driving at Night by augustsandberg\n- Electricity by flashtrauma\n- Fireplace by juliush\n- Frogs1 by jayalvarez66\n- Frogs2 by zachrau\n- Heartbeat by placidplace\n- Jet Plane by habbis92\n- Keyboard by kevinchocs\n- Kids Playground by brunoauzet\n- Radio Static by theartguild\n- Rain Gentle by soundforyou\n- Rain on Metal Roof by soundforyou\n- Rain by soundforyou\n- Rain Umbrella by soundforyou\n- River by soundforyou\n- Seagulls by olesouwester\n- Thunder by soundforyou\n- Turboprop plane by daveshu88\n- Waterfall by soundforyou\n- Window AC by benhabrams\n- Windshield Wipers by beeproductive\n- Wind in Trees by soundforyou</string>
@@ -106,7 +108,7 @@
     <string name="rationale_bed_time_reminder">Please allow notification permission to be able to receive Bedtime Reminder notifications</string>
     <string name="rationale_default">Please allow the requested permissions to support full functionalities</string>
     <string name="go_to_settings">Go to Settings</string>
-    <string name="source_code">Source Code</string>
+    <string name="source_code">Source code</string>
     <string name="save_mood">Save Mood</string>
     <string name="save_new_mood">Save New Mood</string>
     <string name="mood_name_cannot_be_blank">Mood name cannot be blank</string>
@@ -130,6 +132,7 @@
     <string name="mood_type_all">All</string>
     <string name="mood_type_preset">Preset</string>
     <string name="mood_type_custom">Custom</string>
+    <string name="other_apps">Other apps</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
