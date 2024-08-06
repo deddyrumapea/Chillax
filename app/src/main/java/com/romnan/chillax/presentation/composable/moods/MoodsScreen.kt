@@ -1,5 +1,6 @@
 package com.romnan.chillax.presentation.composable.moods
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -36,6 +37,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
@@ -98,6 +100,13 @@ fun MoodsScreen(
                             },
                         )
 
+                        val moodTypeContentColor by animateColorAsState(
+                            targetValue = when (moodType == state.selectedMoodType) {
+                                true -> MaterialTheme.colors.onPrimary
+                                false -> MaterialTheme.colors.onSurface
+                            },
+                        )
+
                         Row(
                             modifier = Modifier
                                 .shadow(
@@ -117,6 +126,7 @@ fun MoodsScreen(
                                 imageVector = moodType.icon,
                                 contentDescription = null,
                                 modifier = Modifier.size(20.dp),
+                                tint = moodTypeContentColor,
                             )
 
                             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
@@ -124,6 +134,7 @@ fun MoodsScreen(
                             Text(
                                 text = moodType.label.asString(),
                                 fontWeight = FontWeight.SemiBold,
+                                color = moodTypeContentColor,
                             )
                         }
 
@@ -131,6 +142,26 @@ fun MoodsScreen(
                     }
 
                     item { Spacer(modifier = Modifier.width(MaterialTheme.spacing.small)) }
+                }
+            }
+
+            item(
+                span = { GridItemSpan(currentLineSpan = 2) },
+            ) {
+                AnimatedVisibility(
+                    visible = state.moods.isEmpty() && state.selectedMoodType == MoodType.Custom,
+                ) {
+                    Text(
+                        text = stringResource(R.string.it_s_empty_when_you_save_moods_they_will_show_up_here),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = MaterialTheme.spacing.small,
+                                vertical = MaterialTheme.spacing.large,
+                            ),
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f),
+                    )
                 }
             }
 
