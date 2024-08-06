@@ -133,6 +133,8 @@
     <string name="mood_type_preset">Preset</string>
     <string name="mood_type_custom">Custom</string>
     <string name="other_apps">Other apps</string>
+    <string name="when_you_save_moods_they_will_show_up_here"></string>
+    <string name="it_s_empty_when_you_save_moods_they_will_show_up_here">It\'s empty.\nWhen you save moods they will show up here.</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
