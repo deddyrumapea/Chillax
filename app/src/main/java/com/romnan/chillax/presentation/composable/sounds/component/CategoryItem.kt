@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.model.CategoryPresentation
 import com.romnan.chillax.presentation.model.SoundPresentation
@@ -31,15 +32,21 @@ fun CategoryItem(
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = category().readableName.asString(),
-            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium),
-            color = MaterialTheme.colors.onSurface,
+            color = MaterialTheme.colors.onSurface.copy(alpha = 0.9f),
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.h6,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MaterialTheme.spacing.medium),
         )
 
         Text(
             text = category().description.asString(),
             style = MaterialTheme.typography.caption,
-            modifier = Modifier.padding(horizontal = MaterialTheme.spacing.medium),
-            color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
+            color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = MaterialTheme.spacing.medium),
         )
 
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
