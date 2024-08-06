@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,7 +25,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Badge
 import androidx.compose.material.icons.filled.BrightnessMedium
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.DarkMode
@@ -36,9 +34,11 @@ import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.NotificationsActive
+import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.filled.WavingHand
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -212,9 +212,16 @@ fun SettingsScreen(
             )
 
             BasicPreference(
-                icon = { Icons.Filled.Badge },
+                icon = { Icons.Filled.WavingHand },
                 title = { stringResource(R.string.pref_title_attributions) },
-                onClick = { viewModel.showAttributions() },
+                onClick = {
+                    CustomTabsIntent.Builder()
+                        .build()
+                        .launchUrl(
+                            context,
+                            Uri.parse(context.getString(R.string.url_attributions)),
+                        )
+                },
             )
 
             BasicPreference(
@@ -225,7 +232,7 @@ fun SettingsScreen(
                         .build()
                         .launchUrl(
                             context,
-                            Uri.parse(context.getString(R.string.url_privacy_policy))
+                            Uri.parse(context.getString(R.string.url_privacy_policy)),
                         )
                 },
             )
@@ -250,6 +257,18 @@ fun SettingsScreen(
                 onClick = viewModel::onClickAppVersion,
             )
 
+            Spacer(modifier = Modifier.padding(MaterialTheme.spacing.small))
+
+            BasicPreference(
+                icon = { Icons.Filled.OpenInNew },
+                title = { stringResource(R.string.other_apps) },
+                onClick = {
+                    Intent(Intent.ACTION_VIEW).apply {
+                        data = Uri.parse(context.getString(R.string.url_developer_page))
+                    }.let { context.startActivity(it) }
+                },
+            )
+
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.large))
         }
 
@@ -267,22 +286,6 @@ fun SettingsScreen(
                 text = stringResource(R.string.app_instructions),
                 modifier = Modifier.padding(MaterialTheme.spacing.medium)
             )
-        }
-
-        if (viewModel.isAttributionsVisible.collectAsState().value) DefaultDialog(
-            title = { stringResource(id = R.string.pref_title_attributions) },
-            onDismissRequest = viewModel::hideAttributions
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                Text(
-                    text = stringResource(R.string.attributions_text),
-                    modifier = Modifier.padding(MaterialTheme.spacing.medium),
-                )
-            }
         }
 
         viewModel.visiblePermissionDialogQueue.collectAsState().value.reversed()
