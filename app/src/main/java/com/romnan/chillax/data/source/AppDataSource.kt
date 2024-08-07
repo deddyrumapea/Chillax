@@ -159,6 +159,7 @@ private enum class CategoryData(
             SoundData.River,
             SoundData.WindInTrees,
             SoundData.Waterfall,
+            SoundData.SeaWaves,
         ),
     ),
     Animals(
@@ -192,6 +193,7 @@ private enum class CategoryData(
         sounds = listOf(
             SoundData.KidsPlayground,
             SoundData.Crowd,
+            SoundData.Train,
             SoundData.JetPlane,
             SoundData.TurbopropPlane,
             SoundData.WindshieldWipers,
@@ -202,9 +204,9 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_other),
         description = UIText.StringResource(R.string.cat_desc_other),
         sounds = listOf(
+            SoundData.BrownNoise,
             SoundData.RadioStatic,
             SoundData.Heartbeat,
-            SoundData.Electricity,
         ),
     ), ;
 
@@ -266,6 +268,11 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_wind_in_trees),
         iconResId = R.drawable.ic_sound_wind_in_trees,
         audioResId = R.raw.sound_wind_in_trees_soundforyou,
+    ),
+    SeaWaves(
+        readableName = UIText.StringResource(R.string.sound_sea_waves),
+        iconResId = R.drawable.ic_sound_sea_waves,
+        audioResId = R.raw.sound_sea_waves_soundsforyou,
     ),
     Birds1(
         readableName = UIText.StringResource(R.string.sound_birds_1),
@@ -342,6 +349,11 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_crowd,
         audioResId = R.raw.sound_crowd_karinalarasart,
     ),
+    Train(
+        readableName = UIText.StringResource(R.string.sound_train),
+        iconResId = R.drawable.ic_sound_train,
+        audioResId = R.raw.sound_train_sspsurvival,
+    ),
     JetPlane(
         readableName = UIText.StringResource(R.string.sound_jet_plane),
         iconResId = R.drawable.ic_sound_jet_plane,
@@ -362,15 +374,15 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_windshield_wipers,
         audioResId = R.raw.sound_windshield_wipers_beeproductive,
     ),
+    BrownNoise(
+        readableName = UIText.StringResource(R.string.sound_brown_noise),
+        iconResId = R.drawable.ic_sound_brown_noise,
+        audioResId = R.raw.sound_brown_noise_digitalspa,
+    ),
     RadioStatic(
         readableName = UIText.StringResource(R.string.sound_radio_static),
         iconResId = R.drawable.ic_sound_radio_static,
         audioResId = R.raw.sound_radio_static_theartguild,
-    ),
-    Electricity(
-        readableName = UIText.StringResource(R.string.sound_electricity),
-        iconResId = R.drawable.ic_sound_electricity,
-        audioResId = R.raw.sound_electricity_flashtrauma,
     ),
     Heartbeat(
         readableName = UIText.StringResource(R.string.sound_heartbeat),
