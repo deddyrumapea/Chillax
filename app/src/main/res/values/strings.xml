@@ -87,7 +87,6 @@
     <string name="sound_window_ac">Window AC</string>
     <string name="sound_turboprop_plane">Turboprop Plane</string>
     <string name="sound_radio_static">Radio Static </string>
-    <string name="sound_electricity">Electricity</string>
     <string name="mood_rainforest">Rainforest</string>
     <string name="mood_bedroom">Bedroom</string>
     <string name="mood_airplane_cabin">Airplane Cabin</string>
@@ -135,6 +134,9 @@
     <string name="other_apps">Other apps</string>
     <string name="when_you_save_moods_they_will_show_up_here"></string>
     <string name="it_s_empty_when_you_save_moods_they_will_show_up_here">It\'s empty.\nWhen you save moods they will show up here.</string>
+    <string name="sound_brown_noise">Brown Noise</string>
+    <string name="sound_sea_waves">Sea Waves</string>
+    <string name="sound_train">Train</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
