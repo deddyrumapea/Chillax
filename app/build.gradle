@@ -5,6 +5,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'com.google.devtools.ksp'
+    id 'com.google.gms.google-services'
 }
 
 kotlin {
@@ -154,4 +155,8 @@ dependencies {
 
     // Image Cropper
     implementation("com.vanniktech:android-image-cropper:4.5.0")
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:33.1.2')
+    implementation 'com.google.firebase:firebase-analytics'
 }
