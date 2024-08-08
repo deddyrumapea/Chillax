@@ -3,7 +3,13 @@ package com.romnan.chillax.presentation.composable.sounds.component
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -43,7 +49,7 @@ fun SoundItem(
             .clickable { onClick() },
     ) {
         val boxColor = animateColorAsState(
-            if (sound().isSelected) selectedColor()
+            if (sound().isPlaying) selectedColor()
             else MaterialTheme.colors.surface,
         )
 
@@ -55,7 +61,7 @@ fun SoundItem(
                 .fillMaxWidth()
         ) {
             val iconColor = animateColorAsState(
-                if (sound().isSelected) MaterialTheme.colors.onPrimary
+                if (sound().isPlaying) MaterialTheme.colors.onPrimary
                 else MaterialTheme.colors.onSurface
             )
 

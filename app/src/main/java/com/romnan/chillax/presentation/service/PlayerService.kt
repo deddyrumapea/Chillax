@@ -4,14 +4,26 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import androidx.annotation.FloatRange
+import androidx.annotation.OptIn
 import androidx.annotation.RawRes
 import androidx.media3.common.MediaItem
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
+import com.romnan.chillax.data.model.PlayingSound
+import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.model.PlayerPhase
+import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.domain.repository.PlayerRepository
+import com.romnan.chillax.presentation.model.PlayerPresentation
+import com.romnan.chillax.presentation.model.SoundPresentation
 import com.romnan.chillax.presentation.notification.NotificationConstants
+import com.zhuinden.flowcombinetuplekt.combineTuple
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -32,7 +44,7 @@ class PlayerService : Service() {
     @Inject
     lateinit var notificationHelper: NotificationHelper
 
-    private val resPlayers = mutableMapOf<Int, ExoPlayer>()
+    private val audioResIdToExoPlayer = mutableMapOf<@receiver:RawRes Int, ExoPlayer>()
 
     private var playerServiceJob: Job? = null
 
@@ -44,19 +56,39 @@ class PlayerService : Service() {
 
         playerServiceJob?.cancel()
         playerServiceJob = serviceScope.launch {
-            playerRepository.player.collectLatest { player ->
+            combineTuple(
+                playerRepository.player,
+                playerRepository.sounds,
+            ).collectLatest { (
+                                  player: Player,
+                                  sounds: List<Sound>,
+                              ) ->
+                val soundById = sounds.associateBy { it.id }
 
-                // Remove players of sounds that are no longer played
-                resPlayers
-                    .filter { entry -> !player.sounds.any { it.audioResId == entry.key } }
-                    .forEach { entry -> removeResPlayer(entry.key) }
+                // Remove players of sounds that are no longer playing
+                val playingSoundAudioResIds = player.playingSounds
+                    .mapNotNull { playingSound: PlayingSound -> soundById[playingSound.id]?.audioResId }
+                    .toSet()
+
+                audioResIdToExoPlayer
+                    .keys
+                    .filter { audioResId: Int -> !playingSoundAudioResIds.contains(audioResId) }
+                    .forEach { audioResId: Int -> removeExoPlayer(audioResId = audioResId) }
 
                 // Add a player for each playing sound
-                player.sounds.forEach { sound ->
-                    addResPlayer(
-                        resId = sound.audioResId,
-                        volume = sound.volume,
-                    )
+                player.playingSounds.forEach { playingSound: PlayingSound ->
+                    soundById[playingSound.id]?.audioResId?.let { audioResId: Int ->
+                        if (!audioResIdToExoPlayer.containsKey(audioResId)) {
+                            Firebase.analytics.logEvent("play_sound_with_exoplayer") {
+                                param(FirebaseAnalytics.Param.ITEM_ID, playingSound.id)
+                            }
+                        }
+
+                        addResPlayer(
+                            audioResId = audioResId,
+                            volume = playingSound.volume,
+                        )
+                    }
                 }
 
                 when (player.phase) {
@@ -65,7 +97,27 @@ class PlayerService : Service() {
                     PlayerPhase.STOPPED -> stopSelf()
                 }
 
-                notificationHelper.updatePlayerServiceNotification(player)
+                val playerPresentation = PlayerPresentation(
+                    phase = player.phase,
+                    playingSounds = player.playingSounds.mapNotNull { playingSound: PlayingSound ->
+                        when (val sound = soundById[playingSound.id]) {
+                            null -> null
+                            else -> {
+                                SoundPresentation(
+                                    id = playingSound.id,
+                                    readableName = sound.readableName,
+                                    iconResId = sound.iconResId,
+                                    audioResId = sound.audioResId,
+                                    isPlaying = true,
+                                    volume = playingSound.volume,
+                                )
+                            }
+                        }
+                    },
+                    playingMood = player.playingMood,
+                )
+
+                notificationHelper.updatePlayerServiceNotification(playerPresentation)
             }
         }
 
@@ -80,35 +132,36 @@ class PlayerService : Service() {
     }
 
     private fun stopAllPlayers() {
-        resPlayers.forEach {
-            with(it.value) {
+        audioResIdToExoPlayer.forEach { (audioResId: Int, exoPlayer: ExoPlayer) ->
+            with(exoPlayer) {
                 pause()
                 stop()
                 release()
             }
-            logcat { "stopped ${it.key}" }
+            logcat { "stopped ${audioResId}" }
         }
     }
 
     private fun pauseAllPlayers() {
-        resPlayers.forEach { it.value.pause() }
+        audioResIdToExoPlayer.forEach { (_: Int, exoPlayer: ExoPlayer) -> exoPlayer.pause() }
         logcat { "paused all players" }
 
     }
 
     private fun playAllPlayers() {
-        resPlayers.forEach { it.value.play() }
+        audioResIdToExoPlayer.forEach { (_: Int, exoPlayer: ExoPlayer) -> exoPlayer.play() }
         logcat { "playing all players" }
     }
 
+    @OptIn(UnstableApi::class)
     private fun addResPlayer(
-        @RawRes resId: Int,
+        @RawRes audioResId: Int,
         @FloatRange(from = 0.0, to = 1.0) volume: Float,
     ) {
         when {
-            !resPlayers.contains(resId) -> {
-                val uri = RawResourceDataSource.buildRawResourceUri(resId)
-                val player = ExoPlayer.Builder(this)
+            !audioResIdToExoPlayer.containsKey(audioResId) -> {
+                val uri = RawResourceDataSource.buildRawResourceUri(audioResId)
+                val exoPlayer = ExoPlayer.Builder(this)
                     .apply { setHandleAudioBecomingNoisy(true) }
                     .build()
                     .apply {
@@ -117,24 +170,24 @@ class PlayerService : Service() {
                         repeatMode = ExoPlayer.REPEAT_MODE_ONE
                         prepare()
                     }
-                resPlayers[resId] = player
-                logcat { "added $resId player, volume: ${player.volume}" }
+                audioResIdToExoPlayer[audioResId] = exoPlayer
+                logcat { "added $audioResId player, volume: ${exoPlayer.volume}" }
             }
 
-            resPlayers[resId]?.volume != volume -> {
-                resPlayers[resId]?.volume = volume
-                logcat { "changed $resId volume to $volume" }
+            audioResIdToExoPlayer[audioResId]?.volume != volume -> {
+                audioResIdToExoPlayer[audioResId]?.volume = volume
+                logcat { "changed $audioResId volume to $volume" }
             }
         }
     }
 
-    private fun removeResPlayer(@RawRes resId: Int) {
-        resPlayers[resId]?.let {
-            it.pause()
-            it.stop()
-            it.release()
-            resPlayers.remove(resId)
-            logcat { "removed $resId player" }
+    private fun removeExoPlayer(@RawRes audioResId: Int) {
+        audioResIdToExoPlayer[audioResId]?.let { exoPlayer: ExoPlayer ->
+            exoPlayer.pause()
+            exoPlayer.stop()
+            exoPlayer.release()
+            audioResIdToExoPlayer.remove(audioResId)
+            logcat { "removed $audioResId player" }
         }
     }
 

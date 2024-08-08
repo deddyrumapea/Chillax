@@ -20,7 +20,7 @@ import com.romnan.chillax.presentation.model.BottomBarDestination
 @Composable
 fun BottomBar(
     currentDestination: @Composable () -> Destination,
-    onItemClick: (BottomBarDestination) -> Unit,
+    onClickItem: (BottomBarDestination) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -31,12 +31,12 @@ fun BottomBar(
             .selectableGroup(),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        BottomBarDestination.values().forEach { destination ->
+        BottomBarDestination.entries.forEach { destination: BottomBarDestination ->
             val isSelected = currentDestination() == destination.direction
 
             BottomNavigationItem(
                 selected = isSelected,
-                onClick = { onItemClick(destination) },
+                onClick = { onClickItem(destination) },
                 icon = {
                     Icon(
                         imageVector = destination.icon,

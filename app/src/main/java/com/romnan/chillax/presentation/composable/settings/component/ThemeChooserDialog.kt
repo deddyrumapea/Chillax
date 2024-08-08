@@ -1,7 +1,13 @@
 package com.romnan.chillax.presentation.composable.settings.component
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
@@ -29,7 +35,7 @@ fun ThemeChooserDialog(
     ) {
         Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
-        ThemeMode.values().forEach { themeMode ->
+        ThemeMode.entries.forEach { themeMode: ThemeMode ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start,

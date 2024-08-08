@@ -3,7 +3,7 @@ package com.romnan.chillax.data.repository
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
-import com.romnan.chillax.data.model.serializable.SleepTimerSerializable
+import com.romnan.chillax.data.model.SleepTimerSerializable
 import com.romnan.chillax.data.serializer.SleepTimerSerializer
 import com.romnan.chillax.domain.model.SleepTimer
 import com.romnan.chillax.domain.repository.SleepTimerRepository

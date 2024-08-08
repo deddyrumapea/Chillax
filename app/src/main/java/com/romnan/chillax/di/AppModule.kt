@@ -3,14 +3,17 @@ package com.romnan.chillax.di
 import android.content.Context
 import android.os.SystemClock
 import com.romnan.chillax.data.repository.AppSettingsRepositoryImpl
+import com.romnan.chillax.data.repository.MoodRepositoryImpl
 import com.romnan.chillax.data.repository.PlayerRepositoryImpl
 import com.romnan.chillax.data.repository.SleepTimerRepositoryImpl
+import com.romnan.chillax.data.source.AppDataSource
 import com.romnan.chillax.data.util.CountDownTimer
-import com.romnan.chillax.domain.util.TimeSource
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.domain.repository.AppSettingsRepository
+import com.romnan.chillax.domain.repository.MoodRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
 import com.romnan.chillax.domain.repository.SleepTimerRepository
+import com.romnan.chillax.domain.util.TimeSource
 import com.romnan.chillax.presentation.notification.NotificationHelperImpl
 import dagger.Module
 import dagger.Provides
@@ -30,6 +33,15 @@ object AppModule {
     @Singleton
     fun provideApplicationScope(): CoroutineScope = CoroutineScope(context = SupervisorJob())
 
+
+    @Provides
+    @Singleton
+    fun provideAppDataSource(
+        @ApplicationContext appContext: Context,
+    ): AppDataSource = AppDataSource(
+        appContext = appContext,
+    )
+
     @Provides
     @Singleton
     fun providePlayerRepository(
@@ -37,11 +49,15 @@ object AppModule {
         @ApplicationScope appScope: CoroutineScope,
         sleepTimerRepository: SleepTimerRepository,
         countDownTimer: CountDownTimer,
+        appDataSource: AppDataSource,
+        moodRepository: MoodRepository,
     ): PlayerRepository = PlayerRepositoryImpl(
         appContext = appContext,
         appScope = appScope,
         sleepTimerRepository = sleepTimerRepository,
         countDownTimer = countDownTimer,
+        appDataSource = appDataSource,
+        moodRepository = moodRepository,
     )
 
     @Provides
@@ -50,6 +66,18 @@ object AppModule {
         @ApplicationContext appContext: Context,
     ): AppSettingsRepository = AppSettingsRepositoryImpl(
         appContext = appContext,
+    )
+
+    @Provides
+    @Singleton
+    fun provideMoodRepository(
+        @ApplicationContext appContext: Context,
+        @ApplicationScope appScope: CoroutineScope,
+        appDataSource: AppDataSource,
+    ): MoodRepository = MoodRepositoryImpl(
+        appContext = appContext,
+        appScope = appScope,
+        appDataSource = appDataSource,
     )
 
     @Provides
