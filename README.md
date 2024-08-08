@@ -3,39 +3,24 @@
 <a href="https://play.google.com/store/apps/details?id=com.romnan.chillax" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="100"/></a>
 
-Chillax is your go-to app for a soothing and peaceful experience. Dive into a world of relaxation with our carefully curated selection of calming sounds. This GitHub repository is dedicated to the development and improvement of the Chillax app.
+Experience serenity and peace with a meticulously curated selection of calming sounds. This app was developed with a singular purpose: to help users unwind and relax. No gimmicks, no sales pitches, and absolutely no intrusive ads. Suggestions and ideas are always welcome.
 
-## Why Chillax?
+Discover the benefits of soothing sounds:
+- Fall asleep effortlessly and find relief from insomnia and tinnitus.
+- Elevate mood, reduce anxiety, and alleviate stress.
+- Boost concentration and improve focus.
 
-Chillax was created with one simple goal in mind: to help people relax. No catch, no sales pitches, and definitely no annoying ads. We believe that everyone deserves a moment of tranquility and peace. Whether you're struggling with insomnia, anxiety, or just need a moment to unwind, Chillax is here to assist you.
+Standout features of this app:
+- Completely free with no ads.
+- High-quality, handpicked collection of calming sounds.
+- Play sounds in the background while going about the day.
+- Customize the volume for each sound.
+- Set a sleep timer to stop sounds automatically after a specific duration.
+- No internet required – enjoy offline.
+- Optional bedtime reminders to help establish a healthy sleep routine.
+- Beautiful and user-friendly design.
 
-## Key Benefits
-
-With Chillax, you can enjoy a wide range of benefits from our soothing sounds:
-
-- **Better Sleep:** Drift off to sleep effortlessly and find relief from insomnia and tinnitus.
-
-- **Stress Reduction:** Enhance your mood, reduce anxiety, and alleviate stress.
-
-- **Improved Focus:** Boost your concentration and improve focus during work or study sessions.
-
-## Features
-
-Chillax stands out from the rest with its unique features:
-
-- **Ad-Free:** Completely free with zero ads. We believe in providing a pure relaxation experience without any interruptions.
-
-- **High-Quality Sounds:** Our handpicked collection of soothing sounds is carefully selected to ensure the highest quality.
-
-- **Background Playback:** Play the sounds in the background while you do other things on your device, allowing you to enjoy relaxation wherever you are.
-
-- **Volume Control:** Adjust the volume for each sound to your liking for a customized experience.
-
-- **Sleep Timer:** Set a sleep timer to automatically stop the sounds after a specific duration, so you can fall asleep worry-free.
-
-- **Offline Mode:** No internet required! You can enjoy our app offline, making it perfect for travel or when you need a break from the online world.
-
-- **Bedtime Reminder:** Get an optional bedtime reminder to establish a healthy sleep routine and prioritize self-care.
+For any inquiries or feedback, feel free to email romnanstudio@gmail.com. I'm committed to responding to your messages and continually improving this app for you 😄
 
 - **User-Friendly Design:** Enjoy a beautiful and user-friendly design that enhances your overall relaxation experience.
 
