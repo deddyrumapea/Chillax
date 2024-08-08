@@ -21,7 +21,3 @@ Standout features of this app:
 - Beautiful and user-friendly design.
 
 For any inquiries or feedback, feel free to email romnanstudio@gmail.com. I'm committed to responding to your messages and continually improving this app for you 😄
-
-- **User-Friendly Design:** Enjoy a beautiful and user-friendly design that enhances your overall relaxation experience.
-
-We appreciate your support and look forward to creating a more relaxing world with you. 😄
