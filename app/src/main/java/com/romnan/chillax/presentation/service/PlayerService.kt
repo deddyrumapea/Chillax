@@ -10,6 +10,10 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.logEvent
+import com.google.firebase.ktx.Firebase
 import com.romnan.chillax.data.model.PlayingSound
 import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.model.PlayerPhase
@@ -74,6 +78,12 @@ class PlayerService : Service() {
                 // Add a player for each playing sound
                 player.playingSounds.forEach { playingSound: PlayingSound ->
                     soundById[playingSound.id]?.audioResId?.let { audioResId: Int ->
+                        if (!audioResIdToExoPlayer.containsKey(audioResId)) {
+                            Firebase.analytics.logEvent("play_sound_with_exoplayer") {
+                                param(FirebaseAnalytics.Param.ITEM_ID, playingSound.id)
+                            }
+                        }
+
                         addResPlayer(
                             audioResId = audioResId,
                             volume = playingSound.volume,
