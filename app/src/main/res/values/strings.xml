@@ -121,6 +121,7 @@
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="pick_image_chooser_title">Please select image source</string>
+    <string name="crop_image_menu_crop">Done</string>
     <string name="remove_mood_image">Remove Mood Image</string>
     <string name="delete_x">Delete %1$s</string>
     <string name="are_you_sure_you_want_to_delete_x">Are you sure you want to delete %1$s?</string>
