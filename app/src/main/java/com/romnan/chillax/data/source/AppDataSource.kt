@@ -158,8 +158,8 @@ private enum class CategoryData(
             SoundData.Creek,
             SoundData.River,
             SoundData.WindInTrees,
-            SoundData.Waterfall,
             SoundData.SeaWaves,
+            SoundData.Waterfall,
         ),
     ),
     Animals(
@@ -168,11 +168,11 @@ private enum class CategoryData(
         sounds = listOf(
             SoundData.Crickets,
             SoundData.Cicadas,
-            SoundData.CatPurring,
-            SoundData.Seagulls,
             SoundData.Birds1,
             SoundData.Birds2,
             SoundData.Birds3,
+            SoundData.CatPurring,
+            SoundData.Seagulls,
             SoundData.Frogs1,
             SoundData.Frogs2,
         ),
@@ -181,9 +181,9 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_room),
         description = UIText.StringResource(R.string.cat_desc_room),
         sounds = listOf(
-            SoundData.WindowAC,
-            SoundData.Keyboard,
             SoundData.Fireplace,
+            SoundData.Keyboard,
+            SoundData.WindowAC,
             SoundData.DeepFrying,
         ),
     ),
@@ -191,13 +191,13 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_city),
         description = UIText.StringResource(R.string.cat_desc_city),
         sounds = listOf(
-            SoundData.KidsPlayground,
-            SoundData.Crowd,
             SoundData.Train,
+            SoundData.Crowd,
+            SoundData.DrivingAtNight,
+            SoundData.KidsPlayground,
+            SoundData.WindshieldWipers,
             SoundData.JetPlane,
             SoundData.TurbopropPlane,
-            SoundData.WindshieldWipers,
-            SoundData.DrivingAtNight,
         ),
     ),
     Other(
@@ -205,8 +205,8 @@ private enum class CategoryData(
         description = UIText.StringResource(R.string.cat_desc_other),
         sounds = listOf(
             SoundData.BrownNoise,
-            SoundData.RadioStatic,
             SoundData.Heartbeat,
+            SoundData.RadioStatic,
         ),
     ), ;
 
