@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue_gray_900">#15202b</color>
+    <color name="blue_gray_50">#FFF3F8FF</color> <!-- Light Theme Background -->
+    <color name="blue_gray_800">#FF1E2732</color> <!-- Dark Theme Surface -->
+    <color name="blue_gray_900">#FF15202B</color> <!-- Dark Theme Background -->
+
+    <color name="blue_400">#FF1D9BF0</color> <!-- Primary -->
+    <color name="blue_700">#FF097CD0</color> <!-- Primary Variant -->
+
+    <color name="gold_700">#FFFEBE00</color>
+
+    <color name="pink_400">#FFF91880</color>
+
+    <color name="light_blue_400">#FF7856FF</color>
+
+    <color name="orange_900">#FFFF7A00</color>
+
+    <color name="dark_green_400">#FF00BA7C</color>
+
+    <color name="white_10_percent_alpha">#19FFFFFF</color>
 </resources>
