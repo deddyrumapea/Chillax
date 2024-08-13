@@ -36,8 +36,8 @@ import com.romnan.chillax.presentation.util.asString
 fun PlayerPeek(
     player: () -> PlayerPresentation,
     sleepTimer: () -> SleepTimerPresentation,
-    onPlayPauseClick: () -> Unit,
-    onTimerClick: () -> Unit,
+    onClickPlayPause: () -> Unit,
+    onClickTimer: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -85,7 +85,7 @@ fun PlayerPeek(
 
         Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
-        IconButton(onClick = onTimerClick) {
+        IconButton(onClick = onClickTimer) {
             Icon(
                 imageVector = if (sleepTimer().isEnabled) Icons.Default.TimerOff
                 else Icons.Default.Timer,
@@ -97,7 +97,7 @@ fun PlayerPeek(
         Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
         Button(
-            onClick = onPlayPauseClick,
+            onClick = onClickPlayPause,
             shape = CircleShape,
         ) {
             Icon(

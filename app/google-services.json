@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "476649295285",
+    "project_id": "chillax-1d9bf0",
+    "storage_bucket": "chillax-1d9bf0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476649295285:android:feb59b21f8c7ba8ef2ddfc",
+        "android_client_info": {
+          "package_name": "com.romnan.chillax"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBiUi6D77xTmXUp0zQMKxKJRJI8pSztYjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
