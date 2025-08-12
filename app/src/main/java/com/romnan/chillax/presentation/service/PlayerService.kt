@@ -6,8 +6,10 @@ import android.os.IBinder
 import androidx.annotation.FloatRange
 import androidx.annotation.OptIn
 import androidx.annotation.RawRes
+import androidx.media3.common.AudioAttributes
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.common.C
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -165,6 +167,11 @@ class PlayerService : Service() {
                     .apply { setHandleAudioBecomingNoisy(true) }
                     .build()
                     .apply {
+                        val audioAttributes = AudioAttributes.Builder()
+                            .setUsage(C.USAGE_MEDIA)
+                            .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                            .build()
+                        setAudioAttributes(audioAttributes, /* handleAudioFocus= */ true)
                         setMediaItem(MediaItem.fromUri(uri))
                         setVolume(volume)
                         repeatMode = ExoPlayer.REPEAT_MODE_ONE
