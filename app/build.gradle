@@ -22,14 +22,14 @@ kotlin {
 }
 
 android {
-    compileSdk 34
+    compileSdkVersion 36
 
     defaultConfig {
         applicationId "com.romnan.chillax"
         minSdk 21
-        targetSdk 34
-        versionCode 20240801
-        versionName "2024.08.01"
+        targetSdk 36
+        versionCode 20250808
+        versionName "2025.08.08"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
