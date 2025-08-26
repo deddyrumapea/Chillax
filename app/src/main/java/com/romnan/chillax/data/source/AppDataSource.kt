@@ -51,12 +51,12 @@ class AppDataSource(
     }
 
     val moodImageUris: Set<String> = listOf(
-        R.raw.mood_airplane_cabin_upklyak,
-        R.raw.mood_bedroom_vectorpouch,
-        R.raw.mood_camping_upklyak,
-        R.raw.mood_forest_vectorpouch,
-        R.raw.mood_jungle_freepik,
-        R.raw.mood_riverside_jcomp,
+        R.raw.mood_airplane_cabin,
+        R.raw.mood_bedroom,
+        R.raw.mood_camping,
+        R.raw.mood_rainforest,
+        R.raw.mood_jungle,
+        R.raw.mood_riverside,
     ).map { resId: Int ->
         Uri.Builder()
             .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
@@ -74,7 +74,7 @@ private enum class MoodData(
 ) {
     Rainforest(
         readableName = UIText.StringResource(R.string.mood_rainforest),
-        imageResId = R.raw.mood_forest_vectorpouch,
+        imageResId = R.raw.mood_rainforest,
         sounds = listOf(
             SoundData.GentleRain,
             SoundData.Rain,
@@ -85,7 +85,7 @@ private enum class MoodData(
     ),
     Bedroom(
         readableName = UIText.StringResource(R.string.mood_bedroom),
-        imageResId = R.raw.mood_bedroom_vectorpouch,
+        imageResId = R.raw.mood_bedroom,
         sounds = listOf(
             SoundData.WindowAC,
             SoundData.Crickets,
@@ -93,7 +93,7 @@ private enum class MoodData(
     ),
     AirplaneCabin(
         readableName = UIText.StringResource(R.string.mood_airplane_cabin),
-        imageResId = R.raw.mood_airplane_cabin_upklyak,
+        imageResId = R.raw.mood_airplane_cabin,
         sounds = listOf(
             SoundData.WindowAC,
             SoundData.JetPlane,
@@ -101,7 +101,7 @@ private enum class MoodData(
     ),
     Camping(
         readableName = UIText.StringResource(R.string.mood_camping),
-        imageResId = R.raw.mood_camping_upklyak,
+        imageResId = R.raw.mood_camping,
         sounds = listOf(
             SoundData.Cicadas,
             SoundData.Fireplace,
@@ -110,7 +110,7 @@ private enum class MoodData(
     ),
     Jungle(
         readableName = UIText.StringResource(R.string.mood_jungle),
-        imageResId = R.raw.mood_jungle_freepik,
+        imageResId = R.raw.mood_jungle,
         sounds = listOf(
             SoundData.Cicadas,
             SoundData.Birds1,
@@ -122,7 +122,7 @@ private enum class MoodData(
     ),
     Riverside(
         readableName = UIText.StringResource(R.string.mood_riverside),
-        imageResId = R.raw.mood_riverside_jcomp,
+        imageResId = R.raw.mood_riverside,
         sounds = listOf(
             SoundData.Brook,
             SoundData.Creek,
