@@ -46,7 +46,7 @@ class PlayerService : Service() {
     @Inject
     lateinit var notificationHelper: NotificationHelper
 
-    private val audioResIdToExoPlayer = mutableMapOf<@receiver:RawRes Int, ExoPlayer>()
+    private val audioResIdToExoPlayer = mutableMapOf<Int, ExoPlayer>()
 
     private var playerServiceJob: Job? = null
 
@@ -167,11 +167,6 @@ class PlayerService : Service() {
                     .apply { setHandleAudioBecomingNoisy(true) }
                     .build()
                     .apply {
-                        val audioAttributes = AudioAttributes.Builder()
-                            .setUsage(C.USAGE_MEDIA)
-                            .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
-                            .build()
-                        setAudioAttributes(audioAttributes, /* handleAudioFocus= */ true)
                         setMediaItem(MediaItem.fromUri(uri))
                         setVolume(volume)
                         repeatMode = ExoPlayer.REPEAT_MODE_ONE
