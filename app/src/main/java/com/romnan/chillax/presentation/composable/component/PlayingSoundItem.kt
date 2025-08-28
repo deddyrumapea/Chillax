@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Slider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,7 +35,7 @@ fun PlayingSoundItem(
         contentAlignment = Alignment.CenterStart,
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(MaterialTheme.colors.secondary.copy(alpha = 0.3f))
+            .background(MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f))
             .height(36.dp),
     ) {
         var volumeState by remember(
@@ -46,7 +46,7 @@ fun PlayingSoundItem(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth(fraction = volumeState)
-                .background(MaterialTheme.colors.secondary)
+                .background(MaterialTheme.colorScheme.secondary)
         )
 
         Slider(
@@ -62,7 +62,7 @@ fun PlayingSoundItem(
 
         Icon(
             painter = painterResource(id = sound().iconResId),
-            tint = MaterialTheme.colors.onSecondary,
+            tint = MaterialTheme.colorScheme.onSecondary,
             contentDescription = null,
             modifier = Modifier
                 .fillMaxHeight()
