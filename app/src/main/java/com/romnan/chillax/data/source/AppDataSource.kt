@@ -103,7 +103,6 @@ private enum class MoodData(
         readableName = UIText.StringResource(R.string.mood_camping),
         imageResId = R.raw.mood_camping,
         sounds = listOf(
-            SoundData.Cicadas,
             SoundData.Fireplace,
             SoundData.WindInTrees,
         ),
@@ -112,7 +111,6 @@ private enum class MoodData(
         readableName = UIText.StringResource(R.string.mood_jungle),
         imageResId = R.raw.mood_jungle,
         sounds = listOf(
-            SoundData.Cicadas,
             SoundData.Birds1,
             SoundData.Birds2,
             SoundData.Birds3,
@@ -168,14 +166,9 @@ private enum class CategoryData(
         description = UIText.StringResource(R.string.cat_desc_animals),
         sounds = listOf(
             SoundData.Crickets,
-            SoundData.Cicadas,
             SoundData.Birds1,
             SoundData.Birds2,
             SoundData.Birds3,
-            SoundData.CatPurring,
-            SoundData.Seagulls,
-            SoundData.Frogs1,
-            SoundData.Frogs2,
         ),
     ),
     Room(
@@ -183,9 +176,7 @@ private enum class CategoryData(
         description = UIText.StringResource(R.string.cat_desc_room),
         sounds = listOf(
             SoundData.Fireplace,
-            SoundData.Keyboard,
             SoundData.WindowAC,
-            SoundData.DeepFrying,
         ),
     ),
     City(
@@ -193,12 +184,8 @@ private enum class CategoryData(
         description = UIText.StringResource(R.string.cat_desc_city),
         sounds = listOf(
             SoundData.Train,
-            SoundData.Crowd,
             SoundData.DrivingAtNight,
-            SoundData.KidsPlayground,
-            SoundData.WindshieldWipers,
             SoundData.JetPlane,
-            SoundData.TurbopropPlane,
         ),
     ),
     Other(
@@ -207,7 +194,6 @@ private enum class CategoryData(
         sounds = listOf(
             SoundData.BrownNoise,
             SoundData.Heartbeat,
-            SoundData.RadioStatic,
         ),
     ), ;
 
@@ -295,35 +281,10 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_birds_3,
         audioResId = R.raw.sound_birds_3_swiftoid,
     ),
-    Seagulls(
-        readableName = UIText.StringResource(R.string.sound_seagulls),
-        iconResId = R.drawable.ic_sound_seagulls,
-        audioResId = R.raw.sound_seagulls_olesouwester,
-    ),
     Crickets(
         readableName = UIText.StringResource(R.string.sound_crickets),
         iconResId = R.drawable.ic_sound_crickets,
         audioResId = R.raw.sound_crickets_cclaretc,
-    ),
-    Cicadas(
-        readableName = UIText.StringResource(R.string.sound_cicadas),
-        iconResId = R.drawable.ic_sound_cicadas,
-        audioResId = R.raw.sound_cicadas_sarvegu,
-    ),
-    Frogs1(
-        readableName = UIText.StringResource(R.string.sound_frogs_1),
-        iconResId = R.drawable.ic_sound_frogs_1,
-        audioResId = R.raw.sound_frogs1_jayalvarez66,
-    ),
-    Frogs2(
-        readableName = UIText.StringResource(R.string.sound_frogs_2),
-        iconResId = R.drawable.ic_sound_frogs_2,
-        audioResId = R.raw.sound_frogs2_zachrau,
-    ),
-    CatPurring(
-        readableName = UIText.StringResource(R.string.sound_cat_purring),
-        iconResId = R.drawable.ic_sound_cat_purring,
-        audioResId = R.raw.sound_cat_purring_worldsday,
     ),
     WindowAC(
         readableName = UIText.StringResource(R.string.sound_window_ac),
@@ -335,26 +296,6 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_fireplace,
         audioResId = R.raw.sound_fireplace_juliush,
     ),
-    DeepFrying(
-        readableName = UIText.StringResource(R.string.sound_deep_frying),
-        iconResId = R.drawable.ic_sound_deep_frying,
-        audioResId = R.raw.sound_deep_frying_juliush,
-    ),
-    Keyboard(
-        readableName = UIText.StringResource(R.string.sound_keyboard),
-        iconResId = R.drawable.ic_sound_keyboard,
-        audioResId = R.raw.sound_keyboard_kevinchocs,
-    ),
-    KidsPlayground(
-        readableName = UIText.StringResource(R.string.sound_kids_playground),
-        iconResId = R.drawable.ic_sound_kids_playground,
-        audioResId = R.raw.sound_kids_playground_brunoauzet,
-    ),
-    Crowd(
-        readableName = UIText.StringResource(R.string.sound_crowd),
-        iconResId = R.drawable.ic_sound_crowd,
-        audioResId = R.raw.sound_crowd_karinalarasart,
-    ),
     Train(
         readableName = UIText.StringResource(R.string.sound_train),
         iconResId = R.drawable.ic_sound_train,
@@ -365,30 +306,15 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_jet_plane,
         audioResId = R.raw.sound_jet_plane_habbis92,
     ),
-    TurbopropPlane(
-        readableName = UIText.StringResource(R.string.sound_turboprop_plane),
-        iconResId = R.drawable.ic_sound_turboprop_plane,
-        audioResId = R.raw.sound_turboprop_plane_daveshu88
-    ),
     DrivingAtNight(
         readableName = UIText.StringResource(R.string.sound_driving_at_night),
         iconResId = R.drawable.ic_sound_driving_at_night,
         audioResId = R.raw.sound_driving_at_night_augustsandberg,
     ),
-    WindshieldWipers(
-        readableName = UIText.StringResource(R.string.sound_windshield_wipers),
-        iconResId = R.drawable.ic_sound_windshield_wipers,
-        audioResId = R.raw.sound_windshield_wipers_beeproductive,
-    ),
     BrownNoise(
         readableName = UIText.StringResource(R.string.sound_brown_noise),
         iconResId = R.drawable.ic_sound_brown_noise,
         audioResId = R.raw.sound_brown_noise_digitalspa,
-    ),
-    RadioStatic(
-        readableName = UIText.StringResource(R.string.sound_radio_static),
-        iconResId = R.drawable.ic_sound_radio_static,
-        audioResId = R.raw.sound_radio_static_theartguild,
     ),
     Heartbeat(
         readableName = UIText.StringResource(R.string.sound_heartbeat),
