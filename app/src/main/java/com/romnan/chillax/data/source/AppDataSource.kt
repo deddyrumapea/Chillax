@@ -143,6 +143,7 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_rain),
         description = UIText.StringResource(R.string.cat_desc_rain),
         sounds = listOf(
+            SoundData.ForestRain,
             SoundData.GentleRain,
             SoundData.Rain,
             SoundData.RainOnUmbrella,
@@ -219,6 +220,11 @@ private enum class SoundData(
     val iconResId: Int,
     val audioResId: Int,
 ) {
+    ForestRain(
+        readableName = UIText.StringResource(R.string.sound_forest_rain),
+        iconResId = R.drawable.ic_sound_rain,
+        audioResId = R.raw.sound_forest_rain,
+    ),
     Rain(
         readableName = UIText.StringResource(R.string.sound_rain),
         iconResId = R.drawable.ic_sound_rain,
