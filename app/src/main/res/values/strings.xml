@@ -138,6 +138,7 @@
     <string name="sound_brown_noise">Brown Noise</string>
     <string name="sound_sea_waves">Sea Waves</string>
     <string name="sound_train">Train</string>
+    <string name="sound_forest_rain">Forest Rain</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
