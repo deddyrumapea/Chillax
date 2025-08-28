@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Chillax</string>
     <string name="moods">Moods</string>
     <string name="sounds">Sounds</string>
@@ -29,11 +29,9 @@
     <string name="pref_title_contact_support">Contact support</string>
     <string name="pref_desc_contact_support">Report a problem or give suggestions</string>
     <string name="pref_title_instructions">Instructions</string>
-    <string name="pref_title_privacy_policy">Privacy policy</string>
     <string name="pref_title_attributions">Attributions</string>
     <string name="pref_title_version">App version</string>
     <string name="pref_title_bedtime_reminder">Remind me when it\'s bedtime</string>
-    <string name="off">Off</string>
     <string name="theme_system">System</string>
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
@@ -41,12 +39,8 @@
     <string name="url_app_listing">https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
     <string name="url_developer_page">https://play.google.com/store/apps/dev?id=5065489230537845201</string>
     <string name="share_text">Chill and relax. Download Chillax now https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
-    <string name="url_privacy_policy" tools:ignore="TypographyDashes">https://github.com/deddyrumapea/Chillax/blob/master/PRIVACY_POLICY.md</string>
-    <string name="url_source_code" tools:ignore="TypographyDashes">https://github.com/deddyrumapea/Chillax/</string>
-    <string name="url_attributions" tools:ignore="TypographyDashes">https://github.com/deddyrumapea/Chillax/blob/master/ATTRIBUTIONS.md</string>
     <string name="contact_subject">Chillax feature request/bug report</string>
-    <string name="app_instructions">You can pick sounds to play in the Sounds menu. Or, you can also pick a mood from Moods menu, a mood is a group of sounds.\n\nWhen playing sounds, you can click on the player at the bottom to show more controls.\n\nEnjoy :)</string>
-    <string name="attributions_text">Images from Freepik\n- Launcher icon background image by freepik\n- All sounds icons by freepik\n- Rainforest by vectorpouch\n- Bedroom by vectorpouch\n- Airplane Cabin by upklyak\n- Camping by upklyak\n- Jungle by freepik\n- Riverside by jcomp\n\nAudios from Pixabay\n- Birds 1 by ivolipa\n- Birds 2 by nektaria909\n- Birds 3 by swiftoid\n- Brook by soundforyou\n- Cat Purring by worldsday\n- Cicadas by sarvegu\n- Creek by soundforyou\n- Crickets by cclaretc\n- Crowd by karinalarasart\n- Deep Frying by juliush\n- Driving at Night by augustsandberg\n- Electricity by flashtrauma\n- Fireplace by juliush\n- Frogs1 by jayalvarez66\n- Frogs2 by zachrau\n- Heartbeat by placidplace\n- Jet Plane by habbis92\n- Keyboard by kevinchocs\n- Kids Playground by brunoauzet\n- Radio Static by theartguild\n- Rain Gentle by soundforyou\n- Rain on Metal Roof by soundforyou\n- Rain by soundforyou\n- Rain Umbrella by soundforyou\n- River by soundforyou\n- Seagulls by olesouwester\n- Thunder by soundforyou\n- Turboprop plane by daveshu88\n- Waterfall by soundforyou\n- Window AC by benhabrams\n- Windshield Wipers by beeproductive\n- Wind in Trees by soundforyou</string>
+    <string name="app_instructions">You can choose individual sounds from the Sounds menu, or pick a mood from the Moods menu. A mood is simply a collection of sounds grouped together.\n\nWhile playing, tap the player at the bottom to reveal more controls.\n\nEnjoy :)</string>
     <string name="bed_time_notifications">Bed time notifications</string>
     <string name="bed_time_notif_channel_desc">This channel is used to display notifications for bed time reminder</string>
     <string name="bed_time_content_text">Chill. Relax. And drift off to dream</string>
@@ -81,36 +75,25 @@
     <string name="mood_camping">Camping</string>
     <string name="mood_jungle">Jungle</string>
     <string name="mood_riverside">Riverside</string>
-    <string name="cd_close">Close</string>
     <string name="cd_set_timer">Set timer</string>
-    <string name="app_developed_by">Chillax is developed by Deddy Romnan Rumapea</string>
-    <string name="set_sleep_timer">Set Sleep Timer</string>
-    <string name="ok">OK</string>
+    <string name="app_developed_by">Made by Deddy Rumapea in Indonesia 🇮🇩</string>
     <string name="hours">hours</string>
     <string name="minutes">minutes</string>
     <string name="stop_timer">Stop timer</string>
     <string name="timer_disabled">Timer disabled</string>
     <string name="pause_all_sounds_after">Pause all sounds after…</string>
-    <string name="permission_request">Permission Request</string>
     <string name="rationale_bed_time_reminder">Please allow notification permission to be able to receive Bedtime Reminder notifications</string>
     <string name="rationale_default">Please allow the requested permissions to support full functionalities</string>
     <string name="go_to_settings">Go to Settings</string>
-    <string name="source_code">Source code</string>
     <string name="save_mood">Save Mood</string>
     <string name="save_new_mood">Save New Mood</string>
-    <string name="mood_name_cannot_be_blank">Mood name cannot be blank</string>
     <string name="save">Save</string>
     <string name="please_select_mood_image">Please select mood image</string>
     <string name="please_enter_mood_name">Please enter mood name</string>
     <string name="mood_name">Mood Name</string>
     <string name="cd_add_image">Add image</string>
-    <string name="delete_mood_image">Delete Mood Image</string>
     <string name="are_you_sure_you_want_to_remove_this_image">Are you sure you want to remove this image?</string>
     <string name="cancel">Cancel</string>
-    <string name="yes">Yes</string>
-    <string name="pick_image_chooser_title">Please select image source</string>
-    <string name="crop_image_menu_crop">Done</string>
-    <string name="remove_mood_image">Remove Mood Image</string>
     <string name="delete_x">Delete %1$s</string>
     <string name="are_you_sure_you_want_to_delete_x">Are you sure you want to delete %1$s?</string>
     <string name="failed_to_pick_image_please_try_again">Failed to pick image. Please try again.</string>
@@ -121,12 +104,16 @@
     <string name="mood_type_preset">Preset</string>
     <string name="mood_type_custom">Custom</string>
     <string name="other_apps">Other apps</string>
-    <string name="when_you_save_moods_they_will_show_up_here"></string>
     <string name="it_s_empty_when_you_save_moods_they_will_show_up_here">It\'s empty.\nWhen you save moods they will show up here.</string>
     <string name="sound_brown_noise">Brown Noise</string>
     <string name="sound_sea_waves">Sea Waves</string>
     <string name="sound_train">Train</string>
     <string name="sound_forest_rain">Forest Rain</string>
+    <string name="set_timer">Set Timer</string>
+    <string name="remove_image">Remove Image</string>
+    <string name="done">Done</string>
+    <string name="close">Close</string>
+    <string name="grant_permission">Grant Permission</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>

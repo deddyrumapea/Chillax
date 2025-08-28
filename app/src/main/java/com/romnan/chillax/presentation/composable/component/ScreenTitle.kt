@@ -2,8 +2,8 @@ package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -21,8 +21,8 @@ fun ScreenTitle(
     ),
 ) = Text(
     text = text(),
-    style = MaterialTheme.typography.h4,
+    style = MaterialTheme.typography.headlineMedium,
     fontWeight = FontWeight.Bold,
-    color = MaterialTheme.colors.onBackground,
+    color = MaterialTheme.colorScheme.onBackground,
     modifier = modifier.padding(paddingValues),
 )

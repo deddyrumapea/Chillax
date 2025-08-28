@@ -8,17 +8,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.TimerOff
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,7 +42,7 @@ fun PlayerPeek(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Row(
@@ -57,7 +57,10 @@ fun PlayerPeek(
 
                 Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
-                Text(text = player().soundsTitle.asString())
+                Text(
+                    text = player().soundsTitle.asString(),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
             }
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacing.extraSmall))
@@ -78,7 +81,8 @@ fun PlayerPeek(
 
                 Text(
                     text = if (sleepTimer().isEnabled) sleepTimer().readableTimeLeft.asString()
-                    else stringResource(R.string.timer_disabled)
+                    else stringResource(R.string.timer_disabled),
+                    style = MaterialTheme.typography.bodyMedium,
                 )
             }
         }
