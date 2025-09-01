@@ -137,6 +137,7 @@
     <string name="sound_indoor_rain_2">Indoor Rain 2</string>
     <string name="sound_fireside_1">Fireside 1</string>
     <string name="sound_fireside_2">Fireside 2</string>
+    <string name="sound_birds_4">Birds 4</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
