@@ -103,8 +103,8 @@ private enum class MoodData(
         readableName = UIText.StringResource(R.string.mood_camping),
         imageResId = R.raw.mood_camping,
         sounds = listOf(
-            SoundData.FirePlace1,
-            SoundData.FirePlace2,
+            SoundData.Fireside1,
+            SoundData.Fireside2,
             SoundData.WindInTrees,
         ),
     ),
@@ -187,8 +187,8 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_room),
         description = UIText.StringResource(R.string.cat_desc_room),
         sounds = listOf(
-            SoundData.FirePlace1,
-            SoundData.FirePlace2,
+            SoundData.Fireside1,
+            SoundData.Fireside2,
             SoundData.AirConditioner,
         ),
     ),
@@ -221,15 +221,15 @@ private enum class SoundData(
     val iconResId: Int,
     val audioResId: Int,
 ) {
-    FirePlace1(
-        readableName = UIText.StringResource(R.string.sound_fireplace_1),
-        iconResId = R.drawable.ic_sound_fireplace,
-        audioResId = R.raw.sound_fireplace_1,
+    Fireside1(
+        readableName = UIText.StringResource(R.string.sound_fireside_1),
+        iconResId = R.drawable.ic_sound_fireside_1,
+        audioResId = R.raw.sound_fireside_1,
     ),
-    FirePlace2(
-        readableName = UIText.StringResource(R.string.sound_fireplace_2),
-        iconResId = R.drawable.ic_sound_fireplace,
-        audioResId = R.raw.sound_fireplace_2,
+    Fireside2(
+        readableName = UIText.StringResource(R.string.sound_fireside_2),
+        iconResId = R.drawable.ic_sound_fireside_2,
+        audioResId = R.raw.sound_fireside_2,
     ),
     IndoorRain1(
         readableName = UIText.StringResource(R.string.sound_indoor_rain_1),
