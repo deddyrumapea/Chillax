@@ -87,15 +87,15 @@ private enum class MoodData(
         readableName = UIText.StringResource(R.string.mood_bedroom),
         imageResId = R.raw.mood_bedroom,
         sounds = listOf(
-            SoundData.WindowAC,
-            SoundData.Crickets,
+            SoundData.AirConditioner,
+            SoundData.Crickets3,
         ),
     ),
     AirplaneCabin(
         readableName = UIText.StringResource(R.string.mood_airplane_cabin),
         imageResId = R.raw.mood_airplane_cabin,
         sounds = listOf(
-            SoundData.WindowAC,
+            SoundData.AirConditioner,
             SoundData.JetPlane,
         ),
     ),
@@ -103,7 +103,8 @@ private enum class MoodData(
         readableName = UIText.StringResource(R.string.mood_camping),
         imageResId = R.raw.mood_camping,
         sounds = listOf(
-            SoundData.Fireplace,
+            SoundData.FirePlace1,
+            SoundData.FirePlace2,
             SoundData.WindInTrees,
         ),
     ),
@@ -137,46 +138,12 @@ private enum class CategoryData(
     val description: UIText,
     val sounds: List<SoundData>,
 ) {
-    Fireplaces(
-        readableName = UIText.DynamicString("Fireplaces"),
-        description = UIText.DynamicString("Fireplace sounds"),
-        sounds = listOf(
-            SoundData.FirePlace1,
-            SoundData.FirePlace2,
-        ),
-    ),
     IndoorRains(
         readableName = UIText.DynamicString("Indoor Rains"),
         description = UIText.DynamicString("Indoor rain sounds"),
         sounds = listOf(
             SoundData.IndoorRain1,
             SoundData.IndoorRain2,
-        ),
-    ),
-    Cicadas(
-        readableName = UIText.DynamicString("Cicadas"),
-        description = UIText.DynamicString("Cicadas sounds"),
-        sounds = listOf(
-            SoundData.Cicadas1,
-            SoundData.Cicadas2,
-            SoundData.Cicadas3,
-            SoundData.Cicadas4,
-        )
-    ),
-    Crickets(
-        readableName = UIText.DynamicString("Crickets"),
-        description = UIText.DynamicString("Crickets sounds"),
-        sounds = listOf(
-            SoundData.Crickets1,
-            SoundData.Crickets2,
-            SoundData.Crickets3,
-        ),
-    ),
-    AirConditioners(
-        readableName = UIText.DynamicString("Air Conditioners"),
-        description = UIText.DynamicString("Air conditioner sounds"),
-        sounds = listOf(
-            SoundData.AirConditioner,
         ),
     ),
     ForestRains(
@@ -190,22 +157,6 @@ private enum class CategoryData(
             SoundData.ForestRain5,
             SoundData.ForestRain6,
             SoundData.ForestRain7,
-        ),
-    ),
-    Rivers(
-        readableName = UIText.DynamicString("Rivers"),
-        description = UIText.DynamicString("River sounds"),
-        sounds = listOf(
-            SoundData.River1,
-            SoundData.River2,
-        ),
-    ),
-    WindChimes(
-        readableName = UIText.DynamicString("Wind Chimes"),
-        description = UIText.DynamicString("Wind chime sounds"),
-        sounds = listOf(
-            SoundData.WindChime1,
-            SoundData.WindChime2,
         ),
     ),
     Rain(
@@ -226,6 +177,8 @@ private enum class CategoryData(
             SoundData.Brook,
             SoundData.Creek,
             SoundData.River,
+            SoundData.River1,
+            SoundData.River2,
             SoundData.WindInTrees,
             SoundData.SeaWaves,
             SoundData.Waterfall,
@@ -235,18 +188,25 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_animals),
         description = UIText.StringResource(R.string.cat_desc_animals),
         sounds = listOf(
-            SoundData.Crickets,
+            SoundData.Crickets1,
+            SoundData.Crickets2,
+            SoundData.Crickets3,
             SoundData.Birds1,
             SoundData.Birds2,
             SoundData.Birds3,
+            SoundData.Cicadas1,
+            SoundData.Cicadas2,
+            SoundData.Cicadas3,
+            SoundData.Cicadas4,
         ),
     ),
     Room(
         readableName = UIText.StringResource(R.string.cat_name_room),
         description = UIText.StringResource(R.string.cat_desc_room),
         sounds = listOf(
-            SoundData.Fireplace,
-            SoundData.WindowAC,
+            SoundData.FirePlace1,
+            SoundData.FirePlace2,
+            SoundData.AirConditioner,
         ),
     ),
     City(
@@ -262,6 +222,8 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_other),
         description = UIText.StringResource(R.string.cat_desc_other),
         sounds = listOf(
+            SoundData.WindChime1,
+            SoundData.WindChime2,
             SoundData.BrownNoise,
             SoundData.Heartbeat,
         ),
@@ -460,21 +422,6 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_birds_3),
         iconResId = R.drawable.ic_sound_birds_3,
         audioResId = R.raw.sound_birds_3_swiftoid,
-    ),
-    Crickets(
-        readableName = UIText.StringResource(R.string.sound_crickets),
-        iconResId = R.drawable.ic_sound_crickets,
-        audioResId = R.raw.sound_crickets_cclaretc,
-    ),
-    WindowAC(
-        readableName = UIText.StringResource(R.string.sound_window_ac),
-        iconResId = R.drawable.ic_sound_window_ac,
-        audioResId = R.raw.sound_window_ac_benhabrams,
-    ),
-    Fireplace(
-        readableName = UIText.StringResource(R.string.sound_fireplace),
-        iconResId = R.drawable.ic_sound_fireplace,
-        audioResId = R.raw.sound_fireplace_juliush,
     ),
     Train(
         readableName = UIText.StringResource(R.string.sound_train),
