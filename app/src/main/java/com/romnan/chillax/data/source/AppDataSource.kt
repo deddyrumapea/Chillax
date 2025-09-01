@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
 import com.romnan.chillax.R
-import com.romnan.chillax.domain.constant.PlayerConstants
 import com.romnan.chillax.domain.model.Category
 import com.romnan.chillax.domain.model.Mood
 import com.romnan.chillax.domain.model.Sound
@@ -35,9 +34,10 @@ class AppDataSource(
             id = moodData.id,
             readableName = moodData.readableName,
             imageUri = imageUri,
-            soundIdToVolume = moodData.sounds.associate { soundData: SoundData ->
-                soundData.id to PlayerConstants.DEFAULT_SOUND_VOLUME
-            },
+            soundIdToVolume = moodData.soundToVolume
+                .associate { (soundData: SoundData, volume: Float) ->
+                    soundData.id to volume
+                },
         )
     }
 
@@ -70,62 +70,69 @@ class AppDataSource(
 private enum class MoodData(
     val readableName: UIText,
     val imageResId: Int,
-    val sounds: List<SoundData>,
+    val soundToVolume: List<Pair<SoundData, Float>>,
 ) {
     Rainforest(
         readableName = UIText.StringResource(R.string.mood_rainforest),
         imageResId = R.raw.mood_rainforest,
-        sounds = listOf(
-            SoundData.GentleRain,
-            SoundData.Rain,
-            SoundData.WindInTrees,
-            SoundData.River,
-            SoundData.Birds2,
+        soundToVolume = listOf(
+            SoundData.ForestRain1 to 0.7f,
+            SoundData.ForestRain2 to 0.7f,
+            SoundData.ForestRain3 to 0.7f,
+            SoundData.ForestRain4 to 0.7f,
+            SoundData.WindInTrees to 0.3f,
+            SoundData.Creek to 0.5f,
         ),
     ),
     Bedroom(
         readableName = UIText.StringResource(R.string.mood_bedroom),
         imageResId = R.raw.mood_bedroom,
-        sounds = listOf(
-            SoundData.AirConditioner,
-            SoundData.Crickets3,
+        soundToVolume = listOf(
+            SoundData.AirConditioner to 0.5f,
+            SoundData.IndoorRain1 to 0.7f,
+            SoundData.IndoorRain2 to 0.6f,
+            SoundData.Crickets3 to 0.2f,
         ),
     ),
     AirplaneCabin(
         readableName = UIText.StringResource(R.string.mood_airplane_cabin),
         imageResId = R.raw.mood_airplane_cabin,
-        sounds = listOf(
-            SoundData.AirConditioner,
-            SoundData.JetPlane,
+        soundToVolume = listOf(
+            SoundData.AirConditioner to 0.7f,
+            SoundData.JetPlane to 0.7f,
         ),
     ),
     Camping(
         readableName = UIText.StringResource(R.string.mood_camping),
         imageResId = R.raw.mood_camping,
-        sounds = listOf(
-            SoundData.Fireside1,
-            SoundData.Fireside2,
-            SoundData.WindInTrees,
+        soundToVolume = listOf(
+            SoundData.Fireside1 to 0.7f,
+            SoundData.Fireside2 to 0.6f,
+            SoundData.Crickets2 to 0.2f,
+            SoundData.Crickets3 to 0.3f,
+            SoundData.Cicadas1 to 0.25f,
+            SoundData.Cicadas2 to 0.2f,
         ),
     ),
     Jungle(
         readableName = UIText.StringResource(R.string.mood_jungle),
         imageResId = R.raw.mood_jungle,
-        sounds = listOf(
-            SoundData.Birds1,
-            SoundData.Birds2,
-            SoundData.Birds3,
-            SoundData.Brook,
-            SoundData.WindInTrees,
+        soundToVolume = listOf(
+            SoundData.Crickets1 to 0.7f,
+            SoundData.WindInTrees to 0.7f,
+            SoundData.Birds1 to 0.25f,
+            SoundData.Birds2 to 0.3f,
+            SoundData.Birds3 to 0.35f,
+            SoundData.Brook to 0.3f,
         ),
     ),
     Riverside(
         readableName = UIText.StringResource(R.string.mood_riverside),
         imageResId = R.raw.mood_riverside,
-        sounds = listOf(
-            SoundData.River,
-            SoundData.Brook,
-            SoundData.Creek,
+        soundToVolume = listOf(
+            SoundData.River to 0.7f,
+            SoundData.Brook to 0.7f,
+            SoundData.Creek to 0.7f,
         ),
     ), ;
 
