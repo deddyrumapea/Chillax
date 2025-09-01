@@ -138,33 +138,18 @@ private enum class CategoryData(
     val description: UIText,
     val sounds: List<SoundData>,
 ) {
-    IndoorRains(
-        readableName = UIText.DynamicString("Indoor Rains"),
-        description = UIText.DynamicString("Indoor rain sounds"),
-        sounds = listOf(
-            SoundData.IndoorRain1,
-            SoundData.IndoorRain2,
-        ),
-    ),
-    ForestRains(
-        readableName = UIText.DynamicString("Forest Rains"),
-        description = UIText.DynamicString("Forest rain sounds"),
-        sounds = listOf(
-            SoundData.ForestRain1,
-            SoundData.ForestRain2,
-            SoundData.ForestRain3,
-            SoundData.ForestRain4,
-            SoundData.ForestRain5,
-            SoundData.ForestRain6,
-            SoundData.ForestRain7,
-        ),
-    ),
     Rain(
         readableName = UIText.StringResource(R.string.cat_name_rain),
         description = UIText.StringResource(R.string.cat_desc_rain),
         sounds = listOf(
             SoundData.GentleRain,
             SoundData.Rain,
+            SoundData.IndoorRain1,
+            SoundData.IndoorRain2,
+            SoundData.ForestRain1,
+            SoundData.ForestRain2,
+            SoundData.ForestRain3,
+            SoundData.ForestRain4,
             SoundData.RainOnUmbrella,
             SoundData.RainOnMetalRoof,
             SoundData.Thunder,
@@ -250,12 +235,12 @@ private enum class SoundData(
     ),
     IndoorRain1(
         readableName = UIText.StringResource(R.string.sound_indoor_rain_1),
-        iconResId = R.drawable.ic_sound_rain,
+        iconResId = R.drawable.ic_sound_indoor_rain_1,
         audioResId = R.raw.sound_indoor_rain_1,
     ),
     IndoorRain2(
         readableName = UIText.StringResource(R.string.sound_indoor_rain_2),
-        iconResId = R.drawable.ic_sound_rain,
+        iconResId = R.drawable.ic_sound_indoor_rain_2,
         audioResId = R.raw.sound_indoor_rain_2,
     ),
     Cicadas1(
@@ -310,38 +295,23 @@ private enum class SoundData(
     ),
     ForestRain1(
         readableName = UIText.StringResource(R.string.sound_forest_rain_1),
-        iconResId = R.drawable.ic_sound_rain,
+        iconResId = R.drawable.ic_sound_forest_rain_1,
         audioResId = R.raw.sound_forest_rain_1,
     ),
     ForestRain2(
         readableName = UIText.StringResource(R.string.sound_forest_rain_2),
-        iconResId = R.drawable.ic_sound_rain,
+        iconResId = R.drawable.ic_sound_forest_rain_2,
         audioResId = R.raw.sound_forest_rain_2,
     ),
     ForestRain3(
         readableName = UIText.StringResource(R.string.sound_forest_rain_3),
-        iconResId = R.drawable.ic_sound_rain,
+        iconResId = R.drawable.ic_sound_forest_rain_3,
         audioResId = R.raw.sound_forest_rain_3,
     ),
     ForestRain4(
         readableName = UIText.StringResource(R.string.sound_forest_rain_4),
-        iconResId = R.drawable.ic_sound_rain,
+        iconResId = R.drawable.ic_sound_forest_rain_4,
         audioResId = R.raw.sound_forest_rain_4,
-    ),
-    ForestRain5(
-        readableName = UIText.StringResource(R.string.sound_forest_rain_5),
-        iconResId = R.drawable.ic_sound_rain,
-        audioResId = R.raw.sound_forest_rain_5,
-    ),
-    ForestRain6(
-        readableName = UIText.StringResource(R.string.sound_forest_rain_6),
-        iconResId = R.drawable.ic_sound_rain,
-        audioResId = R.raw.sound_forest_rain_6,
-    ),
-    ForestRain7(
-        readableName = UIText.StringResource(R.string.sound_forest_rain_7),
-        iconResId = R.drawable.ic_sound_rain,
-        audioResId = R.raw.sound_forest_rain_7,
     ),
     WindChime1(
         readableName = UIText.StringResource(R.string.sound_wind_chime_1),
