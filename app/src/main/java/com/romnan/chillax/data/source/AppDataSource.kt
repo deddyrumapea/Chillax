@@ -184,6 +184,7 @@ private enum class CategoryData(
             SoundData.Birds1,
             SoundData.Birds2,
             SoundData.Birds3,
+            SoundData.Birds4,
             SoundData.Cicadas1,
             SoundData.Cicadas2,
             SoundData.Cicadas3,
@@ -376,17 +377,22 @@ private enum class SoundData(
     Birds1(
         readableName = UIText.StringResource(R.string.sound_birds_1),
         iconResId = R.drawable.ic_sound_birds_1,
-        audioResId = R.raw.sound_birds_1_ivolipa,
+        audioResId = R.raw.sound_birds_1,
     ),
     Birds2(
         readableName = UIText.StringResource(R.string.sound_birds_2),
         iconResId = R.drawable.ic_sound_birds_2,
-        audioResId = R.raw.sound_birds_2_nektaria909,
+        audioResId = R.raw.sound_birds_2,
     ),
     Birds3(
         readableName = UIText.StringResource(R.string.sound_birds_3),
         iconResId = R.drawable.ic_sound_birds_3,
-        audioResId = R.raw.sound_birds_3_swiftoid,
+        audioResId = R.raw.sound_birds_3,
+    ),
+    Birds4(
+        readableName = UIText.StringResource(R.string.sound_birds_4),
+        iconResId = R.drawable.ic_sound_birds_4,
+        audioResId = R.raw.sound_birds_4,
     ),
     Train(
         readableName = UIText.StringResource(R.string.sound_train),
