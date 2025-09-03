@@ -129,6 +129,7 @@
     <string name="sound_birds_4">Birds 4</string>
     <string name="save_custom_mood">Save Custom Mood</string>
     <string name="stop_all_sounds">Stop All Sounds</string>
+    <string name="sound_campfire">Campfire</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
