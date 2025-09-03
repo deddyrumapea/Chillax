@@ -96,7 +96,7 @@ fun PlayerSheet(
                         ),
                     ) {
                         Text(
-                            text = stringResource(R.string.save_mood).uppercase(),
+                            text = stringResource(R.string.save_custom_mood).uppercase(),
                             fontWeight = FontWeight.Bold,
                         )
                     }
@@ -113,7 +113,7 @@ fun PlayerSheet(
                     .height(48.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.stop_all).uppercase(),
+                    text = stringResource(R.string.stop_all_sounds).uppercase(),
                     fontWeight = FontWeight.Bold,
                 )
             }

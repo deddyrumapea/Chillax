@@ -20,7 +20,6 @@
     <string name="cat_desc_city">The subtle hum of urban life and metropolitan calm.</string>
     <string name="cat_name_other">Other</string>
     <string name="cat_desc_other">A mix of other unique and diverse sounds.</string>
-    <string name="stop_all">Stop all</string>
     <string name="pref_title_theme">Theme</string>
     <string name="pref_title_rate_app">Rate this app</string>
     <string name="pref_desc_rate_app">Tell me how do you like this app</string>
@@ -57,8 +56,6 @@
     <string name="sound_birds_1">Birds 1</string>
     <string name="sound_birds_2">Birds 2</string>
     <string name="sound_birds_3">Birds 3</string>
-    <string name="sound_crickets">Crickets</string>
-    <string name="sound_fireplace">Fireplace</string>
     <string name="sound_jet_plane">Jet Plane</string>
     <string name="sound_driving_at_night">Driving at Night</string>
     <string name="sound_heartbeat">Heartbeat</string>
@@ -68,7 +65,6 @@
     <string name="sound_rain_on_metal_roof">Rain on Metal Roof</string>
     <string name="sound_river">River</string>
     <string name="sound_wind_in_trees">Wind in Trees</string>
-    <string name="sound_window_ac">Window AC</string>
     <string name="mood_rainforest">Rainforest</string>
     <string name="mood_bedroom">Bedroom</string>
     <string name="mood_airplane_cabin">Airplane Cabin</string>
@@ -85,7 +81,6 @@
     <string name="rationale_bed_time_reminder">Please allow notification permission to be able to receive Bedtime Reminder notifications</string>
     <string name="rationale_default">Please allow the requested permissions to support full functionalities</string>
     <string name="go_to_settings">Go to Settings</string>
-    <string name="save_mood">Save Mood</string>
     <string name="save_new_mood">Save New Mood</string>
     <string name="save">Save</string>
     <string name="please_select_mood_image">Please select mood image</string>
@@ -108,7 +103,6 @@
     <string name="sound_brown_noise">Brown Noise</string>
     <string name="sound_sea_waves">Sea Waves</string>
     <string name="sound_train">Train</string>
-    <string name="sound_forest_rain">Forest Rain</string>
     <string name="set_timer">Set Timer</string>
     <string name="remove_image">Remove Image</string>
     <string name="done">Done</string>
@@ -120,11 +114,6 @@
     <string name="sound_forest_rain_4">Forest Rain 4</string>
     <string name="sound_wind_chime_1">Wind Chime 1</string>
     <string name="sound_wind_chime_2">Wind Chime 2</string>
-    <string name="sound_forest_rain_5">Forest Rain 5</string>
-    <string name="sound_forest_rain_6">Forest Rain 6</string>
-    <string name="sound_forest_rain_7">Forest Rain 7</string>
-    <string name="sound_river_1">River 1</string>
-    <string name="sound_river_2">River 2</string>
     <string name="sound_air_conditioner">Air Conditioner</string>
     <string name="sound_crickets_1">Crickets 1</string>
     <string name="sound_crickets_2">Crickets 2</string>
@@ -138,6 +127,8 @@
     <string name="sound_fireside_1">Fireside 1</string>
     <string name="sound_fireside_2">Fireside 2</string>
     <string name="sound_birds_4">Birds 4</string>
+    <string name="save_custom_mood">Save Custom Mood</string>
+    <string name="stop_all_sounds">Stop All Sounds</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
