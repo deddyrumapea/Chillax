@@ -75,65 +75,32 @@ private enum class MoodData(
     Rainforest(
         readableName = UIText.StringResource(R.string.mood_rainforest),
         imageResId = R.raw.mood_rainforest,
-        soundToVolume = listOf(
-            SoundData.ForestRain1 to 0.7f,
-            SoundData.ForestRain2 to 0.7f,
-            SoundData.ForestRain3 to 0.7f,
-            SoundData.ForestRain4 to 0.7f,
-            SoundData.WindInTrees to 0.3f,
-            SoundData.Creek to 0.5f,
-        ),
+        soundToVolume = listOf(),
     ),
     Bedroom(
         readableName = UIText.StringResource(R.string.mood_bedroom),
         imageResId = R.raw.mood_bedroom,
-        soundToVolume = listOf(
-            SoundData.AirConditioner to 0.5f,
-            SoundData.IndoorRain1 to 0.7f,
-            SoundData.IndoorRain2 to 0.6f,
-            SoundData.Crickets3 to 0.2f,
-        ),
+        soundToVolume = listOf(),
     ),
     AirplaneCabin(
         readableName = UIText.StringResource(R.string.mood_airplane_cabin),
         imageResId = R.raw.mood_airplane_cabin,
-        soundToVolume = listOf(
-            SoundData.AirConditioner to 0.7f,
-            SoundData.JetPlane to 0.7f,
-        ),
+        soundToVolume = listOf(),
     ),
     Camping(
         readableName = UIText.StringResource(R.string.mood_camping),
         imageResId = R.raw.mood_camping,
-        soundToVolume = listOf(
-            SoundData.Fireside1 to 0.7f,
-            SoundData.Fireside2 to 0.6f,
-            SoundData.Crickets2 to 0.2f,
-            SoundData.Crickets3 to 0.3f,
-            SoundData.Cicadas1 to 0.25f,
-            SoundData.Cicadas2 to 0.2f,
-        ),
+        soundToVolume = listOf(),
     ),
     Jungle(
         readableName = UIText.StringResource(R.string.mood_jungle),
         imageResId = R.raw.mood_jungle,
-        soundToVolume = listOf(
-            SoundData.Crickets1 to 0.7f,
-            SoundData.WindInTrees to 0.7f,
-            SoundData.Birds1 to 0.25f,
-            SoundData.Birds2 to 0.3f,
-            SoundData.Birds3 to 0.35f,
-            SoundData.Brook to 0.3f,
-        ),
+        soundToVolume = listOf(),
     ),
     Riverside(
         readableName = UIText.StringResource(R.string.mood_riverside),
         imageResId = R.raw.mood_riverside,
-        soundToVolume = listOf(
-            SoundData.River to 0.7f,
-            SoundData.Brook to 0.7f,
-            SoundData.Creek to 0.7f,
-        ),
+        soundToVolume = listOf(),
     ), ;
 
     val id: String
@@ -148,76 +115,32 @@ private enum class CategoryData(
     Rain(
         readableName = UIText.StringResource(R.string.cat_name_rain),
         description = UIText.StringResource(R.string.cat_desc_rain),
-        sounds = listOf(
-            SoundData.GentleRain,
-            SoundData.Rain,
-            SoundData.IndoorRain1,
-            SoundData.IndoorRain2,
-            SoundData.ForestRain1,
-            SoundData.ForestRain2,
-            SoundData.ForestRain3,
-            SoundData.ForestRain4,
-            SoundData.RainOnUmbrella,
-            SoundData.RainOnMetalRoof,
-            SoundData.Thunder,
-        ),
+        sounds = listOf(),
     ),
     Nature(
         readableName = UIText.StringResource(R.string.cat_name_nature),
         description = UIText.StringResource(R.string.cat_desc_nature),
-        sounds = listOf(
-            SoundData.River,
-            SoundData.Brook,
-            SoundData.Creek,
-            SoundData.WindInTrees,
-            SoundData.SeaWaves,
-            SoundData.Waterfall,
-        ),
+        sounds = listOf(),
     ),
     Animals(
         readableName = UIText.StringResource(R.string.cat_name_animals),
         description = UIText.StringResource(R.string.cat_desc_animals),
-        sounds = listOf(
-            SoundData.Crickets1,
-            SoundData.Crickets2,
-            SoundData.Crickets3,
-            SoundData.Birds1,
-            SoundData.Birds2,
-            SoundData.Birds3,
-            SoundData.Birds4,
-            SoundData.Cicadas1,
-            SoundData.Cicadas2,
-            SoundData.Cicadas3,
-            SoundData.Cicadas4,
-        ),
+        sounds = listOf(),
     ),
     Room(
         readableName = UIText.StringResource(R.string.cat_name_room),
         description = UIText.StringResource(R.string.cat_desc_room),
-        sounds = listOf(
-            SoundData.Fireside1,
-            SoundData.Fireside2,
-            SoundData.AirConditioner,
-        ),
+        sounds = listOf(),
     ),
     City(
         readableName = UIText.StringResource(R.string.cat_name_city),
         description = UIText.StringResource(R.string.cat_desc_city),
-        sounds = listOf(
-            SoundData.Train,
-            SoundData.DrivingAtNight,
-            SoundData.JetPlane,
-        ),
+        sounds = listOf(),
     ),
     Other(
         readableName = UIText.StringResource(R.string.cat_name_other),
         description = UIText.StringResource(R.string.cat_desc_other),
-        sounds = listOf(
-            SoundData.WindChime1,
-            SoundData.WindChime2,
-            SoundData.BrownNoise,
-            SoundData.Heartbeat,
-        ),
+        sounds = listOf(),
     ), ;
 
     val id: String
@@ -229,150 +152,10 @@ private enum class SoundData(
     val iconResId: Int,
     val audioResId: Int,
 ) {
-    Fireside1(
-        readableName = UIText.StringResource(R.string.sound_fireside_1),
-        iconResId = R.drawable.ic_sound_fireside_1,
-        audioResId = R.raw.sound_fireside_1,
-    ),
-    Fireside2(
-        readableName = UIText.StringResource(R.string.sound_fireside_2),
-        iconResId = R.drawable.ic_sound_fireside_2,
-        audioResId = R.raw.sound_fireside_2,
-    ),
-    IndoorRain1(
-        readableName = UIText.StringResource(R.string.sound_indoor_rain_1),
-        iconResId = R.drawable.ic_sound_indoor_rain_1,
-        audioResId = R.raw.sound_indoor_rain_1,
-    ),
-    IndoorRain2(
-        readableName = UIText.StringResource(R.string.sound_indoor_rain_2),
-        iconResId = R.drawable.ic_sound_indoor_rain_2,
-        audioResId = R.raw.sound_indoor_rain_2,
-    ),
-    Cicadas1(
-        readableName = UIText.StringResource(R.string.sound_cicadas_1),
-        iconResId = R.drawable.ic_sound_cicadas,
-        audioResId = R.raw.sound_cicadas_1,
-    ),
-    Cicadas2(
-        readableName = UIText.StringResource(R.string.sound_cicadas_2),
-        iconResId = R.drawable.ic_sound_cicadas,
-        audioResId = R.raw.sound_cicadas_2,
-    ),
-    Cicadas3(
-        readableName = UIText.StringResource(R.string.sound_cicadas_3),
-        iconResId = R.drawable.ic_sound_cicadas,
-        audioResId = R.raw.sound_cicadas_3,
-    ),
-    Cicadas4(
-        readableName = UIText.StringResource(R.string.sound_cicadas_4),
-        iconResId = R.drawable.ic_sound_cicadas,
-        audioResId = R.raw.sound_cicadas_4,
-    ),
-    Crickets1(
-        readableName = UIText.StringResource(R.string.sound_crickets_1),
-        iconResId = R.drawable.ic_sound_crickets,
-        audioResId = R.raw.sound_crickets_1,
-    ),
-    Crickets2(
-        readableName = UIText.StringResource(R.string.sound_crickets_2),
-        iconResId = R.drawable.ic_sound_crickets,
-        audioResId = R.raw.sound_crickets_2,
-    ),
-    Crickets3(
-        readableName = UIText.StringResource(R.string.sound_crickets_3),
-        iconResId = R.drawable.ic_sound_crickets,
-        audioResId = R.raw.sound_crickets_3,
-    ),
-    AirConditioner(
-        readableName = UIText.StringResource(R.string.sound_air_conditioner),
-        iconResId = R.drawable.ic_sound_air_conditioner,
-        audioResId = R.raw.sound_air_conditioner,
-    ),
-    River(
-        readableName = UIText.StringResource(R.string.sound_river),
-        iconResId = R.drawable.ic_sound_river,
-        audioResId = R.raw.sound_river,
-    ),
-    ForestRain1(
-        readableName = UIText.StringResource(R.string.sound_forest_rain_1),
-        iconResId = R.drawable.ic_sound_forest_rain_1,
-        audioResId = R.raw.sound_forest_rain_1,
-    ),
-    ForestRain2(
-        readableName = UIText.StringResource(R.string.sound_forest_rain_2),
-        iconResId = R.drawable.ic_sound_forest_rain_2,
-        audioResId = R.raw.sound_forest_rain_2,
-    ),
-    ForestRain3(
-        readableName = UIText.StringResource(R.string.sound_forest_rain_3),
-        iconResId = R.drawable.ic_sound_forest_rain_3,
-        audioResId = R.raw.sound_forest_rain_3,
-    ),
-    ForestRain4(
-        readableName = UIText.StringResource(R.string.sound_forest_rain_4),
-        iconResId = R.drawable.ic_sound_forest_rain_4,
-        audioResId = R.raw.sound_forest_rain_4,
-    ),
-    WindChime1(
-        readableName = UIText.StringResource(R.string.sound_wind_chime_1),
-        iconResId = R.drawable.ic_sound_wind_chime,
-        audioResId = R.raw.sound_wind_chime_1,
-    ),
-    WindChime2(
-        readableName = UIText.StringResource(R.string.sound_wind_chime_2),
-        iconResId = R.drawable.ic_sound_wind_chime,
-        audioResId = R.raw.sound_wind_chime_2,
-    ),
-    Rain(
-        readableName = UIText.StringResource(R.string.sound_rain),
-        iconResId = R.drawable.ic_sound_rain,
-        audioResId = R.raw.sound_rain_soundforyou,
-    ),
-    GentleRain(
-        readableName = UIText.StringResource(R.string.sound_gentle_rain),
-        iconResId = R.drawable.ic_sound_gentle_rain,
-        audioResId = R.raw.sound_rain_gentle_soundforyou,
-    ),
-    RainOnUmbrella(
-        readableName = UIText.StringResource(R.string.sound_rain_on_umbrella),
-        iconResId = R.drawable.ic_sound_rain_on_umbrella,
-        audioResId = R.raw.sound_rain_umbrella_soundforyou,
-    ),
-    Thunder(
-        readableName = UIText.StringResource(R.string.sound_thunder),
-        iconResId = R.drawable.ic_sound_thunder,
-        audioResId = R.raw.sound_thunder_soundforyou,
-    ),
-    RainOnMetalRoof(
-        readableName = UIText.StringResource(R.string.sound_rain_on_metal_roof),
-        iconResId = R.drawable.ic_sound_rain_on_metal_roof,
-        audioResId = R.raw.sound_rain_metal_on_roof_soundforyou,
-    ),
-    Creek(
-        readableName = UIText.StringResource(R.string.sound_creek),
-        iconResId = R.drawable.ic_sound_creek,
-        audioResId = R.raw.sound_creek,
-    ),
-    Brook(
-        readableName = UIText.StringResource(R.string.sound_brook),
-        iconResId = R.drawable.ic_sound_brook,
-        audioResId = R.raw.sound_brook_soundforyou,
-    ),
-    Waterfall(
-        readableName = UIText.StringResource(R.string.sound_waterfall),
-        iconResId = R.drawable.ic_sound_waterfall,
-        audioResId = R.raw.sound_waterfall_soundforyou,
-    ),
-    WindInTrees(
-        readableName = UIText.StringResource(R.string.sound_wind_in_trees),
-        iconResId = R.drawable.ic_sound_wind_in_trees,
-        audioResId = R.raw.sound_wind_in_trees_soundforyou,
-    ),
-    SeaWaves(
-        readableName = UIText.StringResource(R.string.sound_sea_waves),
-        iconResId = R.drawable.ic_sound_sea_waves,
-        audioResId = R.raw.sound_sea_waves_soundsforyou,
+    Campfire(
+        readableName = UIText.StringResource(R.string.sound_campfire),
+        iconResId = R.drawable.ic_sound_campfire,
+        audioResId = R.raw.sound_campfire,
     ),
     Birds1(
         readableName = UIText.StringResource(R.string.sound_birds_1),
@@ -393,31 +176,6 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_birds_4),
         iconResId = R.drawable.ic_sound_birds_4,
         audioResId = R.raw.sound_birds_4,
-    ),
-    Train(
-        readableName = UIText.StringResource(R.string.sound_train),
-        iconResId = R.drawable.ic_sound_train,
-        audioResId = R.raw.sound_train_sspsurvival,
-    ),
-    JetPlane(
-        readableName = UIText.StringResource(R.string.sound_jet_plane),
-        iconResId = R.drawable.ic_sound_jet_plane,
-        audioResId = R.raw.sound_jet_plane_habbis92,
-    ),
-    DrivingAtNight(
-        readableName = UIText.StringResource(R.string.sound_driving_at_night),
-        iconResId = R.drawable.ic_sound_driving_at_night,
-        audioResId = R.raw.sound_driving_at_night,
-    ),
-    BrownNoise(
-        readableName = UIText.StringResource(R.string.sound_brown_noise),
-        iconResId = R.drawable.ic_sound_brown_noise,
-        audioResId = R.raw.sound_brown_noise_digitalspa,
-    ),
-    Heartbeat(
-        readableName = UIText.StringResource(R.string.sound_heartbeat),
-        iconResId = R.drawable.ic_sound_hearbeat,
-        audioResId = R.raw.sound_heartbeat_placidplace,
     ), ;
 
     val id: String
