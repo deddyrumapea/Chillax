@@ -135,6 +135,7 @@
     <string name="sound_heavy_rain_1">Heavy Rain 1</string>
     <string name="sound_heavy_rain_2">Heavy Rain 2</string>
     <string name="sound_heavy_rain_3">Heavy Rain 3</string>
+    <string name="sound_fireplace">Fireplace</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
