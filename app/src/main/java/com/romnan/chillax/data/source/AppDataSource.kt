@@ -143,7 +143,7 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_room),
         description = UIText.StringResource(R.string.cat_desc_room),
         sounds = listOf(
-            SoundData.Campfire,
+            SoundData.Fireplace,
         ),
     ),
     City(
@@ -186,10 +186,10 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_birds_4,
         audioResId = R.raw.sound_birds_4,
     ),
-    Campfire(
-        readableName = UIText.StringResource(R.string.sound_campfire),
-        iconResId = R.drawable.ic_sound_campfire,
-        audioResId = R.raw.sound_campfire,
+    Fireplace(
+        readableName = UIText.StringResource(R.string.sound_fireplace),
+        iconResId = R.drawable.ic_sound_fireplace,
+        audioResId = R.raw.sound_fireplace,
     ),
     ForestWind1(
         readableName = UIText.StringResource(R.string.sound_forest_wind_1),
