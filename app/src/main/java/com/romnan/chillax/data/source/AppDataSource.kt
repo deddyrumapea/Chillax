@@ -115,22 +115,36 @@ private enum class CategoryData(
     Rain(
         readableName = UIText.StringResource(R.string.cat_name_rain),
         description = UIText.StringResource(R.string.cat_desc_rain),
-        sounds = listOf(),
+        sounds = listOf(
+            SoundData.HeavyRain1,
+            SoundData.HeavyRain2,
+            SoundData.HeavyRain3,
+        ),
     ),
     Nature(
         readableName = UIText.StringResource(R.string.cat_name_nature),
         description = UIText.StringResource(R.string.cat_desc_nature),
-        sounds = listOf(),
+        sounds = listOf(
+            SoundData.ForestWind1,
+            SoundData.ForestWind2,
+        ),
     ),
     Animals(
         readableName = UIText.StringResource(R.string.cat_name_animals),
         description = UIText.StringResource(R.string.cat_desc_animals),
-        sounds = listOf(),
+        sounds = listOf(
+            SoundData.Birds1,
+            SoundData.Birds2,
+            SoundData.Birds3,
+            SoundData.Birds4,
+        ),
     ),
     Room(
         readableName = UIText.StringResource(R.string.cat_name_room),
         description = UIText.StringResource(R.string.cat_desc_room),
-        sounds = listOf(),
+        sounds = listOf(
+            SoundData.Campfire,
+        ),
     ),
     City(
         readableName = UIText.StringResource(R.string.cat_name_city),
@@ -152,11 +166,6 @@ private enum class SoundData(
     val iconResId: Int,
     val audioResId: Int,
 ) {
-    Campfire(
-        readableName = UIText.StringResource(R.string.sound_campfire),
-        iconResId = R.drawable.ic_sound_campfire,
-        audioResId = R.raw.sound_campfire,
-    ),
     Birds1(
         readableName = UIText.StringResource(R.string.sound_birds_1),
         iconResId = R.drawable.ic_sound_birds_1,
@@ -176,6 +185,36 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_birds_4),
         iconResId = R.drawable.ic_sound_birds_4,
         audioResId = R.raw.sound_birds_4,
+    ),
+    Campfire(
+        readableName = UIText.StringResource(R.string.sound_campfire),
+        iconResId = R.drawable.ic_sound_campfire,
+        audioResId = R.raw.sound_campfire,
+    ),
+    ForestWind1(
+        readableName = UIText.StringResource(R.string.sound_forest_wind_1),
+        iconResId = R.drawable.ic_sound_forest_wind,
+        audioResId = R.raw.sound_forest_wind_1,
+    ),
+    ForestWind2(
+        readableName = UIText.StringResource(R.string.sound_forest_wind_2),
+        iconResId = R.drawable.ic_sound_forest_wind,
+        audioResId = R.raw.sound_forest_wind_2,
+    ),
+    HeavyRain1(
+        readableName = UIText.StringResource(R.string.sound_heavy_rain_1),
+        iconResId = R.drawable.ic_sound_rain,
+        audioResId = R.raw.sound_heavy_rain_1,
+    ),
+    HeavyRain2(
+        readableName = UIText.StringResource(R.string.sound_heavy_rain_2),
+        iconResId = R.drawable.ic_sound_rain,
+        audioResId = R.raw.sound_heavy_rain_2,
+    ),
+    HeavyRain3(
+        readableName = UIText.StringResource(R.string.sound_heavy_rain_3),
+        iconResId = R.drawable.ic_sound_rain,
+        audioResId = R.raw.sound_heavy_rain_3,
     ), ;
 
     val id: String
