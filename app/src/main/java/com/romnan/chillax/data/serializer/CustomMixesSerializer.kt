@@ -1,23 +1,23 @@
 package com.romnan.chillax.data.serializer
 
 import androidx.datastore.core.Serializer
-import com.romnan.chillax.data.model.CustomMoodList
+import com.romnan.chillax.data.model.CustomMixList
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
-object CustomMoodsSerializer : Serializer<CustomMoodList> {
+object CustomMixesSerializer : Serializer<CustomMixList> {
 
-    override val defaultValue: CustomMoodList
-        get() = CustomMoodList()
+    override val defaultValue: CustomMixList
+        get() = CustomMixList()
 
     override suspend fun readFrom(
         input: InputStream,
-    ): CustomMoodList {
+    ): CustomMixList {
         return try {
             Json.decodeFromString(
-                deserializer = CustomMoodList.serializer(),
+                deserializer = CustomMixList.serializer(),
                 string = input.readBytes().decodeToString(),
             )
         } catch (e: SerializationException) {
@@ -28,12 +28,12 @@ object CustomMoodsSerializer : Serializer<CustomMoodList> {
 
     @Suppress("BlockingMethodInNonBlockingContext")
     override suspend fun writeTo(
-        t: CustomMoodList,
+        t: CustomMixList,
         output: OutputStream,
     ) {
         output.write(
             Json.encodeToString(
-                serializer = CustomMoodList.serializer(),
+                serializer = CustomMixList.serializer(),
                 value = t,
             ).encodeToByteArray(),
         )

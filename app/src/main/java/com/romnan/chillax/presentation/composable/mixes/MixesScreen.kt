@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.composable.moods
+package com.romnan.chillax.presentation.composable.mixes
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -43,11 +43,11 @@ import coil.compose.AsyncImage
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.romnan.chillax.R
-import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.Mix
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.presentation.composable.component.ScreenTitle
-import com.romnan.chillax.presentation.composable.moods.component.MoodItem
-import com.romnan.chillax.presentation.composable.moods.model.MoodType
+import com.romnan.chillax.presentation.composable.mixes.component.MixItem
+import com.romnan.chillax.presentation.composable.mixes.model.MixType
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
@@ -55,8 +55,8 @@ import com.romnan.chillax.presentation.util.asString
 @Composable
 @Destination
 @RootNavGraph(start = true)
-fun MoodsScreen(
-    viewModel: MoodsViewModel
+fun MixesScreen(
+    viewModel: MixesViewModel
 ) {
     val state by viewModel.state.collectAsState()
 
@@ -68,7 +68,7 @@ fun MoodsScreen(
     ) {
         item(span = { GridItemSpan(currentLineSpan = 2) }) {
             ScreenTitle(
-                text = { stringResource(id = R.string.moods) },
+                text = { stringResource(id = R.string.mixes) },
                 paddingValues = PaddingValues(
                     horizontal = MaterialTheme.spacing.small,
                     vertical = MaterialTheme.spacing.large,
@@ -87,25 +87,25 @@ fun MoodsScreen(
                 item { Spacer(modifier = Modifier.width(MaterialTheme.spacing.small)) }
 
                 items(
-                    items = state.moodTypes,
-                ) { moodType: MoodType ->
-                    val moodTypeBgColor by animateColorAsState(
-                        targetValue = when (moodType == state.selectedMoodType) {
+                    items = state.mixTypes,
+                ) { mixType: MixType ->
+                    val mixTypeBgColor by animateColorAsState(
+                        targetValue = when (mixType == state.selectedMixType) {
                             true -> MaterialTheme.colorScheme.primary
                             false -> MaterialTheme.colorScheme.surface
                         },
                     )
 
-                    val moodTypeContentColor by animateColorAsState(
-                        targetValue = when (moodType == state.selectedMoodType) {
+                    val mixTypeContentColor by animateColorAsState(
+                        targetValue = when (mixType == state.selectedMixType) {
                             true -> MaterialTheme.colorScheme.onPrimary
                             false -> MaterialTheme.colorScheme.onSurface
                         },
                     )
 
                     Surface(
-                        onClick = { viewModel.onSelectMoodType(moodType) },
-                        color = moodTypeBgColor,
+                        onClick = { viewModel.onSelectMixType(mixType) },
+                        color = mixTypeBgColor,
                         shadowElevation = 2.dp,
                         shape = RoundedCornerShape(100),
                         tonalElevation = 2.dp,
@@ -119,18 +119,18 @@ fun MoodsScreen(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Icon(
-                                imageVector = moodType.icon,
+                                imageVector = mixType.icon,
                                 contentDescription = null,
                                 modifier = Modifier.size(20.dp),
-                                tint = moodTypeContentColor,
+                                tint = mixTypeContentColor,
                             )
 
                             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
 
                             Text(
-                                text = moodType.label.asString(),
+                                text = mixType.label.asString(),
                                 fontWeight = FontWeight.SemiBold,
-                                color = moodTypeContentColor,
+                                color = mixTypeContentColor,
                                 style = MaterialTheme.typography.labelLarge,
                             )
                         }
@@ -147,10 +147,10 @@ fun MoodsScreen(
             span = { GridItemSpan(currentLineSpan = 2) },
         ) {
             AnimatedVisibility(
-                visible = state.moods.isEmpty() && state.selectedMoodType == MoodType.Custom,
+                visible = state.mixes.isEmpty() && state.selectedMixType == MixType.Custom,
             ) {
                 Text(
-                    text = stringResource(R.string.it_s_empty_when_you_save_moods_they_will_show_up_here),
+                    text = stringResource(R.string.it_s_empty_when_you_save_mixes_they_will_show_up_here),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
@@ -164,14 +164,14 @@ fun MoodsScreen(
         }
 
         items(
-            items = state.moods,
-            key = { mood: Mood -> mood.id },
-        ) { mood: Mood ->
-            MoodItem(
-                mood = { mood },
-                isPlaying = state.player?.phase == PlayerPhase.PLAYING && state.player?.playingMood?.id == mood.id,
+            items = state.mixes,
+            key = { mix: Mix -> mix.id },
+        ) { mix: Mix ->
+            MixItem(
+                mix = { mix },
+                isPlaying = state.player?.phase == PlayerPhase.PLAYING && state.player?.playingMix?.id == mix.id,
                 onClickPlayOrPause = viewModel::onClickPlayOrPause,
-                onClickDelete = viewModel::onClickDeleteMood,
+                onClickDelete = viewModel::onClickDeleteMix,
                 modifier = Modifier
                     .animateItemPlacement()
                     .padding(MaterialTheme.spacing.small)
@@ -189,32 +189,32 @@ fun MoodsScreen(
         }
     }
 
-    state.customMoodToDelete?.let { mood: Mood ->
+    state.customMixToDelete?.let { mix: Mix ->
         AlertDialog(
             title = {
                 Text(
                     text = stringResource(
                         R.string.are_you_sure_you_want_to_delete_x,
-                        mood.readableName.asString(),
+                        mix.readableName.asString(),
                     ),
                 )
             },
-            onDismissRequest = viewModel::onDismissDeleteMoodDialog,
+            onDismissRequest = viewModel::onDismissDeleteMixDialog,
             confirmButton = {
                 Button(
-                    onClick = { viewModel.onClickConfirmDeleteMood(mood = mood) },
+                    onClick = { viewModel.onClickConfirmDeleteMix(mix = mix) },
                 ) {
                     Text(
                         text = stringResource(
                             R.string.delete_x,
-                            mood.readableName.asString(),
+                            mix.readableName.asString(),
                         ),
                     )
                 }
             },
             dismissButton = {
                 TextButton(
-                    onClick = viewModel::onDismissDeleteMoodDialog,
+                    onClick = viewModel::onDismissDeleteMixDialog,
                 ) {
                     Text(text = stringResource(R.string.cancel))
                 }
@@ -222,7 +222,7 @@ fun MoodsScreen(
             text = {
                 Box(modifier = Modifier.fillMaxWidth()) {
                     AsyncImage(
-                        model = mood.imageUri,
+                        model = mix.imageUri,
                         contentDescription = null,
                         modifier = Modifier
                             .align(Alignment.Center)

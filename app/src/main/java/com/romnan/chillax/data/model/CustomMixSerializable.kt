@@ -1,9 +1,11 @@
 package com.romnan.chillax.data.model
 
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.Serializable
 
+@OptIn(InternalSerializationApi::class)
 @Serializable
-data class CustomMoodSerializable(
+data class CustomMixSerializable(
     val uuid: String,
     val readableName: String,
     val imageUri: String,
