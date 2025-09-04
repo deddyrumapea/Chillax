@@ -2,19 +2,19 @@ package com.romnan.chillax.presentation.model
 
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.constant.PlayerConstants
-import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.Mix
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.model.UIText
 
 data class PlayerPresentation(
     val phase: PlayerPhase = PlayerPhase.STOPPED,
     val playingSounds: List<SoundPresentation> = emptyList(),
-    val playingMood: Mood? = null,
+    val playingMix: Mix? = null,
 ) {
     val contentTitle: UIText
         get() = when (phase) {
             PlayerPhase.PLAYING -> {
-                when (playingMood == null) {
+                when (playingMix == null) {
                     true -> UIText.StringResource(R.string.phase_title_playing)
 
                     false -> UIText.PluralsResource(
@@ -33,7 +33,7 @@ data class PlayerPresentation(
         get() = when {
             playingSounds.isEmpty() -> UIText.StringResource(R.string.no_sound_is_playing)
 
-            playingMood != null -> playingMood.readableName
+            playingMix != null -> playingMix.readableName
 
             playingSounds.size == 1 -> playingSounds.firstOrNull()?.readableName ?: UIText.Blank
 

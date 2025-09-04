@@ -5,12 +5,12 @@ import android.net.Uri
 import androidx.core.net.toFile
 import androidx.core.net.toUri
 import androidx.datastore.dataStore
-import com.romnan.chillax.data.model.CustomMoodList
-import com.romnan.chillax.data.model.CustomMoodSerializable
-import com.romnan.chillax.data.serializer.CustomMoodsSerializer
+import com.romnan.chillax.data.model.CustomMixList
+import com.romnan.chillax.data.model.CustomMixSerializable
+import com.romnan.chillax.data.serializer.CustomMixesSerializer
 import com.romnan.chillax.data.source.AppDataSource
-import com.romnan.chillax.domain.model.Mood
-import com.romnan.chillax.domain.repository.MoodRepository
+import com.romnan.chillax.domain.model.Mix
+import com.romnan.chillax.domain.repository.MixRepository
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,56 +29,56 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.util.UUID
 
-class MoodRepositoryImpl(
+class MixRepositoryImpl(
     private val appContext: Context,
     private val appScope: CoroutineScope,
     private val appDataSource: AppDataSource,
-) : MoodRepository {
+) : MixRepository {
 
     private val customImagesDir = File(
         appContext.filesDir,
-        DIR_NAME_MOOD_CUSTOM_IMAGES,
+        DIR_NAME_MIX_CUSTOM_IMAGES,
     ).apply { mkdirs() }
 
-    private val savedMoodCustomImagesDir = File(
+    private val savedMixCustomImagesDir = File(
         appContext.filesDir,
-        DIR_NAME_SAVED_MOOD_CUSTOM_IMAGES,
+        DIR_NAME_SAVED_MIX_CUSTOM_IMAGES,
     ).apply { mkdirs() }
 
-    override val moods: Flow<List<Mood>>
-        get() = appContext.customMoodsDataStore.data.map { moodList: CustomMoodList ->
-            moodList.customMoods.reversed().map { customMood: CustomMoodSerializable ->
-                Mood(
-                    uuid = customMood.uuid,
-                    customMood = customMood,
+    override val mixes: Flow<List<Mix>>
+        get() = appContext.customMixesDataStore.data.map { mixList: CustomMixList ->
+            mixList.customMixes.reversed().map { customMix: CustomMixSerializable ->
+                Mix(
+                    uuid = customMix.uuid,
+                    customMix = customMix,
                 )
-            } + appDataSource.presetMoods
+            } + appDataSource.presetMixes
         }
-    override val moodPresetImageUris: Flow<Set<String>>
-        get() = flowOf(appDataSource.moodImageUris)
+    override val mixPresetImageUris: Flow<Set<String>>
+        get() = flowOf(appDataSource.mixImageUris)
 
-    private val _moodCustomImageUris = MutableStateFlow(setOf<String>())
-    override val moodCustomImageUris: Flow<Set<String>>
-        get() = _moodCustomImageUris
+    private val _mixCustomImageUris = MutableStateFlow(setOf<String>())
+    override val mixCustomImageUris: Flow<Set<String>>
+        get() = _mixCustomImageUris
 
     init {
         appScope.launch {
-            refreshMoodCustomImageUris()
+            refreshMixCustomImageUris()
         }
     }
 
-    override suspend fun saveCustomMood(
+    override suspend fun saveCustomMix(
         readableName: String,
         imageUri: String,
         soundIdToVolume: Map<String, Float>,
-    ): Mood? = withContext(Dispatchers.IO) {
+    ): Mix? = withContext(Dispatchers.IO) {
 
         try {
             val uuid = UUID.randomUUID().toString()
 
-            val saveImageUri = when (_moodCustomImageUris.value.contains(imageUri)) {
+            val saveImageUri = when (_mixCustomImageUris.value.contains(imageUri)) {
                 true -> {
-                    val file = File(savedMoodCustomImagesDir, Mood.CUSTOM_MOOD_ID_PREFIX.plus(uuid))
+                    val file = File(savedMixCustomImagesDir, Mix.CUSTOM_MIX_ID_PREFIX.plus(uuid))
 
                     file.outputStream().use { outputStream: OutputStream ->
                         appContext.contentResolver.openInputStream(imageUri.toUri())
@@ -93,10 +93,10 @@ class MoodRepositoryImpl(
                 false -> imageUri
             }
 
-            appContext.customMoodsDataStore.updateData { customMoodList: CustomMoodList ->
-                customMoodList.copy(
-                    customMoods = customMoodList.customMoods.toPersistentList().add(
-                        CustomMoodSerializable(
+            appContext.customMixesDataStore.updateData { customMixList: CustomMixList ->
+                customMixList.copy(
+                    customMixes = customMixList.customMixes.toPersistentList().add(
+                        CustomMixSerializable(
                             uuid = uuid,
                             readableName = readableName,
                             imageUri = saveImageUri,
@@ -106,8 +106,8 @@ class MoodRepositoryImpl(
                 )
             }
 
-            moods.firstOrNull()?.find { mood: Mood ->
-                mood.id == Mood.CUSTOM_MOOD_ID_PREFIX.plus(uuid)
+            mixes.firstOrNull()?.find { mix: Mix ->
+                mix.id == Mix.CUSTOM_MIX_ID_PREFIX.plus(uuid)
             }
         } catch (e: Exception) {
             logcat { e.asLog() }
@@ -115,22 +115,22 @@ class MoodRepositoryImpl(
         }
     }
 
-    override suspend fun deleteCustomMood(
-        moodId: String,
+    override suspend fun deleteCustomMix(
+        mixId: String,
     ): Unit = withContext(Dispatchers.IO) {
-        appContext.customMoodsDataStore.updateData { customMoodList: CustomMoodList ->
-            customMoodList.copy(
-                customMoods = customMoodList.customMoods.toPersistentList()
-                    .removeAll { customMood: CustomMoodSerializable ->
-                        customMood.uuid == moodId.removePrefix(Mood.CUSTOM_MOOD_ID_PREFIX)
+        appContext.customMixesDataStore.updateData { customMixList: CustomMixList ->
+            customMixList.copy(
+                customMixes = customMixList.customMixes.toPersistentList()
+                    .removeAll { customMix: CustomMixSerializable ->
+                        customMix.uuid == mixId.removePrefix(Mix.CUSTOM_MIX_ID_PREFIX)
                     },
             )
         }
 
-        File(savedMoodCustomImagesDir, moodId).deleteRecursively()
+        File(savedMixCustomImagesDir, mixId).deleteRecursively()
     }
 
-    override suspend fun saveMoodCustomImage(
+    override suspend fun saveMixCustomImage(
         uri: Uri,
     ): Uri = withContext(Dispatchers.IO) {
         val file = File(customImagesDir, UUID.randomUUID().toString())
@@ -141,12 +141,12 @@ class MoodRepositoryImpl(
             }
         }
 
-        refreshMoodCustomImageUris()
+        refreshMixCustomImageUris()
 
         file.toUri()
     }
 
-    override suspend fun deleteMoodCustomImage(
+    override suspend fun deleteMixCustomImage(
         uri: String,
     ): Unit = withContext(Dispatchers.IO) {
         try {
@@ -155,11 +155,11 @@ class MoodRepositoryImpl(
             logcat { e.asLog() }
         }
 
-        refreshMoodCustomImageUris()
+        refreshMixCustomImageUris()
     }
 
-    private suspend fun refreshMoodCustomImageUris() = withContext(Dispatchers.IO) {
-        _moodCustomImageUris.update {
+    private suspend fun refreshMixCustomImageUris() = withContext(Dispatchers.IO) {
+        _mixCustomImageUris.update {
             customImagesDir.listFiles()
                 .orEmpty()
                 .mapNotNull { file: File? -> file?.toUri()?.toString() }
@@ -168,14 +168,14 @@ class MoodRepositoryImpl(
     }
 
     companion object {
-        private const val DIR_NAME_MOOD_CUSTOM_IMAGES = "mood_custom_images"
-        private const val DIR_NAME_SAVED_MOOD_CUSTOM_IMAGES = "saved_mood_custom_images"
+        private const val DIR_NAME_MIX_CUSTOM_IMAGES = "mix_custom_images"
+        private const val DIR_NAME_SAVED_MIX_CUSTOM_IMAGES = "saved_mix_custom_images"
 
-        private const val FILE_NAME_CUSTOM_MOODS_DATA_STORE = "custom_moods.json"
+        private const val FILE_NAME_CUSTOM_MIXES_DATA_STORE = "custom_mixes.json"
 
-        private val Context.customMoodsDataStore by dataStore(
-            fileName = FILE_NAME_CUSTOM_MOODS_DATA_STORE,
-            serializer = CustomMoodsSerializer,
+        private val Context.customMixesDataStore by dataStore(
+            fileName = FILE_NAME_CUSTOM_MIXES_DATA_STORE,
+            serializer = CustomMixesSerializer,
         )
     }
 }

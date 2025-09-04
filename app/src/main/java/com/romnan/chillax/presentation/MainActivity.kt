@@ -64,12 +64,12 @@ import com.romnan.chillax.presentation.composable.appCurrentDestinationAsState
 import com.romnan.chillax.presentation.composable.component.BottomBar
 import com.romnan.chillax.presentation.composable.component.PlayerPeek
 import com.romnan.chillax.presentation.composable.component.PlayerSheet
-import com.romnan.chillax.presentation.composable.component.SaveMoodDialog
-import com.romnan.chillax.presentation.composable.destinations.MoodsScreenDestination
+import com.romnan.chillax.presentation.composable.component.SaveMixDialog
+import com.romnan.chillax.presentation.composable.destinations.MixesScreenDestination
 import com.romnan.chillax.presentation.composable.destinations.SettingsScreenDestination
 import com.romnan.chillax.presentation.composable.destinations.SoundsScreenDestination
-import com.romnan.chillax.presentation.composable.moods.MoodsScreen
-import com.romnan.chillax.presentation.composable.moods.MoodsViewModel
+import com.romnan.chillax.presentation.composable.mixes.MixesScreen
+import com.romnan.chillax.presentation.composable.mixes.MixesViewModel
 import com.romnan.chillax.presentation.composable.settings.SettingsScreen
 import com.romnan.chillax.presentation.composable.settings.SettingsViewModel
 import com.romnan.chillax.presentation.composable.sounds.SoundsScreen
@@ -86,7 +86,7 @@ import logcat.logcat
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
-    private val moodsViewModel: MoodsViewModel by viewModels()
+    private val mixesViewModel: MixesViewModel by viewModels()
     private val soundsViewModel: SoundsViewModel by viewModels()
     private val settingsViewModel: SettingsViewModel by viewModels()
 
@@ -129,7 +129,7 @@ class MainActivity : ComponentActivity() {
                 val sheetState = rememberModalBottomSheetState(
                     skipPartiallyExpanded = true,
                 )
-                val saveMoodDialogState by viewModel.saveMoodDialogState.collectAsState()
+                val saveMixDialogState by viewModel.saveMixDialogState.collectAsState()
 
                 viewModel.uiEvent.handleInLaunchedEffect()
 
@@ -166,11 +166,11 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxWidth()
                                 .weight(1f),
                         ) {
-                            composable(MoodsScreenDestination) {
+                            composable(MixesScreenDestination) {
                                 BackHandler(enabled = sheetState.isVisible) {
                                     scope.launch { sheetState.hide() }
                                 }
-                                MoodsScreen(viewModel = moodsViewModel)
+                                MixesScreen(viewModel = mixesViewModel)
                             }
 
                             composable(SoundsScreenDestination) {
@@ -238,7 +238,7 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onClickPlayPause = viewModel::onClickPlayPause,
                                 onClickTimer = viewModel::onClickTimer,
-                                onClickSaveMood = viewModel::onClickSaveMood,
+                                onClickSaveMix = viewModel::onClickSaveMix,
                                 onChangeSoundVolume = viewModel::onChangeSoundVolume,
                                 modifier = Modifier.fillMaxWidth(),
                             )
@@ -317,19 +317,19 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    if (saveMoodDialogState.showSaveMoodDialog) {
-                        SaveMoodDialog(
-                            state = saveMoodDialogState,
-                            onDismissRequest = viewModel::onDismissSaveMoodDialog,
-                            onClickConfirmSaveMood = viewModel::onClickConfirmSaveMood,
-                            onPickNewMoodCustomImage = viewModel::onPickNewMoodCustomImage,
+                    if (saveMixDialogState.showSaveMixDialog) {
+                        SaveMixDialog(
+                            state = saveMixDialogState,
+                            onDismissRequest = viewModel::onDismissSaveMixDialog,
+                            onClickConfirmSaveMix = viewModel::onClickConfirmSaveMix,
+                            onPickNewMixCustomImage = viewModel::onPickNewMixCustomImage,
                             onClickRemoveCustomImage = viewModel::onClickRemoveCustomImage,
                         )
                     }
 
-                    saveMoodDialogState.moodCustomImageUriToDelete?.let { uri: String ->
+                    saveMixDialogState.mixCustomImageUriToDelete?.let { uri: String ->
                         AlertDialog(
-                            onDismissRequest = viewModel::onDismissDeleteMoodImageDialog,
+                            onDismissRequest = viewModel::onDismissDeleteMixImageDialog,
                             title = { Text(text = stringResource(R.string.are_you_sure_you_want_to_remove_this_image)) },
                             text = {
                                 Box(modifier = Modifier.fillMaxWidth()) {
@@ -346,14 +346,14 @@ class MainActivity : ComponentActivity() {
                             },
                             confirmButton = {
                                 Button(
-                                    onClick = { viewModel.onClickConfirmDeleteMoodImage(uri = uri) },
+                                    onClick = { viewModel.onClickConfirmDeleteMixImage(uri = uri) },
                                     shape = RoundedCornerShape(100),
                                 ) {
                                     Text(text = stringResource(R.string.remove_image))
                                 }
                             },
                             dismissButton = {
-                                TextButton(onClick = viewModel::onDismissDeleteMoodImageDialog) {
+                                TextButton(onClick = viewModel::onDismissDeleteMixImageDialog) {
                                     Text(text = stringResource(R.string.cancel))
                                 }
                             },

@@ -57,7 +57,7 @@ import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.canhub.cropper.CropImageView
 import com.romnan.chillax.R
-import com.romnan.chillax.presentation.SaveMoodDialogState
+import com.romnan.chillax.presentation.SaveMixDialogState
 import com.romnan.chillax.presentation.composable.theme.Pink400
 import com.romnan.chillax.presentation.composable.theme.spacing
 import kotlinx.coroutines.launch
@@ -66,14 +66,14 @@ import logcat.logcat
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun SaveMoodDialog(
-    state: SaveMoodDialogState,
+fun SaveMixDialog(
+    state: SaveMixDialogState,
     onDismissRequest: () -> Unit,
-    onClickConfirmSaveMood: (
+    onClickConfirmSaveMix: (
         readableName: String,
         imageUri: String?,
     ) -> Unit,
-    onPickNewMoodCustomImage: suspend (uri: Uri) -> Uri,
+    onPickNewMixCustomImage: suspend (uri: Uri) -> Uri,
     onClickRemoveCustomImage: (imageUri: String) -> Unit,
 ) {
     var name by remember { mutableStateOf("") }
@@ -89,7 +89,7 @@ fun SaveMoodDialog(
         onResult = { result: CropImageView.CropResult? ->
             when (val uri = result?.uriContent) {
                 null -> {
-                    logcat("SaveMoodDialog") { result?.error?.asLog().orEmpty() }
+                    logcat("SaveMixDialog") { result?.error?.asLog().orEmpty() }
 
                     when (result?.error) {
                         is CropException.Cancellation -> {
@@ -124,7 +124,7 @@ fun SaveMoodDialog(
 
                 else -> {
                     coroutineScope.launch {
-                        selectedImageUri = onPickNewMoodCustomImage(uri).toString()
+                        selectedImageUri = onPickNewMixCustomImage(uri).toString()
                     }
                 }
             }
@@ -132,7 +132,7 @@ fun SaveMoodDialog(
     )
 
     AlertDialog(
-        title = { Text(text = stringResource(R.string.save_new_mood)) },
+        title = { Text(text = stringResource(R.string.save_new_mix)) },
         onDismissRequest = onDismissRequest,
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -141,7 +141,7 @@ fun SaveMoodDialog(
                     onValueChange = { name = it },
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true,
-                    label = { Text(text = stringResource(R.string.mood_name)) },
+                    label = { Text(text = stringResource(R.string.mix_name)) },
                     colors = TextFieldDefaults.colors(
                         disabledIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
@@ -158,7 +158,7 @@ fun SaveMoodDialog(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     items(
-                        items = state.moodPresetImageUris.toList(),
+                        items = state.mixPresetImageUris.toList(),
                         key = { imageUri: String -> imageUri },
                     ) { imageUri: String ->
                         Box(
@@ -208,7 +208,7 @@ fun SaveMoodDialog(
                     }
 
                     items(
-                        items = state.moodCustomImageUris.toList(),
+                        items = state.mixCustomImageUris.toList(),
                         key = { imageUri: String -> imageUri },
                     ) { imageUri: String ->
                         Box(
@@ -319,7 +319,7 @@ fun SaveMoodDialog(
         },
         confirmButton = {
             Button(
-                onClick = { onClickConfirmSaveMood(name, selectedImageUri) },
+                onClick = { onClickConfirmSaveMix(name, selectedImageUri) },
                 shape = RoundedCornerShape(100),
             ) {
                 Text(text = stringResource(R.string.save))

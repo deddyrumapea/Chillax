@@ -5,7 +5,7 @@ import android.content.Context
 import android.net.Uri
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.Category
-import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.Mix
 import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.model.UIText
 
@@ -22,19 +22,19 @@ class AppDataSource(
         )
     }
 
-    val presetMoods: List<Mood> = MoodData.entries.map { moodData: MoodData ->
+    val presetMixes: List<Mix> = MixData.entries.map { mixData: MixData ->
         val imageUri = Uri.Builder()
             .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
             .authority(appContext.packageName)
-            .appendPath(moodData.imageResId.toString())
+            .appendPath(mixData.imageResId.toString())
             .build()
             .toString()
 
-        Mood(
-            id = moodData.id,
-            readableName = moodData.readableName,
+        Mix(
+            id = mixData.id,
+            readableName = mixData.readableName,
             imageUri = imageUri,
-            soundIdToVolume = moodData.soundToVolume
+            soundIdToVolume = mixData.soundToVolume
                 .associate { (soundData: SoundData, volume: Float) ->
                     soundData.id to volume
                 },
@@ -50,13 +50,13 @@ class AppDataSource(
         )
     }
 
-    val moodImageUris: Set<String> = listOf(
-        R.raw.mood_airplane_cabin,
-        R.raw.mood_bedroom,
-        R.raw.mood_camping,
-        R.raw.mood_rainforest,
-        R.raw.mood_jungle,
-        R.raw.mood_riverside,
+    val mixImageUris: Set<String> = listOf(
+        R.raw.mix_airplane_cabin,
+        R.raw.mix_bedroom,
+        R.raw.mix_camping,
+        R.raw.mix_rainforest,
+        R.raw.mix_jungle,
+        R.raw.mix_riverside,
     ).map { resId: Int ->
         Uri.Builder()
             .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
@@ -67,39 +67,39 @@ class AppDataSource(
     }.toSet()
 }
 
-private enum class MoodData(
+private enum class MixData(
     val readableName: UIText,
     val imageResId: Int,
     val soundToVolume: List<Pair<SoundData, Float>>,
 ) {
     Rainforest(
-        readableName = UIText.StringResource(R.string.mood_rainforest),
-        imageResId = R.raw.mood_rainforest,
+        readableName = UIText.StringResource(R.string.mix_rainforest),
+        imageResId = R.raw.mix_rainforest,
         soundToVolume = listOf(),
     ),
     Bedroom(
-        readableName = UIText.StringResource(R.string.mood_bedroom),
-        imageResId = R.raw.mood_bedroom,
+        readableName = UIText.StringResource(R.string.mix_bedroom),
+        imageResId = R.raw.mix_bedroom,
         soundToVolume = listOf(),
     ),
     AirplaneCabin(
-        readableName = UIText.StringResource(R.string.mood_airplane_cabin),
-        imageResId = R.raw.mood_airplane_cabin,
+        readableName = UIText.StringResource(R.string.mix_airplane_cabin),
+        imageResId = R.raw.mix_airplane_cabin,
         soundToVolume = listOf(),
     ),
     Camping(
-        readableName = UIText.StringResource(R.string.mood_camping),
-        imageResId = R.raw.mood_camping,
+        readableName = UIText.StringResource(R.string.mix_camping),
+        imageResId = R.raw.mix_camping,
         soundToVolume = listOf(),
     ),
     Jungle(
-        readableName = UIText.StringResource(R.string.mood_jungle),
-        imageResId = R.raw.mood_jungle,
+        readableName = UIText.StringResource(R.string.mix_jungle),
+        imageResId = R.raw.mix_jungle,
         soundToVolume = listOf(),
     ),
     Riverside(
-        readableName = UIText.StringResource(R.string.mood_riverside),
-        imageResId = R.raw.mood_riverside,
+        readableName = UIText.StringResource(R.string.mix_riverside),
+        imageResId = R.raw.mix_riverside,
         soundToVolume = listOf(),
     ), ;
 
