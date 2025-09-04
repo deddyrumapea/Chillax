@@ -141,7 +141,6 @@ private enum class CategoryData(
             SoundData.Birds1,
             SoundData.Birds2,
             SoundData.Birds3,
-            SoundData.Birds4,
         ),
     ),
     Room(
@@ -193,11 +192,6 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_birds_3),
         iconResId = R.drawable.ic_sound_birds_3,
         audioResId = R.raw.sound_birds_3,
-    ),
-    Birds4(
-        readableName = UIText.StringResource(R.string.sound_birds_4),
-        iconResId = R.drawable.ic_sound_birds_4,
-        audioResId = R.raw.sound_birds_4,
     ),
     Brook(
         readableName = UIText.StringResource(R.string.sound_brook),
