@@ -1,4 +1,4 @@
-package com.romnan.chillax.presentation.composable.moods.component
+package com.romnan.chillax.presentation.composable.mixes.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,17 +36,17 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
 import com.romnan.chillax.R
-import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.Mix
 import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.util.asString
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MoodItem(
-    mood: () -> Mood,
+fun MixItem(
+    mix: () -> Mix,
     isPlaying: Boolean,
-    onClickDelete: ((Mood) -> Unit),
-    onClickPlayOrPause: ((Mood) -> Unit),
+    onClickDelete: ((Mix) -> Unit),
+    onClickPlayOrPause: ((Mix) -> Unit),
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -55,7 +55,7 @@ fun MoodItem(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context = LocalContext.current)
-                .data(mood().imageUri)
+                .data(mix().imageUri)
                 .scale(Scale.FILL)
                 .build(),
             contentDescription = null,
@@ -85,14 +85,14 @@ fun MoodItem(
             Text(
                 text = context.resources.getQuantityString(
                     R.plurals.n_sounds,
-                    mood().soundIdToVolume.count(),
-                    mood().soundIdToVolume.count().toString(),
+                    mix().soundIdToVolume.count(),
+                    mix().soundIdToVolume.count().toString(),
                 ),
                 style = MaterialTheme.typography.labelMedium,
             )
         }
 
-        if (mood().isCustom) {
+        if (mix().isCustom) {
             Row(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -109,7 +109,7 @@ fun MoodItem(
                 Box(
                     modifier = Modifier
                         .clip(CircleShape)
-                        .clickable { onClickDelete(mood()) },
+                        .clickable { onClickDelete(mix()) },
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Close,
@@ -130,13 +130,13 @@ fun MoodItem(
                     shape = RoundedCornerShape(100),
                     clip = true,
                 )
-                .clickable { onClickPlayOrPause(mood()) }
+                .clickable { onClickPlayOrPause(mix()) }
                 .background(MaterialTheme.colorScheme.background.copy(alpha = 0.8f))
                 .padding(MaterialTheme.spacing.small),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = mood().readableName.asString(),
+                text = mix().readableName.asString(),
                 modifier = Modifier
                     .weight(1f)
                     .padding(horizontal = MaterialTheme.spacing.small),
@@ -153,7 +153,7 @@ fun MoodItem(
                 },
                 contentDescription = stringResource(
                     R.string.cd_play_x,
-                    mood().readableName.asString()
+                    mix().readableName.asString()
                 ),
                 modifier = Modifier.size(24.dp),
             )

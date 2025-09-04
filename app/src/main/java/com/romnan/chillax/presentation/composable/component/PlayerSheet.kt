@@ -35,7 +35,7 @@ fun PlayerSheet(
     onClickStop: () -> Unit,
     onClickPlayPause: () -> Unit,
     onClickTimer: () -> Unit,
-    onClickSaveMood: () -> Unit,
+    onClickSaveMix: () -> Unit,
     onChangeSoundVolume: (
         soundId: String,
         newVolume: Float,
@@ -82,10 +82,10 @@ fun PlayerSheet(
                     .padding(vertical = MaterialTheme.spacing.medium)
             )
 
-            AnimatedVisibility(visible = player().playingMood == null) {
+            AnimatedVisibility(visible = player().playingMix == null) {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     TextButton(
-                        onClick = onClickSaveMood,
+                        onClick = onClickSaveMix,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
@@ -96,7 +96,7 @@ fun PlayerSheet(
                         ),
                     ) {
                         Text(
-                            text = stringResource(R.string.save_custom_mood),
+                            text = stringResource(R.string.save_custom_mix),
                             fontWeight = FontWeight.Bold,
                         )
                     }
