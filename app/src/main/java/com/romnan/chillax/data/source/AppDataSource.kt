@@ -125,8 +125,13 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_nature),
         description = UIText.StringResource(R.string.cat_desc_nature),
         sounds = listOf(
-            SoundData.ForestWind1,
-            SoundData.ForestWind2,
+            SoundData.ForestWind,
+            SoundData.Brook,
+            SoundData.Creek,
+            SoundData.River,
+            SoundData.SeaWaves1,
+            SoundData.SeaWaves2,
+            SoundData.SeaWaves3,
         ),
     ),
     Animals(
@@ -149,7 +154,9 @@ private enum class CategoryData(
     City(
         readableName = UIText.StringResource(R.string.cat_name_city),
         description = UIText.StringResource(R.string.cat_desc_city),
-        sounds = listOf(),
+        sounds = listOf(
+            SoundData.Train,
+        ),
     ),
     Other(
         readableName = UIText.StringResource(R.string.cat_name_other),
@@ -186,20 +193,25 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_birds_4,
         audioResId = R.raw.sound_birds_4,
     ),
+    Brook(
+        readableName = UIText.StringResource(R.string.sound_brook),
+        iconResId = R.drawable.ic_sound_brook,
+        audioResId = R.raw.sound_brook,
+    ),
+    Creek(
+        readableName = UIText.StringResource(R.string.sound_creek),
+        iconResId = R.drawable.ic_sound_creek,
+        audioResId = R.raw.sound_creek,
+    ),
     Fireplace(
         readableName = UIText.StringResource(R.string.sound_fireplace),
         iconResId = R.drawable.ic_sound_fireplace,
         audioResId = R.raw.sound_fireplace,
     ),
-    ForestWind1(
-        readableName = UIText.StringResource(R.string.sound_forest_wind_1),
+    ForestWind(
+        readableName = UIText.StringResource(R.string.sound_forest_wind),
         iconResId = R.drawable.ic_sound_forest_wind,
-        audioResId = R.raw.sound_forest_wind_1,
-    ),
-    ForestWind2(
-        readableName = UIText.StringResource(R.string.sound_forest_wind_2),
-        iconResId = R.drawable.ic_sound_forest_wind,
-        audioResId = R.raw.sound_forest_wind_2,
+        audioResId = R.raw.sound_forest_wind,
     ),
     HeavyRain1(
         readableName = UIText.StringResource(R.string.sound_heavy_rain_1),
@@ -215,6 +227,31 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_heavy_rain_3),
         iconResId = R.drawable.ic_sound_rain,
         audioResId = R.raw.sound_heavy_rain_3,
+    ),
+    SeaWaves1(
+        readableName = UIText.StringResource(R.string.sound_sea_waves_1),
+        iconResId = R.drawable.ic_sound_sea_waves,
+        audioResId = R.raw.sound_sea_waves_1,
+    ),
+    SeaWaves2(
+        readableName = UIText.StringResource(R.string.sound_sea_waves_2),
+        iconResId = R.drawable.ic_sound_sea_waves,
+        audioResId = R.raw.sound_sea_waves_2,
+    ),
+    SeaWaves3(
+        readableName = UIText.StringResource(R.string.sound_sea_waves_3),
+        iconResId = R.drawable.ic_sound_sea_waves,
+        audioResId = R.raw.sound_sea_waves_3,
+    ),
+    River(
+        readableName = UIText.StringResource(R.string.sound_river),
+        iconResId = R.drawable.ic_sound_river,
+        audioResId = R.raw.sound_river,
+    ),
+    Train(
+        readableName = UIText.StringResource(R.string.sound_train),
+        iconResId = R.drawable.ic_sound_train,
+        audioResId = R.raw.sound_train,
     ), ;
 
     val id: String
