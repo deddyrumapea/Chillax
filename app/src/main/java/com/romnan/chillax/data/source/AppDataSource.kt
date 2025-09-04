@@ -149,6 +149,7 @@ private enum class CategoryData(
         description = UIText.StringResource(R.string.cat_desc_room),
         sounds = listOf(
             SoundData.Fireplace,
+            SoundData.AirConditioner,
         ),
     ),
     City(
@@ -173,6 +174,11 @@ private enum class SoundData(
     val iconResId: Int,
     val audioResId: Int,
 ) {
+    AirConditioner(
+        readableName = UIText.StringResource(R.string.sound_air_conditioner),
+        iconResId = R.drawable.ic_sound_air_conditioner,
+        audioResId = R.raw.sound_air_conditioner,
+    ),
     Birds1(
         readableName = UIText.StringResource(R.string.sound_birds_1),
         iconResId = R.drawable.ic_sound_birds_1,
