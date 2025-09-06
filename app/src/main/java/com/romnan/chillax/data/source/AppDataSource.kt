@@ -146,6 +146,8 @@ private enum class CategoryData(
             SoundData.Birds2,
             SoundData.Birds3,
             SoundData.Frogs,
+            SoundData.Crickets,
+            SoundData.Cicadas,
         ),
     ),
     Room(
@@ -204,10 +206,20 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_brook,
         audioResId = R.raw.sound_brook,
     ),
+    Cicadas(
+        readableName = UIText.StringResource(R.string.sound_cicadas),
+        iconResId = R.drawable.ic_sound_cicadas,
+        audioResId = R.raw.sound_cicadas,
+    ),
     Creek(
         readableName = UIText.StringResource(R.string.sound_creek),
         iconResId = R.drawable.ic_sound_creek,
         audioResId = R.raw.sound_creek,
+    ),
+    Crickets(
+        readableName = UIText.StringResource(R.string.sound_crickets),
+        iconResId = R.drawable.ic_sound_crickets,
+        audioResId = R.raw.sound_crickets,
     ),
     Fireplace(
         readableName = UIText.StringResource(R.string.sound_fireplace),

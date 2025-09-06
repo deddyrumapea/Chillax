@@ -143,6 +143,8 @@
     <string name="sound_frogs">Frogs</string>
     <string name="sound_thunderstorm">Thunderstorm</string>
     <string name="sound_rain_on_tent">Rain on Tent</string>
+    <string name="sound_cicadas">Cicadas</string>
+    <string name="sound_crickets">Crickets</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
