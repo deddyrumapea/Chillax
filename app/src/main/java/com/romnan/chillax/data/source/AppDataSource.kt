@@ -154,20 +154,9 @@ private enum class CategoryData(
         sounds = listOf(
             SoundData.Fireplace,
             SoundData.AirConditioner,
+            SoundData.TrainCabin,
+            SoundData.PlaneCabin,
         ),
-    ),
-    City(
-        readableName = UIText.StringResource(R.string.cat_name_city),
-        description = UIText.StringResource(R.string.cat_desc_city),
-        sounds = listOf(
-            SoundData.Train,
-            SoundData.JetPlane,
-        ),
-    ),
-    Other(
-        readableName = UIText.StringResource(R.string.cat_name_other),
-        description = UIText.StringResource(R.string.cat_desc_other),
-        sounds = listOf(),
     ), ;
 
     val id: String
@@ -239,10 +228,10 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_gentle_rain,
         audioResId = R.raw.sound_gentle_rain,
     ),
-    JetPlane(
-        readableName = UIText.StringResource(R.string.sound_jet_plane),
-        iconResId = R.drawable.ic_sound_jet_plane,
-        audioResId = R.raw.sound_jet_plane,
+    PlaneCabin(
+        readableName = UIText.StringResource(R.string.sound_plane_cabin),
+        iconResId = R.drawable.ic_sound_plane_cabin,
+        audioResId = R.raw.sound_plane_cabin,
     ),
     Rain(
         readableName = UIText.StringResource(R.string.sound_rain),
@@ -284,10 +273,10 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_thunderstorm,
         audioResId = R.raw.sound_thunderstorm,
     ),
-    Train(
-        readableName = UIText.StringResource(R.string.sound_train),
-        iconResId = R.drawable.ic_sound_train,
-        audioResId = R.raw.sound_train,
+    TrainCabin(
+        readableName = UIText.StringResource(R.string.sound_train_cabin),
+        iconResId = R.drawable.ic_sound_train_cabin,
+        audioResId = R.raw.sound_train_cabin,
     ), ;
 
     val id: String
