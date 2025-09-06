@@ -117,10 +117,8 @@ private enum class CategoryData(
         description = UIText.StringResource(R.string.cat_desc_rain),
         sounds = listOf(
             SoundData.GentleRain,
-            SoundData.HeavyRain1,
-            SoundData.HeavyRain2,
-            SoundData.HeavyRain3,
-            SoundData.RainOnMetalRoof,
+            SoundData.Rain,
+            SoundData.RainOnRoof,
             SoundData.RainOnTent,
             SoundData.Thunderstorm,
         ),
@@ -241,30 +239,20 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_gentle_rain,
         audioResId = R.raw.sound_gentle_rain,
     ),
-    HeavyRain1(
-        readableName = UIText.StringResource(R.string.sound_heavy_rain_1),
-        iconResId = R.drawable.ic_sound_rain,
-        audioResId = R.raw.sound_heavy_rain_1,
-    ),
-    HeavyRain2(
-        readableName = UIText.StringResource(R.string.sound_heavy_rain_2),
-        iconResId = R.drawable.ic_sound_rain,
-        audioResId = R.raw.sound_heavy_rain_2,
-    ),
-    HeavyRain3(
-        readableName = UIText.StringResource(R.string.sound_heavy_rain_3),
-        iconResId = R.drawable.ic_sound_rain,
-        audioResId = R.raw.sound_heavy_rain_3,
-    ),
     JetPlane(
         readableName = UIText.StringResource(R.string.sound_jet_plane),
         iconResId = R.drawable.ic_sound_jet_plane,
         audioResId = R.raw.sound_jet_plane,
     ),
-    RainOnMetalRoof(
-        readableName = UIText.StringResource(R.string.sound_rain_on_metal_roof),
-        iconResId = R.drawable.ic_sound_rain_on_metal_roof,
-        audioResId = R.raw.sound_rain_on_metal_roof,
+    Rain(
+        readableName = UIText.StringResource(R.string.sound_rain),
+        iconResId = R.drawable.ic_sound_rain,
+        audioResId = R.raw.sound_rain,
+    ),
+    RainOnRoof(
+        readableName = UIText.StringResource(R.string.sound_rain_on_roof),
+        iconResId = R.drawable.ic_sound_rain_on_roof,
+        audioResId = R.raw.sound_rain_on_roof,
     ),
     RainOnTent(
         readableName = UIText.StringResource(R.string.sound_rain_on_tent),
