@@ -116,9 +116,11 @@ private enum class CategoryData(
         readableName = UIText.StringResource(R.string.cat_name_rain),
         description = UIText.StringResource(R.string.cat_desc_rain),
         sounds = listOf(
+            SoundData.GentleRain,
             SoundData.HeavyRain1,
             SoundData.HeavyRain2,
             SoundData.HeavyRain3,
+            SoundData.RainOnMetalRoof,
         ),
     ),
     Nature(
@@ -141,6 +143,7 @@ private enum class CategoryData(
             SoundData.Birds1,
             SoundData.Birds2,
             SoundData.Birds3,
+            SoundData.Frogs,
         ),
     ),
     Room(
@@ -213,6 +216,16 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_forest_wind,
         audioResId = R.raw.sound_forest_wind,
     ),
+    Frogs(
+        readableName = UIText.StringResource(R.string.sound_frogs),
+        iconResId = R.drawable.ic_sound_frogs,
+        audioResId = R.raw.sound_frogs,
+    ),
+    GentleRain(
+        readableName = UIText.StringResource(R.string.sound_gentle_rain),
+        iconResId = R.drawable.ic_sound_gentle_rain,
+        audioResId = R.raw.sound_gentle_rain,
+    ),
     HeavyRain1(
         readableName = UIText.StringResource(R.string.sound_heavy_rain_1),
         iconResId = R.drawable.ic_sound_rain,
@@ -227,6 +240,11 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_heavy_rain_3),
         iconResId = R.drawable.ic_sound_rain,
         audioResId = R.raw.sound_heavy_rain_3,
+    ),
+    RainOnMetalRoof(
+        readableName = UIText.StringResource(R.string.sound_rain_on_metal_roof),
+        iconResId = R.drawable.ic_sound_rain_on_metal_roof,
+        audioResId = R.raw.sound_rain_on_metal_roof,
     ),
     SeaWaves1(
         readableName = UIText.StringResource(R.string.sound_sea_waves_1),
