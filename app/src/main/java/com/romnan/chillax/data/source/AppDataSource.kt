@@ -72,6 +72,26 @@ private enum class MixData(
     val imageResId: Int,
     val soundToVolume: List<Pair<SoundData, Float>>,
 ) {
+    Bedroom(
+        readableName = UIText.StringResource(R.string.mix_bedroom),
+        imageResId = R.raw.mix_bedroom,
+        soundToVolume = listOf(
+            SoundData.AirConditioner to 0.8f,
+            SoundData.Rain to 0.7f,
+            SoundData.RainOnRoof to 0.4f,
+            SoundData.Crickets to 0.05f,
+        ),
+    ),
+    Camping(
+        readableName = UIText.StringResource(R.string.mix_camping),
+        imageResId = R.raw.mix_camping,
+        soundToVolume = listOf(
+            SoundData.Fireplace to 0.8f,
+            SoundData.RainOnTent to 0.3f,
+            SoundData.ForestWind to 0.3f,
+            SoundData.Cicadas to 0.1f,
+        ),
+    ),
     Rainforest(
         readableName = UIText.StringResource(R.string.mix_rainforest),
         imageResId = R.raw.mix_rainforest,
@@ -83,14 +103,46 @@ private enum class MixData(
             SoundData.Cicadas to 0.1f,
         ),
     ),
-    Bedroom(
-        readableName = UIText.StringResource(R.string.mix_bedroom),
-        imageResId = R.raw.mix_bedroom,
+    Jungle(
+        readableName = UIText.StringResource(R.string.mix_jungle),
+        imageResId = R.raw.mix_jungle,
         soundToVolume = listOf(
-            SoundData.AirConditioner to 0.7f,
-            SoundData.Rain to 0.6f,
-            SoundData.RainOnRoof to 0.3f,
-            SoundData.Crickets to 0.05f,
+            SoundData.Brook to 0.8f,
+            SoundData.ForestWind to 0.6f,
+            SoundData.Birds1 to 0.8f,
+            SoundData.Birds2 to 0.8f,
+            SoundData.Cicadas to 0.4f,
+            SoundData.Frogs to 0.1f,
+            SoundData.Crickets to 0.1f,
+        ),
+    ),
+    StormyCoast(
+        readableName = UIText.StringResource(R.string.mix_stormy_coast),
+        imageResId = R.raw.mix_stormy_coast,
+        soundToVolume = listOf(
+            SoundData.SeaWaves1 to 0.8f,
+            SoundData.Thunderstorm to 0.5f,
+            SoundData.Rain to 0.3f,
+            SoundData.ForestWind to 0.3f,
+        ),
+    ),
+    Riverside(
+        readableName = UIText.StringResource(R.string.mix_riverside),
+        imageResId = R.raw.mix_riverside,
+        soundToVolume = listOf(
+            SoundData.River to 0.8f,
+            SoundData.Creek to 0.7f,
+            SoundData.Brook to 0.6f,
+        ),
+    ),
+    TrainJourney(
+        readableName = UIText.StringResource(R.string.mix_train_journey),
+        imageResId = R.raw.mix_train_journey,
+        soundToVolume = listOf(
+            SoundData.TrainCabin to 0.8f,
+            SoundData.AirConditioner to 0.3f,
+            SoundData.RainOnRoof to 0.1f,
+            SoundData.Rain to 0.1f,
         ),
     ),
     AirplaneJourney(
@@ -98,39 +150,7 @@ private enum class MixData(
         imageResId = R.raw.mix_airplane_journey,
         soundToVolume = listOf(
             SoundData.PlaneCabin to 0.8f,
-            SoundData.AirConditioner to 0.2f,
-        ),
-    ),
-    Camping(
-        readableName = UIText.StringResource(R.string.mix_camping),
-        imageResId = R.raw.mix_camping,
-        soundToVolume = listOf(
-            SoundData.Fireplace to 0.8f,
-            SoundData.RainOnTent to 0.2f,
-            SoundData.ForestWind to 0.2f,
-            SoundData.Cicadas to 0.1f,
-        ),
-    ),
-    Jungle(
-        readableName = UIText.StringResource(R.string.mix_jungle),
-        imageResId = R.raw.mix_jungle,
-        soundToVolume = listOf(
-            SoundData.Brook to 0.6f,
-            SoundData.ForestWind to 0.4f,
-            SoundData.Birds1 to 0.6f,
-            SoundData.Birds2 to 0.6f,
-            SoundData.Cicadas to 0.3f,
-            SoundData.Frogs to 0.1f,
-            SoundData.Crickets to 0.1f,
-        ),
-    ),
-    Riverside(
-        readableName = UIText.StringResource(R.string.mix_riverside),
-        imageResId = R.raw.mix_riverside,
-        soundToVolume = listOf(
-            SoundData.River to 0.7f,
-            SoundData.Creek to 0.6f,
-            SoundData.Brook to 0.5f,
+            SoundData.AirConditioner to 0.3f,
         ),
     ), ;
 
