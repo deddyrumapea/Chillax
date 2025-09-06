@@ -28,7 +28,7 @@ fun attributionsAnnotatedString(): AnnotatedString {
                 linkInteractionListener = linkInteractionListener,
                 styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
             ),
-        ) { append("\nAir conditioner icons created by Freepik - Flaticon") }
+        ) { append("Air conditioner icons created by Freepik - Flaticon") }
 
         withLink(
             link = LinkAnnotation.Url(
