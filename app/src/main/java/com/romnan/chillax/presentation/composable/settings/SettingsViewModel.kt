@@ -124,7 +124,7 @@ class SettingsViewModel @Inject constructor(
     fun onClickAppVersion() {
         onClickAppVersionJob?.cancel()
         onClickAppVersionJob = viewModelScope.launch {
-            _uiEvent.send(UIEvent.ShowToast(UIText.StringResource(R.string.app_developed_by)))
+            _uiEvent.send(UIEvent.ShowToast(UIText.StringResource(R.string.made_by_deddy_rumapea_in_indonesia)))
         }
     }
 
