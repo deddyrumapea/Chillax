@@ -121,6 +121,7 @@ private enum class CategoryData(
             SoundData.HeavyRain2,
             SoundData.HeavyRain3,
             SoundData.RainOnMetalRoof,
+            SoundData.Thunderstorm,
         ),
     ),
     Nature(
@@ -159,6 +160,7 @@ private enum class CategoryData(
         description = UIText.StringResource(R.string.cat_desc_city),
         sounds = listOf(
             SoundData.Train,
+            SoundData.JetPlane,
         ),
     ),
     Other(
@@ -241,6 +243,11 @@ private enum class SoundData(
         iconResId = R.drawable.ic_sound_rain,
         audioResId = R.raw.sound_heavy_rain_3,
     ),
+    JetPlane(
+        readableName = UIText.StringResource(R.string.sound_jet_plane),
+        iconResId = R.drawable.ic_sound_jet_plane,
+        audioResId = R.raw.sound_jet_plane,
+    ),
     RainOnMetalRoof(
         readableName = UIText.StringResource(R.string.sound_rain_on_metal_roof),
         iconResId = R.drawable.ic_sound_rain_on_metal_roof,
@@ -265,6 +272,11 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_river),
         iconResId = R.drawable.ic_sound_river,
         audioResId = R.raw.sound_river,
+    ),
+    Thunderstorm(
+        readableName = UIText.StringResource(R.string.sound_thunderstorm),
+        iconResId = R.drawable.ic_sound_thunderstorm,
+        audioResId = R.raw.sound_thunderstorm,
     ),
     Train(
         readableName = UIText.StringResource(R.string.sound_train),
