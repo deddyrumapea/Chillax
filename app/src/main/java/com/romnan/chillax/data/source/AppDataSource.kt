@@ -51,7 +51,7 @@ class AppDataSource(
     }
 
     val mixImageUris: Set<String> = listOf(
-        R.raw.mix_airplane_cabin,
+        R.raw.mix_airplane_journey,
         R.raw.mix_bedroom,
         R.raw.mix_camping,
         R.raw.mix_rainforest,
@@ -82,9 +82,9 @@ private enum class MixData(
         imageResId = R.raw.mix_bedroom,
         soundToVolume = listOf(),
     ),
-    AirplaneCabin(
-        readableName = UIText.StringResource(R.string.mix_airplane_cabin),
-        imageResId = R.raw.mix_airplane_cabin,
+    AirplaneJourney(
+        readableName = UIText.StringResource(R.string.mix_airplane_journey),
+        imageResId = R.raw.mix_airplane_journey,
         soundToVolume = listOf(),
     ),
     Camping(
