@@ -33,8 +33,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +43,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -132,24 +134,21 @@ fun SaveMixDialog(
     )
 
     AlertDialog(
-        title = { Text(text = stringResource(R.string.save_new_mix)) },
+        title = { Text(text = stringResource(R.string.save_custom_mix)) },
         onDismissRequest = onDismissRequest,
         text = {
             Column(modifier = Modifier.fillMaxWidth()) {
+                val focusRequester = remember { FocusRequester() }
                 TextField(
                     value = name,
                     onValueChange = { name = it },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester),
                     singleLine = true,
-                    label = { Text(text = stringResource(R.string.mix_name)) },
-                    colors = TextFieldDefaults.colors(
-                        disabledIndicatorColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        errorIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                    ),
-                    shape = RoundedCornerShape(16.dp),
+                    label = { Text(text = stringResource(R.string.name)) },
                 )
+                LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
                 Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
 
