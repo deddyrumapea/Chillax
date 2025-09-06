@@ -13,6 +13,7 @@ import com.romnan.chillax.domain.model.UIText
 import com.romnan.chillax.domain.repository.AppSettingsRepository
 import com.romnan.chillax.domain.repository.MixRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
+import com.romnan.chillax.domain.repository.RemoteConfigRepository
 import com.romnan.chillax.domain.repository.SleepTimerRepository
 import com.romnan.chillax.presentation.model.PlayerPresentation
 import com.romnan.chillax.presentation.model.SleepTimerPresentation
@@ -40,10 +41,18 @@ class MainViewModel @Inject constructor(
     sleepTimerRepository: SleepTimerRepository,
     appSettingsRepository: AppSettingsRepository,
     private val mixRepository: MixRepository,
+    private val remoteConfigRepository: RemoteConfigRepository,
 ) : ViewModel() {
 
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+
+    val appUpdateRequired = remoteConfigRepository.appUpdateRequired
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = false,
+        )
 
     private val showSaveMixDialog = MutableStateFlow(SaveMixDialogState().showSaveMixDialog)
     private val mixPresetImageUris = mixRepository.mixPresetImageUris
