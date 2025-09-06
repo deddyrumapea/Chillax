@@ -31,8 +31,8 @@
     <string name="theme_light">Light</string>
     <string name="theme_dark">Dark</string>
     <string name="choose_theme">Choose theme</string>
-    <string name="url_app_listing">https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
-    <string name="url_developer_page">https://play.google.com/store/apps/dev?id=5065489230537845201</string>
+    <string name="url_app_listing" translatable="false">https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
+    <string name="url_developer_page" translatable="false">https://play.google.com/store/apps/dev?id=5065489230537845201</string>
     <string name="share_text">Chill and relax. Download Chillax now https://play.google.com/store/apps/details?id=com.romnan.chillax</string>
     <string name="contact_subject">Chillax feature request/bug report</string>
     <string name="app_instructions">You can choose individual sounds from the Sounds menu, or pick a mix from the Mixes menu. A mix is simply a collection of sounds grouped together.\n\nWhile playing, tap the player at the bottom to reveal more controls.\n\nEnjoy :)</string>
