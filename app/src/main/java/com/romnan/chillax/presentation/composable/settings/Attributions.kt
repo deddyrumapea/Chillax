@@ -96,67 +96,11 @@ fun attributionsAnnotatedString(): AnnotatedString {
 
         withLink(
             link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/keyboard",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nKeyboard icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/mountain",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nMountain icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/pan",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nPan icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/park",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nPark icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/pets",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nPets icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
                 url = "https://www.flaticon.com/free-icons/plane",
                 linkInteractionListener = linkInteractionListener,
                 styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
             ),
         ) { append("\nPlane icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/playground",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nPlayground icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/radio",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nRadio icons created by Freepik - Flaticon") }
 
         withLink(
             link = LinkAnnotation.Url(
@@ -176,22 +120,6 @@ fun attributionsAnnotatedString(): AnnotatedString {
 
         withLink(
             link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/seagull",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nSeagull icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/steering-wheel",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nSteering wheel icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
                 url = "https://www.flaticon.com/free-icons/train",
                 linkInteractionListener = linkInteractionListener,
                 styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
@@ -208,22 +136,6 @@ fun attributionsAnnotatedString(): AnnotatedString {
 
         withLink(
             link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/umbrella",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nUmbrella icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/waterfall",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nWaterfall icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
                 url = "https://www.flaticon.com/free-icons/wave",
                 linkInteractionListener = linkInteractionListener,
                 styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
@@ -237,22 +149,6 @@ fun attributionsAnnotatedString(): AnnotatedString {
                 styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
             ),
         ) { append("\nWaves icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/window-ac",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("\nWindow ac icons created by Freepik - Flaticon") }
-
-        withLink(
-            link = LinkAnnotation.Url(
-                url = "https://www.flaticon.com/free-icons/wiper",
-                linkInteractionListener = linkInteractionListener,
-                styles = TextLinkStyles(SpanStyle(textDecoration = TextDecoration.Underline)),
-            ),
-        ) { append("Wiper icons created by Freepik - Flaticon") }
     }
 }
 
