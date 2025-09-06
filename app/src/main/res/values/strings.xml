@@ -111,6 +111,7 @@
     <string name="sound_crickets">Crickets</string>
     <string name="mix_train_journey">Train Journey</string>
     <string name="mix_stormy_coast">Stormy Coast</string>
+    <string name="name">Name</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
