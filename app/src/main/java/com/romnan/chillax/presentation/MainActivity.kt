@@ -1,6 +1,7 @@
 package com.romnan.chillax.presentation
 
 import android.Manifest
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -47,7 +48,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
 import androidx.core.content.PermissionChecker
+import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import coil.compose.AsyncImage
@@ -56,6 +59,7 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.manualcomposablecalls.composable
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.rememberNavHostEngine
+import com.romnan.chillax.BuildConfig
 import com.romnan.chillax.R
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.model.ThemeMode
@@ -357,6 +361,35 @@ class MainActivity : ComponentActivity() {
                                     Text(text = stringResource(R.string.cancel))
                                 }
                             },
+                        )
+                    }
+
+                    val appUpdateRequired by viewModel.appUpdateRequired.collectAsState()
+                    if (appUpdateRequired) {
+                        AlertDialog(
+                            onDismissRequest = {},
+                            confirmButton = {
+                                Button(
+                                    onClick = {
+                                        startActivity(
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                "market://details?id=${BuildConfig.APPLICATION_ID}".toUri()
+                                            )
+                                        )
+                                    },
+                                ) {
+                                    Text(stringResource(R.string.update_on_play_store))
+                                }
+                            },
+                            properties = DialogProperties(
+                                dismissOnBackPress = false,
+                                dismissOnClickOutside = false,
+                            ),
+                            text = {
+                                Text(text = stringResource(R.string.a_new_version_of_the_app_is_available_please_update_to_continue))
+                            },
+                            title = { Text(text = stringResource(R.string.update_required)) },
                         )
                     }
                 }
