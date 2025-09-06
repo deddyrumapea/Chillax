@@ -121,6 +121,7 @@ private enum class CategoryData(
             SoundData.HeavyRain2,
             SoundData.HeavyRain3,
             SoundData.RainOnMetalRoof,
+            SoundData.RainOnTent,
             SoundData.Thunderstorm,
         ),
     ),
@@ -252,6 +253,11 @@ private enum class SoundData(
         readableName = UIText.StringResource(R.string.sound_rain_on_metal_roof),
         iconResId = R.drawable.ic_sound_rain_on_metal_roof,
         audioResId = R.raw.sound_rain_on_metal_roof,
+    ),
+    RainOnTent(
+        readableName = UIText.StringResource(R.string.sound_rain_on_tent),
+        iconResId = R.drawable.ic_sound_rain_on_tent,
+        audioResId = R.raw.sound_rain_on_tent,
     ),
     SeaWaves1(
         readableName = UIText.StringResource(R.string.sound_sea_waves_1),
