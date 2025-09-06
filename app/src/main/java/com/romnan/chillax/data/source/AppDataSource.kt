@@ -51,12 +51,7 @@ class AppDataSource(
     }
 
     val mixImageUris: Set<String> = listOf(
-        R.raw.mix_airplane_journey,
-        R.raw.mix_bedroom,
-        R.raw.mix_camping,
-        R.raw.mix_rainforest,
-        R.raw.mix_jungle,
-        R.raw.mix_riverside,
+        *MixData.entries.map { mix: MixData -> mix.imageResId }.toTypedArray(),
     ).map { resId: Int ->
         Uri.Builder()
             .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
