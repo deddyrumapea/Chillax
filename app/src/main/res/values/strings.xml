@@ -62,7 +62,7 @@
     <string name="mix_jungle">Jungle</string>
     <string name="mix_riverside">Riverside</string>
     <string name="cd_set_timer">Set timer</string>
-    <string name="app_developed_by">Made by Deddy Rumapea in Indonesia 🇮🇩</string>
+    <string name="made_by_deddy_rumapea_in_indonesia">Made by Deddy Rumapea in Indonesia 🇮🇩</string>
     <string name="hours">hours</string>
     <string name="minutes">minutes</string>
     <string name="stop_timer">Stop timer</string>
@@ -71,11 +71,9 @@
     <string name="rationale_bed_time_reminder">Please allow notification permission to be able to receive Bedtime Reminder notifications</string>
     <string name="rationale_default">Please allow the requested permissions to support full functionalities</string>
     <string name="go_to_settings">Go to Settings</string>
-    <string name="save_new_mix">Save New Mix</string>
     <string name="save">Save</string>
     <string name="please_select_mix_image">Please select mix image</string>
     <string name="please_enter_mix_name">Please enter mix name</string>
-    <string name="mix_name">Mix Name</string>
     <string name="cd_add_image">Add image</string>
     <string name="are_you_sure_you_want_to_remove_this_image">Are you sure you want to remove this image?</string>
     <string name="cancel">Cancel</string>
