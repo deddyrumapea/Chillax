@@ -1,15 +1,20 @@
 package com.romnan.chillax.presentation.notification
 
+import android.Manifest
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.os.Build
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.romnan.chillax.R
+import com.romnan.chillax.data.receiver.PlayerActionBroadcastReceiver
+import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.notification.NotificationHelper
 import com.romnan.chillax.presentation.MainActivity
 import com.romnan.chillax.presentation.model.PlayerPresentation
@@ -53,8 +58,16 @@ class NotificationHelperImpl(
         val updatedNotification = getBasePlayerServiceNotification()
             .setContentTitle(player.contentTitle.asString(appContext))
             .setContentText(player.soundsTitle.asString(appContext))
+            .addAction(createPlayOrPauseAction(phase = player.phase))
             .build()
 
+        if (ActivityCompat.checkSelfPermission(
+                appContext,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
         notificationManager.notify(PLAYER_SERVICE_NOTIFICATION_ID, updatedNotification)
     }
 
@@ -72,7 +85,33 @@ class NotificationHelperImpl(
             .setAutoCancel(true)
             .build()
 
+        if (ActivityCompat.checkSelfPermission(
+                appContext,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
         notificationManager.notify(BEDTIME_NOTIFICATION_ID, notification)
+    }
+
+    private fun createPlayOrPauseAction(
+        phase: PlayerPhase,
+    ): NotificationCompat.Action {
+        return NotificationCompat.Action.Builder(
+            when (phase) {
+                PlayerPhase.PLAYING -> R.drawable.ic_pause
+                PlayerPhase.PAUSED -> R.drawable.ic_play
+                PlayerPhase.STOPPED -> R.drawable.ic_play
+            },
+            when (phase) {
+                PlayerPhase.PLAYING -> appContext.getString(R.string.pause)
+                PlayerPhase.PAUSED -> appContext.getString(R.string.play)
+                PlayerPhase.STOPPED -> appContext.getString(R.string.play)
+            },
+            PlayerActionBroadcastReceiver
+                .getPlayOrPausePendingIntent(appContext = appContext),
+        ).build()
     }
 
     private fun createNotificationChannels() {
