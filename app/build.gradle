@@ -28,8 +28,8 @@ android {
         applicationId "com.romnan.chillax"
         minSdk 21
         targetSdk 35
-        versionCode 20250909
-        versionName "2025.09.09"
+        versionCode 20250910
+        versionName "2025.09.10"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
