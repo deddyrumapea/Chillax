@@ -32,15 +32,6 @@
 - <a href="https://www.flaticon.com/free-icons/window-ac" title="window ac icons">Window ac icons created by Freepik - Flaticon</a>
 - <a href="https://www.flaticon.com/free-icons/wiper" title="wiper icons">Wiper icons created by Freepik - Flaticon</a>
 
-## Mood Images
-
-- Airplane Cabin: <a href="https://www.freepik.com/free-vector/airplane-cabin-with-seats-screens-inside-view_7743137.htm#fromView=author&page=1&position=13&uuid=ea83038e-9b83-4d4e-b457-a669e462c3f3">Image by upklyak on Freepik</a>
-- Bedroom: <a href="https://www.freepik.com/free-vector/cute-young-woman-sleeping-bedroom-night-cartoon-interior_2238331.htm#fromView=image_search&page=1&position=0&uuid=e8a35f78-bfb8-4649-8788-dffd892ba357">Image by vectorpouch on Freepik</a>
-- Camping: <a href="https://www.freepik.com/free-vector/summer-camp-with-bonfire-tent-night_13009463.htm#fromView=image_search&page=1&position=9&uuid=58b05819-ff0f-4c20-8790-f7dea34003e6">Image by upklyak on Freepik</a>
-- Jungle: <a href="https://www.freepik.com/free-vector/detailed-jungle-background_13817745.htm#fromView=keyword&page=1&position=2&uuid=cd545e8e-3600-4817-b8ce-4f71d9e56969">Image by freepik</a>
-- Rainforest: <a href="https://www.freepik.com/free-vector/misty-landscape-with-fog-pine-forest-mountain-slopes-illustration-nature-scene_12953515.htm#fromView=image_search&page=1&position=0&uuid=fb3806c6-5f4d-42c5-bc29-1e6616536ef7">Image by jcomp on Freepik</a>
-- Riverside: <a href="https://www.freepik.com/free-vector/nature-scene-with-river-hills-forest-mountain-landscape-flat-cartoon-style-illustration_12953559.htm#fromView=keyword&page=1&position=2&uuid=9b6f8349-77ad-4960-852b-14210d7fddfc">Image by jcomp on Freepik</a>
-
 ## Sound Audios
 
 - Birds 1: Sound Effect by ivolipa from <a href="https://pixabay.com/">Pixabay</a>

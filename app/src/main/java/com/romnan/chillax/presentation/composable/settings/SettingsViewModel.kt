@@ -34,6 +34,9 @@ class SettingsViewModel @Inject constructor(
     private val _isAppInstructionsVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isAppInstructionsVisible: StateFlow<Boolean> = _isAppInstructionsVisible
 
+    private val _isAttributionsVisible: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isAttributionsVisible: StateFlow<Boolean> = _isAttributionsVisible
+
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
@@ -109,11 +112,19 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun showAttributions() {
+        _isAttributionsVisible.update { true }
+    }
+
+    fun hideAttributions() {
+        _isAttributionsVisible.update { false }
+    }
+
     private var onClickAppVersionJob: Job? = null
     fun onClickAppVersion() {
         onClickAppVersionJob?.cancel()
         onClickAppVersionJob = viewModelScope.launch {
-            _uiEvent.send(UIEvent.ShowSnackbar(UIText.StringResource(R.string.app_developed_by)))
+            _uiEvent.send(UIEvent.ShowToast(UIText.StringResource(R.string.made_by_deddy_rumapea_in_indonesia)))
         }
     }
 

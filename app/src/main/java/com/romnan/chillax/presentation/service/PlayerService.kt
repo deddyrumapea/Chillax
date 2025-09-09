@@ -6,8 +6,10 @@ import android.os.IBinder
 import androidx.annotation.FloatRange
 import androidx.annotation.OptIn
 import androidx.annotation.RawRes
+import androidx.media3.common.AudioAttributes
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.common.C
 import androidx.media3.datasource.RawResourceDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -44,7 +46,7 @@ class PlayerService : Service() {
     @Inject
     lateinit var notificationHelper: NotificationHelper
 
-    private val audioResIdToExoPlayer = mutableMapOf<@receiver:RawRes Int, ExoPlayer>()
+    private val audioResIdToExoPlayer = mutableMapOf<Int, ExoPlayer>()
 
     private var playerServiceJob: Job? = null
 
@@ -114,7 +116,7 @@ class PlayerService : Service() {
                             }
                         }
                     },
-                    playingMood = player.playingMood,
+                    playingMix = player.playingMix,
                 )
 
                 notificationHelper.updatePlayerServiceNotification(playerPresentation)

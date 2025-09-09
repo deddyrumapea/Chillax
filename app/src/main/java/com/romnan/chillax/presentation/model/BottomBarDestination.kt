@@ -8,7 +8,7 @@ import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.romnan.chillax.R
-import com.romnan.chillax.presentation.composable.destinations.MoodsScreenDestination
+import com.romnan.chillax.presentation.composable.destinations.MixesScreenDestination
 import com.romnan.chillax.presentation.composable.destinations.SettingsScreenDestination
 import com.romnan.chillax.presentation.composable.destinations.SoundsScreenDestination
 
@@ -17,10 +17,10 @@ enum class BottomBarDestination(
     val icon: ImageVector,
     @StringRes val label: Int
 ) {
-    Moods(
-        direction = MoodsScreenDestination,
+    Mixes(
+        direction = MixesScreenDestination,
         icon = Icons.Rounded.GridView,
-        label = R.string.moods
+        label = R.string.mixes
     ),
 
     Sounds(
