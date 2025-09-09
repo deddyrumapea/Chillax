@@ -2,7 +2,6 @@ package com.romnan.chillax.presentation.composable.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,12 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,7 +35,7 @@ fun PlayerSheet(
     onClickStop: () -> Unit,
     onClickPlayPause: () -> Unit,
     onClickTimer: () -> Unit,
-    onClickSaveMood: () -> Unit,
+    onClickSaveMix: () -> Unit,
     onChangeSoundVolume: (
         soundId: String,
         newVolume: Float,
@@ -44,17 +43,9 @@ fun PlayerSheet(
     modifier: Modifier = Modifier,
 ) {
     LazyColumn(
-        modifier = modifier
-            .background(color = MaterialTheme.colors.surface)
-            .padding(horizontal = MaterialTheme.spacing.medium),
+        modifier = modifier.padding(horizontal = MaterialTheme.spacing.medium),
     ) {
         item {
-            Spacer(modifier = Modifier.height(MaterialTheme.spacing.small))
-
-            BottomSheetHandleBar(modifier = Modifier.fillMaxWidth())
-
-            Spacer(modifier = Modifier.height(MaterialTheme.spacing.medium))
-
             PlayerPeek(
                 player = player,
                 sleepTimer = sleepTimer,
@@ -62,7 +53,7 @@ fun PlayerSheet(
                 onClickTimer = onClickTimer,
             )
 
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = MaterialTheme.spacing.medium)
@@ -76,7 +67,7 @@ fun PlayerSheet(
             PlayingSoundItem(
                 sound = { sound },
                 modifier = Modifier
-                    .animateItemPlacement()
+                    .animateItem()
                     .padding(vertical = MaterialTheme.spacing.small),
                 onVolumeChange = { newVolume: Float ->
                     onChangeSoundVolume(sound.id, newVolume)
@@ -85,27 +76,27 @@ fun PlayerSheet(
         }
 
         item {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = MaterialTheme.spacing.medium)
             )
 
-            AnimatedVisibility(visible = player().playingMood == null) {
+            AnimatedVisibility(visible = player().playingMix == null) {
                 Column(modifier = Modifier.fillMaxWidth()) {
                     TextButton(
-                        onClick = onClickSaveMood,
+                        onClick = onClickSaveMix,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(48.dp),
                         shape = RoundedCornerShape(100),
                         colors = ButtonDefaults.textButtonColors(
-                            backgroundColor = MaterialTheme.colors.onSurface
+                            containerColor = MaterialTheme.colorScheme.onSurface
                                 .copy(alpha = 0.1f),
                         ),
                     ) {
                         Text(
-                            text = stringResource(R.string.save_mood).uppercase(),
+                            text = stringResource(R.string.save_custom_mix),
                             fontWeight = FontWeight.Bold,
                         )
                     }
@@ -122,7 +113,7 @@ fun PlayerSheet(
                     .height(48.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.stop_all).uppercase(),
+                    text = stringResource(R.string.stop_all_sounds),
                     fontWeight = FontWeight.Bold,
                 )
             }

@@ -2,8 +2,6 @@ package com.romnan.chillax.presentation.util
 
 
 import android.widget.Toast
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
@@ -17,27 +15,11 @@ sealed class UIEvent {
         val uiText: UIText,
     ) : UIEvent()
 
-    data class ShowSnackbar(
-        val uiText: UIText,
-        val actionLabel: String? = null,
-        val duration: SnackbarDuration = when (actionLabel == null) {
-            true -> SnackbarDuration.Short
-            false -> SnackbarDuration.Indefinite
-        },
-    ) : UIEvent()
-
     data object ClearFocus : UIEvent()
 }
 
-/**
- * Handles a Flow of UI events in a Composable LaunchedEffect, allowing you to react to
- * specific UI events.
- *
- * @param snackbarHostState The SnackbarHostState to use for showing Snackbars.
- */
 @Composable
 fun Flow<UIEvent>.handleInLaunchedEffect(
-    snackbarHostState: SnackbarHostState,
     onAfterHandled: (UIEvent) -> Unit = {},
 ) {
     val context = LocalContext.current
@@ -52,14 +34,6 @@ fun Flow<UIEvent>.handleInLaunchedEffect(
                         event.uiText.asString(context),
                         Toast.LENGTH_SHORT,
                     ).show()
-                }
-
-                is UIEvent.ShowSnackbar -> {
-                    snackbarHostState.showSnackbar(
-                        message = event.uiText.asString(context),
-                        actionLabel = event.actionLabel,
-                        duration = event.duration,
-                    )
                 }
 
                 is UIEvent.ClearFocus -> {

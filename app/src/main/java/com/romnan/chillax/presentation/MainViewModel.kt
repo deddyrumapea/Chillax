@@ -5,14 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.romnan.chillax.R
 import com.romnan.chillax.data.model.PlayingSound
-import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.Mix
 import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.model.Sound
 import com.romnan.chillax.domain.model.ThemeMode
 import com.romnan.chillax.domain.model.UIText
 import com.romnan.chillax.domain.repository.AppSettingsRepository
-import com.romnan.chillax.domain.repository.MoodRepository
+import com.romnan.chillax.domain.repository.MixRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
+import com.romnan.chillax.domain.repository.RemoteConfigRepository
 import com.romnan.chillax.domain.repository.SleepTimerRepository
 import com.romnan.chillax.presentation.model.PlayerPresentation
 import com.romnan.chillax.presentation.model.SleepTimerPresentation
@@ -39,40 +40,48 @@ class MainViewModel @Inject constructor(
     private val playerRepository: PlayerRepository,
     sleepTimerRepository: SleepTimerRepository,
     appSettingsRepository: AppSettingsRepository,
-    private val moodRepository: MoodRepository,
+    private val mixRepository: MixRepository,
+    private val remoteConfigRepository: RemoteConfigRepository,
 ) : ViewModel() {
 
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val showSaveMoodDialog = MutableStateFlow(SaveMoodDialogState().showSaveMoodDialog)
-    private val moodPresetImageUris = moodRepository.moodPresetImageUris
-    private val moodCustomImageUris = moodRepository.moodCustomImageUris
-    private val moodCustomImageUriToDelete =
-        MutableStateFlow(SaveMoodDialogState().moodCustomImageUriToDelete)
+    val appUpdateRequired = remoteConfigRepository.appUpdateRequired
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(),
+            initialValue = false,
+        )
 
-    val saveMoodDialogState: StateFlow<SaveMoodDialogState> = combineTuple(
-        showSaveMoodDialog,
-        moodPresetImageUris,
-        moodCustomImageUris,
-        moodCustomImageUriToDelete,
+    private val showSaveMixDialog = MutableStateFlow(SaveMixDialogState().showSaveMixDialog)
+    private val mixPresetImageUris = mixRepository.mixPresetImageUris
+    private val mixCustomImageUris = mixRepository.mixCustomImageUris
+    private val mixCustomImageUriToDelete =
+        MutableStateFlow(SaveMixDialogState().mixCustomImageUriToDelete)
+
+    val saveMixDialogState: StateFlow<SaveMixDialogState> = combineTuple(
+        showSaveMixDialog,
+        mixPresetImageUris,
+        mixCustomImageUris,
+        mixCustomImageUriToDelete,
     ).map { (
-                showSaveMoodDialog,
-                moodPresetImageUris,
-                moodCustomImageUris,
-                moodCustomImageUriToDelete,
+                showSaveMixDialog,
+                mixPresetImageUris,
+                mixCustomImageUris,
+                mixCustomImageUriToDelete,
 
             ) ->
-        SaveMoodDialogState(
-            showSaveMoodDialog = showSaveMoodDialog,
-            moodPresetImageUris = moodPresetImageUris,
-            moodCustomImageUris = moodCustomImageUris,
-            moodCustomImageUriToDelete = moodCustomImageUriToDelete,
+        SaveMixDialogState(
+            showSaveMixDialog = showSaveMixDialog,
+            mixPresetImageUris = mixPresetImageUris,
+            mixCustomImageUris = mixCustomImageUris,
+            mixCustomImageUriToDelete = mixCustomImageUriToDelete,
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),
-        initialValue = SaveMoodDialogState(),
+        initialValue = SaveMixDialogState(),
     )
 
     val themeMode: StateFlow<ThemeMode?> = appSettingsRepository.appSettings.map { it.themeMode }
@@ -85,11 +94,11 @@ class MainViewModel @Inject constructor(
     val player: StateFlow<PlayerPresentation> = combineTuple(
         playerRepository.player,
         playerRepository.sounds,
-        moodRepository.moods,
+        mixRepository.mixes,
     ).map { (
                 player: Player,
                 sounds: List<Sound>,
-                moods: List<Mood>,
+                mixes: List<Mix>,
             ) ->
         val soundById = sounds.associateBy { it.id }
 
@@ -110,7 +119,7 @@ class MainViewModel @Inject constructor(
                     }
                 }
             },
-            playingMood = player.playingMood,
+            playingMix = player.playingMix,
         )
     }
         .stateIn(
@@ -188,66 +197,66 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun onClickSaveMood() {
-        showSaveMoodDialog.update { true }
+    fun onClickSaveMix() {
+        showSaveMixDialog.update { true }
     }
 
-    private var onConfirmSaveMoodClickJob: Job? = null
-    fun onClickConfirmSaveMood(
+    private var onConfirmSaveMixClickJob: Job? = null
+    fun onClickConfirmSaveMix(
         readableName: String,
         imageUri: String?,
     ) {
-        onConfirmSaveMoodClickJob?.cancel()
-        onConfirmSaveMoodClickJob = viewModelScope.launch {
+        onConfirmSaveMixClickJob?.cancel()
+        onConfirmSaveMixClickJob = viewModelScope.launch {
             if (readableName.isBlank()) {
-                _uiEvent.send(UIEvent.ShowToast(UIText.StringResource(R.string.please_enter_mood_name)))
+                _uiEvent.send(UIEvent.ShowToast(UIText.StringResource(R.string.please_enter_mix_name)))
                 return@launch
             }
 
             if (imageUri.isNullOrBlank()) {
-                _uiEvent.send(UIEvent.ShowToast(UIText.StringResource(R.string.please_select_mood_image)))
+                _uiEvent.send(UIEvent.ShowToast(UIText.StringResource(R.string.please_select_mix_image)))
                 return@launch
             }
 
-            showSaveMoodDialog.update { false }
-            val mood = moodRepository.saveCustomMood(
+            showSaveMixDialog.update { false }
+            val mix = mixRepository.saveCustomMix(
                 readableName = readableName,
                 imageUri = imageUri,
                 soundIdToVolume = player.value.playingSounds
                     .associate { sound: SoundPresentation -> sound.id to sound.volume },
             )
 
-            if (mood != null) {
-                playerRepository.addMood(
-                    mood = mood,
+            if (mix != null) {
+                playerRepository.addMix(
+                    mix = mix,
                     autoplay = false,
                 )
             }
         }
     }
 
-    fun onDismissSaveMoodDialog() {
-        showSaveMoodDialog.update { false }
+    fun onDismissSaveMixDialog() {
+        showSaveMixDialog.update { false }
     }
 
-    suspend fun onPickNewMoodCustomImage(uri: Uri): Uri {
-        return moodRepository.saveMoodCustomImage(uri = uri)
+    suspend fun onPickNewMixCustomImage(uri: Uri): Uri {
+        return mixRepository.saveMixCustomImage(uri = uri)
     }
 
     fun onClickRemoveCustomImage(uri: String) {
-        moodCustomImageUriToDelete.update { uri }
+        mixCustomImageUriToDelete.update { uri }
     }
 
-    private var onClickConfirmDeleteMoodImageJob: Job? = null
-    fun onClickConfirmDeleteMoodImage(uri: String) {
-        onClickConfirmDeleteMoodImageJob?.cancel()
-        onClickConfirmDeleteMoodImageJob = viewModelScope.launch {
-            moodRepository.deleteMoodCustomImage(uri = uri)
-            onDismissDeleteMoodImageDialog()
+    private var onClickConfirmDeleteMixImageJob: Job? = null
+    fun onClickConfirmDeleteMixImage(uri: String) {
+        onClickConfirmDeleteMixImageJob?.cancel()
+        onClickConfirmDeleteMixImageJob = viewModelScope.launch {
+            mixRepository.deleteMixCustomImage(uri = uri)
+            onDismissDeleteMixImageDialog()
         }
     }
 
-    fun onDismissDeleteMoodImageDialog() {
-        moodCustomImageUriToDelete.update { null }
+    fun onDismissDeleteMixImageDialog() {
+        mixCustomImageUriToDelete.update { null }
     }
 }

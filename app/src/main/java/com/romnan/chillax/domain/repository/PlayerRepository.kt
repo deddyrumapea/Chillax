@@ -1,7 +1,7 @@
 package com.romnan.chillax.domain.repository
 
 import com.romnan.chillax.domain.model.Category
-import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.Mix
 import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.model.Sound
 import kotlinx.coroutines.flow.Flow
@@ -27,8 +27,8 @@ interface PlayerRepository {
         newVolume: Float,
     )
 
-    suspend fun addMood(
-        mood: Mood,
+    suspend fun addMix(
+        mix: Mix,
         autoplay: Boolean = true,
     )
 
