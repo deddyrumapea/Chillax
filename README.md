@@ -7,7 +7,7 @@ Experience serenity and peace with a meticulously curated selection of calming s
 
 Discover the benefits of soothing sounds:
 - Fall asleep effortlessly and find relief from insomnia and tinnitus.
-- Elevate mood, reduce anxiety, and alleviate stress.
+- Elevate mix, reduce anxiety, and alleviate stress.
 - Boost concentration and improve focus.
 
 Standout features of this app:

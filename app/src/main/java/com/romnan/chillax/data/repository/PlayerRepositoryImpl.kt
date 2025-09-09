@@ -11,11 +11,11 @@ import com.romnan.chillax.data.source.AppDataSource
 import com.romnan.chillax.data.util.CountDownTimer
 import com.romnan.chillax.domain.constant.PlayerConstants
 import com.romnan.chillax.domain.model.Category
-import com.romnan.chillax.domain.model.Mood
+import com.romnan.chillax.domain.model.Mix
 import com.romnan.chillax.domain.model.Player
 import com.romnan.chillax.domain.model.PlayerPhase
 import com.romnan.chillax.domain.model.Sound
-import com.romnan.chillax.domain.repository.MoodRepository
+import com.romnan.chillax.domain.repository.MixRepository
 import com.romnan.chillax.domain.repository.PlayerRepository
 import com.romnan.chillax.domain.repository.SleepTimerRepository
 import com.romnan.chillax.presentation.service.PlayerService
@@ -39,7 +39,7 @@ class PlayerRepositoryImpl(
     private val sleepTimerRepository: SleepTimerRepository,
     private val countDownTimer: CountDownTimer,
     private val appDataSource: AppDataSource,
-    private val moodRepository: MoodRepository,
+    private val mixRepository: MixRepository,
 ) : PlayerRepository {
 
     private val isPlaying = MutableStateFlow(false)
@@ -54,11 +54,11 @@ class PlayerRepositoryImpl(
         get() = combineTuple(
             appContext.playerDataStore.data,
             isPlaying,
-            moodRepository.moods,
+            mixRepository.mixes,
         ).map { (
                     playerSerializable: PlayerSerializable,
                     isPlaying: Boolean,
-                    moods: List<Mood>,
+                    mixes: List<Mix>,
                 ) ->
             Player(
                 phase = when {
@@ -68,9 +68,9 @@ class PlayerRepositoryImpl(
                 },
                 playingSounds = playerSerializable.sounds
                     .sortedBy { sound: PlayingSound -> sound.startedAt },
-                playingMood = playerSerializable.lastPlayedMoodId?.let { moodId: String ->
-                    moods.find { mood: Mood ->
-                        mood.id == moodId && mood.soundIdToVolume.keys == playerSerializable.sounds
+                playingMix = playerSerializable.lastPlayedMixId?.let { mixId: String ->
+                    mixes.find { mix: Mix ->
+                        mix.id == mixId && mix.soundIdToVolume.keys == playerSerializable.sounds
                             .map { sound: PlayingSound -> sound.id }.toSet()
                     }
                 },
@@ -179,7 +179,7 @@ class PlayerRepositoryImpl(
 
                     else -> playingSounds
                 },
-                lastPlayedMoodId = null,
+                lastPlayedMixId = null,
             )
         }
     }
@@ -220,20 +220,20 @@ class PlayerRepositoryImpl(
         }
     }
 
-    override suspend fun addMood(
-        mood: Mood,
+    override suspend fun addMix(
+        mix: Mix,
         autoplay: Boolean,
     ) {
         appContext.playerDataStore.updateData { playerState: PlayerSerializable ->
             playerState.copy(
-                sounds = mood.soundIdToVolume.entries.mapIndexed { i: Int, (soundId: String, volume: Float) ->
+                sounds = mix.soundIdToVolume.entries.mapIndexed { i: Int, (soundId: String, volume: Float) ->
                     PlayingSound(
                         id = soundId,
                         volume = volume,
                         startedAt = System.currentTimeMillis() + i,
                     )
                 },
-                lastPlayedMoodId = mood.id,
+                lastPlayedMixId = mix.id,
             )
         }
 
