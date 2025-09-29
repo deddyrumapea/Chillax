@@ -1,71 +1,21 @@
 # Attributions
 
-## Sound Icons
+This app uses icons from [Flaticon](https://www.flaticon.com/), created by Freepik. Below are the specific attributions:
 
-- <a href="https://www.flaticon.com/free-icons/airplane" title="airplane icons">Airplane icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/bird" title="bird icons">Bird icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/cicada" title="cicada icons">Cicada icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/creek" title="creek icons">Creek icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/fireplace" title="fireplace icons">Fireplace icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/frog" title="frog icons">Frog icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/group" title="group icons">Group icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/heart" title="heart icons">Heart icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/insect" title="insect icons">Insect icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/keyboard" title="keyboard icons">Keyboard icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/mountain" title="mountain icons">Mountain icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/pan" title="pan icons">Pan icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/park" title="park icons">Park icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/pets" title="pets icons">Pets icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/plane" title="plane icons">Plane icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/playground" title="playground icons">Playground icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/radio" title="radio icons">Radio icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/rain" title="rain icons">Rain icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/roof" title="roof icons">Roof icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/seagull" title="seagull icons">Seagull icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/steering-wheel" title="steering wheel icons">Steering wheel icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/train" title="train icons">Train icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/trees" title="trees icons">Trees icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/umbrella" title="umbrella icons">Umbrella icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/waterfall" title="waterfall icons">Waterfall icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/wave" title="wave icons">Wave icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/waves" title="waves icons">Waves icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/window-ac" title="window ac icons">Window ac icons created by Freepik - Flaticon</a>
-- <a href="https://www.flaticon.com/free-icons/wiper" title="wiper icons">Wiper icons created by Freepik - Flaticon</a>
-
-## Sound Audios
-
-- Birds 1: Sound Effect by ivolipa from <a href="https://pixabay.com/">Pixabay</a>
-- Birds 2: Sound Effect by nektaria909 from <a href="https://pixabay.com/">Pixabay</a>
-- Birds 3: Sound Effect by swiftoid from <a href="https://pixabay.com/">Pixabay</a>
-- Brook: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Brown Noise: Sound Effect by digitalspa from <a href="https://pixabay.com/">Pixabay</a>
-- Cat Purring: Sound Effect by worldsday from <a href="https://pixabay.com/">Pixabay</a>
-- Cicadas: Sound Effect by sarvegu from <a href="https://pixabay.com/">Pixabay</a>
-- Creek: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Crickets: Sound Effect by cclaretc from <a href="https://pixabay.com/">Pixabay</a>
-- Crowd: Sound Effect by karinalarasart from <a href="https://pixabay.com/">Pixabay</a>
-- Deep Frying: Sound Effect by juliush from <a href="https://pixabay.com/">Pixabay</a>
-- Driving at Night: Sound Effect by augustsandberg from <a href="https://pixabay.com/">Pixabay</a>
-- Electricity: Sound Effect by flashtrauma from <a href="https://pixabay.com/">Pixabay</a>
-- Fireplace: Sound Effect by juliush from <a href="https://pixabay.com/">Pixabay</a>
-- Frogs1: Sound Effect by jayalvarez66 from <a href="https://pixabay.com/">Pixabay</a>
-- Frogs2: Sound Effect by zachrau from <a href="https://pixabay.com/">Pixabay</a>
-- Heartbeat: Sound Effect by placidplace from <a href="https://pixabay.com/">Pixabay</a>
-- Jet Plane: Sound Effect by habbis92 from <a href="https://pixabay.com/">Pixabay</a>
-- Keyboard: Sound Effect by kevinchocs from <a href="https://www.youtube.com/@kevinchocs/">YouTube</a>
-- Kids Playground: Sound Effect by brunoauzet from <a href="https://pixabay.com/">Pixabay</a>
-- Radio Static: Sound Effect by theartguild from <a href="https://pixabay.com/">Pixabay</a>
-- Rain Gentle: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Rain Umbrella: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Rain on Metal Roof: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Rain: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- River: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Sea Waves: Sound Effect by soundsforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Seagulls: Sound Effect by olesouwester from <a href="https://pixabay.com/">Pixabay</a>
-- Thunder: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Train: Sound Effect by sspsurvival from <a href="https://pixabay.com/">Pixabay</a>
-- Turboprop plane: Sound Effect by daveshu88 from <a href="https://pixabay.com/">Pixabay</a>
-- Waterfall: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Wind in Trees: Sound Effect by soundforyou from <a href="https://pixabay.com/">Pixabay</a>
-- Window AC: Sound Effect by benhabrams from <a href="https://pixabay.com/">Pixabay</a>
-- Windshield Wipers: Sound Effect by beeproductive from <a href="https://pixabay.com/">Pixabay</a>
+- [Air conditioner icons](https://www.flaticon.com/free-icons/air-conditioner) created by Freepik - Flaticon  
+- [Bird icons](https://www.flaticon.com/free-icons/bird) created by Freepik - Flaticon  
+- [Mountain icons](https://www.flaticon.com/free-icons/mountain) created by Freepik - Flaticon  
+- [Plague icons](https://www.flaticon.com/free-icons/plague) created by Freepik - Flaticon  
+- [Waves icons](https://www.flaticon.com/free-icons/waves) created by Freepik - Flaticon  
+- [Cricket icons](https://www.flaticon.com/free-icons/cricket) created by Freepik - Flaticon  
+- [Fireplace icons](https://www.flaticon.com/free-icons/fireplace) created by Freepik - Flaticon  
+- [Wind icons](https://www.flaticon.com/free-icons/wind) created by Freepik - Flaticon  
+- [Frog icons](https://www.flaticon.com/free-icons/frog) created by Freepik - Flaticon  
+- [Rain icons](https://www.flaticon.com/free-icons/rain) created by Freepik - Flaticon  
+- [Plane icons](https://www.flaticon.com/free-icons/plane) created by Freepik - Flaticon  
+- [Roof icons](https://www.flaticon.com/free-icons/roof) created by Freepik - Flaticon  
+- [Tent icons](https://www.flaticon.com/free-icons/tent) created by Freepik - Flaticon  
+- [Trees icons](https://www.flaticon.com/free-icons/trees) created by Freepik - Flaticon  
+- [Sea icons](https://www.flaticon.com/free-icons/sea) created by Freepik - Flaticon  
+- [Thunder icons](https://www.flaticon.com/free-icons/thunder) created by Freepik - Flaticon  
+- [Train icons](https://www.flaticon.com/free-icons/train) created by Freepik - Flaticon  
