@@ -1,10 +1,14 @@
 package com.romnan.chillax.presentation.composable.settings
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -55,6 +59,8 @@ import com.romnan.chillax.presentation.composable.theme.spacing
 import com.romnan.chillax.presentation.constant.IntentConstants
 import com.romnan.chillax.presentation.util.asString
 import com.romnan.chillax.presentation.util.handleInLaunchedEffect
+import logcat.asLog
+import logcat.logcat
 import java.util.Calendar
 
 
@@ -158,9 +164,20 @@ fun SettingsScreen(
             title = { stringResource(R.string.pref_title_rate_app) },
             description = { stringResource(R.string.pref_desc_rate_app) },
             onClick = {
-                Intent(Intent.ACTION_VIEW).apply {
+                val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = context.getString(R.string.url_app_listing).toUri()
-                }.let { context.startActivity(it) }
+                }
+
+                try {
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    logcat("SettingsScreen") { e.asLog() }
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.please_visit_the_play_store_to_rate_the_app),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             },
         )
 
@@ -169,10 +186,29 @@ fun SettingsScreen(
             title = { stringResource(R.string.pref_title_share_app) },
             description = { stringResource(R.string.pref_desc_share_app) },
             onClick = {
-                Intent(Intent.ACTION_SEND).apply {
+                val intent = Intent(Intent.ACTION_SEND).apply {
                     type = IntentConstants.TYPE_PLAIN_TEXT
                     putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_text))
-                }.let { context.startActivity(it) }
+                }
+
+                try {
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    logcat("SettingsScreen") { e.asLog() }
+                    val clipboardManager =
+                        context.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+
+                    val clip = ClipData.newPlainText(
+                        context.getString(R.string.chillax_relaxing_sounds),
+                        context.getString(R.string.url_app_listing),
+                    )
+                    clipboardManager?.setPrimaryClip(clip)
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.text_copied_to_clipboard_share_it_to_your_friends),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             },
         )
 
@@ -188,7 +224,20 @@ fun SettingsScreen(
                         context.getString(R.string.contact_subject),
                     )
                 }
-                context.startActivity(intent)
+
+                try {
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    logcat("SettingsScreen") { e.asLog() }
+                    Toast.makeText(
+                        context,
+                        context.getString(
+                            R.string.email_us_at,
+                            context.getString(R.string.contact_email)
+                        ),
+                        Toast.LENGTH_LONG,
+                    ).show()
+                }
             },
         )
 
@@ -219,9 +268,20 @@ fun SettingsScreen(
             icon = { Icons.AutoMirrored.Filled.OpenInNew },
             title = { stringResource(R.string.other_apps) },
             onClick = {
-                Intent(Intent.ACTION_VIEW).apply {
+                val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = context.getString(R.string.url_developer_page).toUri()
-                }.let { context.startActivity(it) }
+                }
+
+                try {
+                    context.startActivity(intent)
+                } catch (e: Exception) {
+                    logcat("SettingsScreen") { e.asLog() }
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.please_search_deddy_rumapea_on_google_play_store),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             },
         )
 
@@ -309,10 +369,21 @@ fun SettingsScreen(
             confirmButton = {
                 Button(
                     onClick = {
-                        Intent(
+                        val intent = Intent(
                             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                             Uri.fromParts("package", context.packageName, null)
-                        ).also { context.startActivity(it) }
+                        )
+
+                        try {
+                            context.startActivity(intent)
+                        } catch (e: Exception) {
+                            logcat("SettingsScreen") { e.asLog() }
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.please_open_the_app_settings_and_grant_the_permission),
+                                Toast.LENGTH_SHORT,
+                            ).show()
+                        }
                     },
                     shape = RoundedCornerShape(100),
                 ) {
