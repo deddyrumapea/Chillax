@@ -2,6 +2,7 @@ package com.romnan.chillax.presentation.composable.settings
 
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -14,6 +15,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.core.net.toUri
+import logcat.asLog
+import logcat.logcat
 
 @Composable
 fun attributionsAnnotatedString(): AnnotatedString {
@@ -171,9 +174,17 @@ class AttributionsLinkInteractionListener(
                 .build()
                 .launchUrl(context, url.toUri())
         } catch (e: Exception) {
+            logcat { e.asLog() }
+
             val intent = Intent(Intent.ACTION_VIEW, url.toUri())
             context.startActivity(intent)
-        }
 
+            try {
+                context.startActivity(intent)
+            } catch (e: Exception) {
+                logcat { e.asLog() }
+                Toast.makeText(context, url, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }
