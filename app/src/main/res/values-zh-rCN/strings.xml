@@ -113,7 +113,12 @@
     <string name="update_on_play_store">在 Play 商店更新</string>
     <string name="update_required">需要更新</string>
     <string name="a_new_version_of_the_app_is_available_please_update_to_continue">有新版本可用。请更新以继续使用。</string>
-
+    <string name="chillax_relaxing_sounds">Chillax：放松音效</string>
+    <string name="text_copied_to_clipboard_share_it_to_your_friends">文本已复制到剪贴板。分享给你的朋友吧！</string>
+    <string name="please_visit_the_play_store_to_rate_the_app">请前往 Play 商店为本应用评分。</string>
+    <string name="please_search_deddy_rumapea_on_google_play_store">请在 Google Play 商店搜索 Deddy Rumapea。</string>
+    <string name="please_open_the_app_settings_and_grant_the_permission">请打开应用设置并授予权限。</string>
+    <string name="email_us_at">请通过 %1$s 给我们发送邮件</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax 正在播放 %1$s 个声音</item>
         <item quantity="other">Chillax 正在播放 %1$s 个声音</item>
