@@ -113,6 +113,13 @@
     <string name="update_on_play_store">Update on Play Store</string>
     <string name="update_required">Update Required</string>
     <string name="a_new_version_of_the_app_is_available_please_update_to_continue">A new version of the app is available. Please update to continue.</string>
+    <string name="contact_email" translatable="false">romnanstudio@gmail.com</string>
+    <string name="chillax_relaxing_sounds">Chillax: Relaxing Sounds</string>
+    <string name="text_copied_to_clipboard_share_it_to_your_friends">Text copied to clipboard. Share it to your friends!</string>
+    <string name="please_visit_the_play_store_to_rate_the_app">Please visit the Play Store to rate the app.</string>
+    <string name="please_search_deddy_rumapea_on_google_play_store">Please search Deddy Rumapea on Google Play Store</string>
+    <string name="please_open_the_app_settings_and_grant_the_permission">Please open the app settings and grant the permission.</string>
+    <string name="email_us_at">Email us at %1$s</string>
     <plurals name="chillax_is_playing_n_sounds">
         <item quantity="one">Chillax is playing %1$s sound</item>
         <item quantity="other">Chillax is playing %1$s sounds</item>
